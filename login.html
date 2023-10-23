@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   form.addEventListener('submit', function(e){
     e.preventDefault();
     login(new FormData(e.target));
-  }
+  });
 });
 
 function login(formData) {
