@@ -3,13 +3,11 @@
         <title>Profile</title>
 	<script>
 document.addEventListener("DOMContentLoaded", function(event) { 
-  fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/profile', {
-      Method: 'GET',
-      Headers: {
-        Accept: 'application.json',
-        'Content-Type': 'application/json'
+  fetch("https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
       },
-      Cache: 'default'
 
   }).then(function(response) { 
     return response.json();
