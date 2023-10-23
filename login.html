@@ -6,18 +6,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var form = document.getElementById('form');
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    login(new FormData(e.target));
+    login(new FormData(form));
   });
 });
 
 function login(formData) {
+  console.log("formData is:");
+  console.log(JSON.stringify(Object.fromEntries(formData)));
   fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/login', {
       Method: 'POST',
       Headers: {
         Accept: 'application.json',
         'Content-Type': 'application/json'
       },
-      Body: JSON.stringify(formData),
+      Body: JSON.stringify(Object.fromEntries(formData)),
       Cache: 'default'
 
   }).then(function(response) { 

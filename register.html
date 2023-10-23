@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var form = document.getElementById('form');
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    register(new FormData(e.target));
+    register(new FormData(from));
   }
 });
 
@@ -17,7 +17,7 @@ function register(formData) {
         Accept: 'application.json',
         'Content-Type': 'application/json'
       },
-      Body: JSON.stringify(formData),
+      Body: JSON.stringify(Object.fromEntries(formData)),
       Cache: 'default'
 
   }).then(function(response) { 
