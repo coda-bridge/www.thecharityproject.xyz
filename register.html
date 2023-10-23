@@ -1,0 +1,42 @@
+<html lang="en">
+    <head>
+        <title>Register</title>
+	<script>
+document.addEventListener("DOMContentLoaded", function(event) { 
+  var form = document.getElementById('form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    register(new FormData(e.target));
+  }
+});
+
+function register(formData) {
+  fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1', {
+      Method: 'POST',
+      Headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      Body: JSON.stringify(formData),
+      Cache: 'default'
+
+  }).then(function(response) { 
+    return response.json();
+
+  }).then(function(data) {
+    console.log(data);
+
+  }).catch(error => console.error('Error:', error)); 
+}
+	</script>
+    </head>
+
+    <body>
+        <form id="form">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" />
+
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>

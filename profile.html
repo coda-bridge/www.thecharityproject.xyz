@@ -1,0 +1,33 @@
+<html lang="en">
+    <head>
+        <title>Profile</title>
+	<script>
+document.addEventListener("DOMContentLoaded", function(event) { 
+  fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1', {
+      Method: 'GET',
+      Headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      Cache: 'default'
+
+  }).then(function(response) { 
+    return response.json();
+
+  }).then(function(data) {
+    console.log(data);
+    document.getElementById("username").html(data['username']);
+    document.getElementById("firstname").html(data['firstname']);
+    document.getElementById("lastname").html(data['lastname']);
+
+  }).catch(error => console.error('Error:', error)); 
+});
+	</script>
+    </head>
+
+    <body>
+        <p>Username: <span id="username"></span></p>
+        <p>Firstname: <span id="firstname"></span></p>
+        <p>Lastname: <span id="lastname"></span></p>
+    </body>
+</html>
