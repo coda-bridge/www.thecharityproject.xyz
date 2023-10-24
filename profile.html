@@ -15,9 +15,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   }).then(function(data) {
     console.log(data);
-    document.getElementById("username").html(data['username']);
-    document.getElementById("firstname").html(data['firstname']);
-    document.getElementById("lastname").html(data['lastname']);
+    document.getElementById("user_id").innerHTML = data['user_id'];
+    document.getElementById("username").innerHTML = data['username'];
+    document.getElementById("firstname").innerHTML = data['firstname'];
+    document.getElementById("lastname").innerHTML = data['lastname'];
+    document.getElementById("address").innerHTML = data['address'];
+    document.getElementById("country").innerHTML = data['country'];
+    document.getElementById("phone").innerHTML = data['phone'];
+    document.getElementById("email").innerHTML = data['email'];
+    document.getElementById("dob").innerHTML = data['dob'];
 
   }).catch(error => console.error('Error:', error)); 
 });
@@ -25,8 +31,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     </head>
 
     <body>
+        <p>ID: <span id="user_id"></span></p>
         <p>Username: <span id="username"></span></p>
         <p>Firstname: <span id="firstname"></span></p>
         <p>Lastname: <span id="lastname"></span></p>
+        <p>Address: <span id="address"></span></p>
+        <p>Country: <span id="country"></span></p>
+        <p>Phone: <span id="phone"></span></p>
+        <p>Email: <span id="email"></span></p>
+        <p>DoB: <span id="dob"></span></p>
     </body>
 </html>
