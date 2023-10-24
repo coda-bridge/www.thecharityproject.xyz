@@ -19,11 +19,9 @@ function register(formData) {
   fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/register', {
       Method: 'POST',
       Headers: {
-        Accept: 'application.json',
         'Content-Type': 'application/json'
       },
       Body: JSON.stringify(form_json),
-      Cache: 'default'
 
   }).then(function(response) { 
     return response.json();
