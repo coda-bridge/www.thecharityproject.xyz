@@ -17,11 +17,11 @@ function register(formData) {
   console.log("formData is:");
   console.log(JSON.stringify(form_json));
   fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/register', {
-      Method: 'POST',
-      Headers: {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
       },
-      Body: JSON.stringify(form_json),
+      body: JSON.stringify(form_json),
 
   }).then(function(response) { 
     return response.json();
