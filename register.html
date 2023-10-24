@@ -11,15 +11,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function register(formData) {
+  form_json = Object.fromEntries(formData);
+  form_json['user_id'] = 0;
+
   console.log("formData is:");
-  console.log(JSON.stringify(Object.fromEntries(formData)));
+  console.log(JSON.stringify(form_json));
   fetch('https://code.flows.network/webhook/mGf4HLHKeePxFzDHk7D1/register', {
       Method: 'POST',
       Headers: {
         Accept: 'application.json',
         'Content-Type': 'application/json'
       },
-      Body: JSON.stringify(Object.fromEntries(formData)),
+      Body: JSON.stringify(form_json),
       Cache: 'default'
 
   }).then(function(response) { 
@@ -46,8 +49,6 @@ function register(formData) {
     <body>
         <div id="errMsg" style="color:red; display:none">Sorry, there is a problem with your registration</div>
         <form id="form">
-            <input type="hidden" name="user_id" id="user_id" value="0"/>
-
             <label for="username">Username</label>
             <input type="text" name="username" id="username" />
 
