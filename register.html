@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   form.addEventListener('submit', function(e){
     e.preventDefault();
     register(new FormData(from));
-  }
+  });
 });
 
 function register(formData) {
@@ -25,16 +25,51 @@ function register(formData) {
 
   }).then(function(data) {
     console.log(data);
+    if (data['status']) {
+      window.location.href = "login.html";
+    } else {
+      var em = document.getElementById("errMsg");
+      em.style.display = "block";
+    }
 
-  }).catch(error => console.error('Error:', error)); 
+  }).catch(error => {
+    console.error('Error:', error);
+    var em = document.getElementById("errMsg");
+    em.style.display = "block";
+  });
 }
 	</script>
     </head>
 
     <body>
+        <div id="errMsg" style="color:red; display:none">Sorry, there is a problem with your registration</div>
         <form id="form">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" />
+
+	    <label for="password">Password</label>
+            <input type="password" name="password" id="password" />
+
+	    <label for="firstname">First name</label>
+            <input type="text" name="firstname" id="firstname" />
+
+	    <label for="lastname">Last name</label>
+            <input type="text" name="lastname" id="lastname" />
+
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" />
+
+	    <label for="country">Country</label>
+            <input type="text" name="country" id="country" />
+
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" />
+            <input type="text" name="email" id="email" />
+
+	    <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" />
+
+	    <label for="dob">Date of birth</label>
+            <input type="text" name="dob" id="dob" />
 
             <button type="submit">Submit</button>
         </form>
