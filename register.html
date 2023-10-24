@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var form = document.getElementById('form');
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    register(new FormData(from));
+    register(new FormData(form));
   });
 });
 
