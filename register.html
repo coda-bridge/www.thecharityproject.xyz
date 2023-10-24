@@ -32,6 +32,7 @@ function register(formData) {
       window.location.href = "login.html";
     } else {
       var em = document.getElementById("errMsg");
+      em.innerHTML = data['message'];
       em.style.display = "block";
     }
 
