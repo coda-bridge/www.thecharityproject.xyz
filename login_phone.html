@@ -33,27 +33,25 @@ function login_phone(formData) {
     console.log(data);
     if (data['status']) {
       document.getElementById("form").style.display = "none";
-      document.getElementById("successMsg").show();
+      document.getElementById("successMsg").style.display = "block";
     } else {
       var em = document.getElementById("errorMsg");
       em.innerHTML = data['message'];
-      em.show();
-      // em.style.display = "block";
+      em.style.display = "block";
     }
 
   }).catch(error => {
     console.error('Error:', error);
     var em = document.getElementById("errorMsg");
-    // em.style.display = "block";
-    em.show();
+    em.style.display = "block";
   });
 }
     </script>
   </head>
   <body class="container">
     <h1>Login</h1>
-    <div id="errorMsg" class="alert alert-danger" role="alert" hidden>Sorry, there is a problem with your login attempt.</div>
-    <div id="successMsg" class="alert alert-success" role="alert" hidden>
+    <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none">Sorry, there is a problem with your login attempt.</div>
+    <div id="successMsg" class="alert alert-success" role="alert" style="display:none">
       <h4 class="alert-heading">Well done!</h4>
       <p>Please check your phone message for a link to log into your account.</p>
     </div>

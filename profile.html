@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("lastname").innerHTML = data['lastname'];
     document.getElementById("address").innerHTML = data['address'];
     document.getElementById("country").innerHTML = data['country'];
-    document.getElementById("phone").innerHTML = data['phone'];
+    document.getElementById("phone").innerHTML = "+" + data['phone_country'] + "-" + data['phone_number'];
     document.getElementById("email").innerHTML = data['email'];
     document.getElementById("dob").innerHTML = data['dob'];
 
@@ -44,28 +44,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
           <th scope="row">First name</th>
           <td id="firstname"><small class="text-muted">Loading ...</small></td>
         </tr>
+        <tr>
+          <th scope="row">Last name</th>
+          <td id="lastname"><small class="text-muted">Loading ...</small></td>
+        </tr>
+        <tr>
+          <th scope="row">Address</th>
+          <td id="address"><small class="text-muted">Loading ...</small></td>
+        </tr>
+        <tr>
+          <th scope="row">Country</th>
+          <td id="country"><small class="text-muted">Loading ...</small></td>
+        </tr>
+        <tr>
+          <th scope="row">Phone</th>
+          <td id="phone"><small class="text-muted">Loading ...</small></td>
+        </tr>
+        <tr>
+          <th scope="row">Email</th>
+          <td id="email"><small class="text-muted">Loading ...</small></td>
+        </tr>
+        <tr>
+          <th scope="row">Date of birth</th>
+          <td id="dob"><small class="text-muted">Loading ...</small></td>
+        </tr>
       </tbody>
     </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
-</html>
-
-
-
-<html lang="en">
-    <head>
-        <title>Profile</title>
-    </head>
-
-    <body>
-        <p>ID: <span id="user_id"></span></p>
-        <p>Username: <span id="username"></span></p>
-        <p>Firstname: <span id="firstname"></span></p>
-        <p>Lastname: <span id="lastname"></span></p>
-        <p>Address: <span id="address"></span></p>
-        <p>Country: <span id="country"></span></p>
-        <p>Phone: <span id="phone"></span></p>
-        <p>Email: <span id="email"></span></p>
-        <p>DoB: <span id="dob"></span></p>
-    </body>
 </html>
