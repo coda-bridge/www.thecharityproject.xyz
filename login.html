@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code).then(function(response) {
+    console.log('HEADERS:', response.headers);
     return response.json();
 
   }).then(function(data) {
