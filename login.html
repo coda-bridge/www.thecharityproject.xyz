@@ -8,7 +8,7 @@
     <script>
 document.addEventListener("DOMContentLoaded", function(event) {
   let code = "NA";
-  let queryString = new URLSearchParams(window.locaation.href.split('?')[1]);
+  let queryString = new URLSearchParams(window.location.href.split('?')[1]);
   for (let pair of queryString.entries()) {
    if (pair[0] == "code") {
      code = pair[1];
