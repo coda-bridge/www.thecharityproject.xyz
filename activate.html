@@ -15,7 +15,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
    }
   }
 
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code).then(function(response) {
+  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+  }).then(function(response) {
     return response.json();
 
   }).then(function(data) {
