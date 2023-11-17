@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }).then(function(data) {
     console.log(data);
     if (data['status']) {
-      window.location.replace("profile.html");
+      window.location.replace("pay.html");
     } else {
       document.getElementById("wait").style.display = "none";
       document.getElementById("error").style.display = "block";
