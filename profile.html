@@ -19,14 +19,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   }).then(function(data) {
     console.log(data);
-    document.getElementById("user_id").innerHTML = data['user_id'];
-    document.getElementById("firstname").innerHTML = data['firstname'];
-    document.getElementById("lastname").innerHTML = data['lastname'];
-    document.getElementById("address").innerHTML = data['address'];
-    document.getElementById("country").innerHTML = data['country'];
-    document.getElementById("phone").innerHTML = "+" + data['phone_country'] + "-" + data['phone_number'];
-    document.getElementById("email").innerHTML = data['email'];
-    document.getElementById("dob").innerHTML = data['dob'];
+    document.getElementById("user_id").innerHTML = data['user']['user_id'];
+    document.getElementById("firstname").innerHTML = data['user']['firstname'];
+    document.getElementById("lastname").innerHTML = data['user']['lastname'];
+    document.getElementById("address").innerHTML = data['user']['address'];
+    document.getElementById("country").innerHTML = data['user']['country'];
+    document.getElementById("phone").innerHTML = "+" + data['user']['phone_country'] + "-" + data['user']['phone_number'];
+    document.getElementById("email").innerHTML = data['user']['email'];
+    document.getElementById("dob").innerHTML = data['user']['dob'];
 
   }).catch(error => console.error('Error:', error)); 
 });
