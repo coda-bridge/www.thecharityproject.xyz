@@ -54,15 +54,12 @@ function pay(formData) {
       document.getElementById("form").style.display = "none";
       document.getElementById("successMsg").style.display = "block";
     } else {
-      var em = document.getElementById("errorMsg");
-      em.innerHTML = data['message'];
-      em.style.display = "block";
+      document.getElementById("errorMsg").style.display = "block";
     }
 
   }).catch(error => {
     console.error('Error:', error);
-    var em = document.getElementById("errorMsg");
-    em.style.display = "block";
+    document.getElementById("errorMsg").style.display = "block";
   });
 }
     </script>
