@@ -59,7 +59,7 @@ function login_phone(formData) {
     <form id="form">
       <div class="form-group">
         <label for="phone_country">Country</label>
-        <select class="form-control" id="phone_country">
+        <select class="form-control" name="phone_country" id="phone_country">
           <option value="65" selected>Singapore</option>
           <option value="86">China</option>
           <option value="1">USA</option>
@@ -68,7 +68,7 @@ function login_phone(formData) {
 
       <div class="form-group">
         <label for="phone_number">Phone number</label>
-        <input type="number" class="form-control" id="phone_number" placeholder="Phone number">
+        <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Phone number">
       </div>
 
       <button type="submit" class="btn btn-primary">Login</button>
