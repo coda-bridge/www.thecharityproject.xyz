@@ -8,8 +8,12 @@ class Account extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <div id="phone" style="margin-top: 2rem" class="form-group">
             <div style="display:flex;align-items: center;">
+	    <!--
                 <input style="display: none" name="phone_country" id="phone_country" value="65">
                 <div style="padding-right:1rem;user-select: none">+65</div>
+            -->
+                <input style="display: none" name="phone_country" id="phone_country" value="1">
+                <div style="padding-right:1rem;user-select: none">+1</div>
                 <input style="font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem" type="tel"
                        class="form-control"
                        name="phone_number" id="phone_number" placeholder="Enter your phone number">
@@ -35,7 +39,8 @@ class Account extends HTMLElement {
     connectedCallback() {
         this.render()
 
-        const phoneReg = /^([8|9])\d{7}$/
+        // const phoneReg = /^([8|9])\d{7}$/
+        const phoneReg = /^\d{10}$/
         const emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
 
         const phonePlace = this.shadowRoot.getElementById('phone');
@@ -45,7 +50,6 @@ class Account extends HTMLElement {
         const toPhoneTab = this.shadowRoot.getElementById('to_phone');
         // const toEmailTab = this.shadowRoot.getElementById('to_email');
 
-        //电话号码输入框校验
         phoneNumber.addEventListener("input", () => {
             let value = phoneNumber.value;
             const prevCursorPos = phoneNumber.selectionStart || 0;
@@ -72,7 +76,6 @@ class Account extends HTMLElement {
         })
 
 
-        //邮箱输入框校验
         emailAddress.addEventListener("input", ()=>{
             const value = emailAddress.value;
             if(emailReg.test(value)){
@@ -92,7 +95,6 @@ class Account extends HTMLElement {
         })
 
 
-        //切换输入电话号码or邮箱
         function toPhone() {
             phonePlace.style.display = "block";
             emailPlace.style.display = "none";

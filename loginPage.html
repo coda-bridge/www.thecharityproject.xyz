@@ -47,7 +47,6 @@
 
     const form = document.getElementById('form');
 
-    //form表单输入校验
     function checkValidity() {
         if (accountInputer.type === "phone" && phoneReg.test(accountInputer.value) || (accountInputer.type === "email" && emailReg.test(accountInputer.value))) {
             button.style.backgroundColor = 'var(--base-green)';
@@ -60,7 +59,6 @@
 
     accountInputer.addEventListener("changeCallBack", checkValidity)
 
-    //form表单提交
     function login() {
         let form_json = {}
         let typeUrl = "login_phone"
