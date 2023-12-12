@@ -54,9 +54,9 @@ class Account extends HTMLElement {
             let value = phoneNumber.value;
             const prevCursorPos = phoneNumber.selectionStart || 0;
             value = value.replace(/\D/, '');
-            if (value.length > 8) {
-                value = parseInt(value.slice(0, 8));
-            }
+            // if (value.length > 8) {
+            //     value = parseInt(value.slice(0, 8));
+            // }
             if(phoneReg.test(value)){
                 phoneNumber.style.borderColor = 'var(--base-green)';
             }
