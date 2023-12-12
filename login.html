@@ -8,14 +8,18 @@
     <script>
 document.addEventListener("DOMContentLoaded", function(event) {
   let code = "NA";
+  let role = "0";
   let queryString = new URLSearchParams(window.location.href.split('?')[1]);
   for (let pair of queryString.entries()) {
    if (pair[0] == "code") {
      code = pair[1];
    }
+   if (pair[0] == "role") {
+     role = pair[1];
+   }
   }
 
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code, {
+  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code + "/" + role, {
       method: 'GET',
       credentials: "include",
       headers: {

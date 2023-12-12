@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>redeem your Tokens</title>
+    <meta charset="UTF-8">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="dist/zxing.min.js"></script>
+    <script type="module" src="component/Selector.js"></script>
+</head>
+<body>
+<div id="camera"
+     style="position: fixed;top:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
+    <div onclick="closeCamera()" id="video_close"
+         style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
+        ×
+    </div>
+    <img src="./media/Change.svg"
+         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"
+         onclick="nextCamera()"/>
+    <video autoplay id="video"></video>
+</div>
+<a id="back-button" href="home.html">
+    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
+
+<div style="background-color: white;padding: 0 1.5rem 2rem;">
+    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
+        Redeem Your Tokens
+    </h1>
+    <div style="display: flex;flex-direction: column;align-items: center;" id="home">
+        <img style="margin-top: 4rem;" src="./media/Qrcode.svg"/>
+        <a style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;"
+           onclick="startStreamAndDecode()"
+           class="btn btn-lg" role="button">
+            Scan the QR code to pay
+        </a>
+        <div style="display: flex;align-items: center;margin-top: 0.9rem">
+            <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
+            <div style="display: inline;font-size: 0.8rem">
+                Something wrong with your camera? Try <a id="go-manually" style="text-decoration: underline;">pay manually</a>.
+            </div>
+        </div>
+        <div style="font-size: 0.9rem">
+            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">1.</div>
+                <div>
+                    We adopt a free-verification policy for small amount of SCTs under 10 SCTs. For example, if you’re
+                    going
+                    to pay 8 SCT for your meal, no need to verify again.
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">2.</div>
+                <div>
+                    If you’re paying above 10 SCts, a verification code needs to verify when you proceed the
+                    transaction.
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">3.</div>
+                <div>
+                    The token can only redeemed at Social Kitchen.
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">4.</div>
+                <div>
+                    Do not leave the page until you get a clear transaction result.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;" id="manually">
+        <div style="margin-top: 3rem;">You're going to pay</div>
+        <div style="margin-top: 1.5rem;" id="kitchen">
+
+        </div>
+        <div style="margin-top: 0.6rem;" id="amount">
+
+        </div>
+        <a style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;"
+           onclick="goPay()" id="next-button"
+           class="btn btn-lg" role="button">
+            Next
+        </a>
+    </div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+</div>
+<script>
+    const codeReader = new ZXing.BrowserQRCodeReader();
+    const videoPlace = document.getElementById("camera");
+    const home = document.getElementById("home");
+    const manually = document.getElementById("manually");
+    const goButton = document.getElementById("go-manually");
+    const kitchenPlace = document.getElementById("kitchen");
+    const amountPlace = document.getElementById("amount");
+    const backButton = document.getElementById("back-button");
+    const nextButton = document.getElementById("next-button");
+    const kitchenSelector = document.createElement("select-component");
+
+
+    let deviceIdList;
+    let selectedIndex = 0;
+
+    let kitchenName;
+    let amount;
+
+    function closeCamera() {
+        videoPlace.style.display = "none"
+        document.body.style.overflow = "auto"
+        deviceIdList = undefined
+        selectedIndex = 0;
+        codeReader.reset()
+    }
+
+    function nextCamera() {
+        codeReader.stopStreams()
+        if (selectedIndex < deviceIdList.length - 1) {
+            selectedIndex += 1
+        } else {
+            selectedIndex = 0
+        }
+        decodeOnce()
+    }
+
+    const backToScan = () => {
+        home.style.display = "flex";
+        manually.style.display = "none";
+        backButton.removeAttribute("onclick");
+        setTimeout(() => {
+            backButton.href = "home.html";
+        }, 100);
+    }
+
+    const goManually = () => {
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToScan()");
+        home.style.display = "none";
+        manually.style.display = "block";
+        kitchenSelector.list = ["Social Kitchen (Orchard Road)"]
+        kitchenPlace.innerHTML = ""
+        kitchenPlace.appendChild(kitchenSelector)
+        addAmountInput()
+    }
+
+    goButton.addEventListener("click",goManually)
+
+    const goPay = () => {
+
+    }
+
+    const checkNext = () => {
+        if ((kitchenName || kitchenSelector) && amount) {
+            nextButton.style.backgroundColor = "var(--base-green)"
+            nextButton.style.cursor = "pointer"
+        } else {
+            nextButton.style.backgroundColor = "#ADA9A9"
+            nextButton.style.cursor = "not-allowed"
+        }
+    }
+
+    const addAmountInput = () => {
+        amountPlace.innerHTML = `<input name="amount" id="amount-input"
+                   style="width: 100%;padding: 0.8rem 1rem;border: 2px solid var(--base-green);border-radius: 0.4rem;"/>`
+        const amountInput = document.getElementById("amount-input")
+        amountInput.addEventListener("input", () => {
+            let value = amountInput.value;
+            let prevCursorPos = amountInput.selectionStart || 0;
+            if (!value) {
+                value = "0.00"
+            }
+            //处理小数点前及输入非数字情况
+            if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
+                prevCursorPos -= 1
+            }
+            value = value.replace(/^0+|[^\d.]/g, '');
+            if (value.indexOf('.') === 0) {
+                value = '0' + value;
+            }
+
+            //处理小数点后
+            const idx = value.indexOf('.') + 3;
+            const finalValue = value.substring(0, idx)
+            amountInput.value = finalValue;
+            amount = finalValue;
+            amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
+            checkNext()
+        })
+    }
+
+    const decodeOnce = () => {
+        codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
+            closeCamera()
+            let QRData
+            if (result) {
+                if(result) {
+                    QRData = JSON.parse(result.text)
+                }else {
+                    QRData = JSON.parse(result)
+                }
+                if (QRData.name) {
+                    kitchenName = QRData.name
+                    kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+                }
+                if (QRData.amount && QRData.amount !== "0.00") {
+                    amount = QRData.amount
+                    amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
+                } else {
+                    addAmountInput()
+                }
+                backButton.removeAttribute("href");
+                backButton.setAttribute('onclick', "backToScan()");
+                home.style.display = "none";
+                manually.style.display = "block";
+                checkNext()
+            }
+        }).catch((err) => {
+            console.error(err)
+            document.getElementById('result').textContent = err
+        })
+    }
+
+    function startStreamAndDecode() {
+        codeReader.getVideoInputDevices()
+            .then((videoInputDevices) => {
+                deviceIdList = videoInputDevices
+                const facingBackCameraIndex = videoInputDevices.findIndex(device => {
+                    return device.label.indexOf("back") !== -1
+                })
+                if (facingBackCameraIndex !== -1) {
+                    selectedIndex = facingBackCameraIndex
+                } else {
+                    selectedIndex = 0
+                }
+                videoPlace.style.display = "flex"
+                document.body.style.overflow = "hidden"
+                decodeOnce()
+            })
+    }
+</script>
+</body>
+</html>

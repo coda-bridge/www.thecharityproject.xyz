@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div style="margin-top: 10rem;height: 100%;text-align: center;" id="loading">
+    Logging in...
+</div>
+<div style="display: none" id="body">
+    <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
+        <a style="position: absolute;top: 2rem;right: 2.5rem;" href="index.html">
+            <img src="media/Signout.svg">
+        </a>
+        <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
+            <div style="width: 6rem;background-color: #d5d5d5;height: 6rem;border-radius: 3rem;color: white;text-align: center;line-height: 6rem">
+                Logo
+            </div>
+            <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
+                class="display-4">Welcome!</h1>
+            <div style="color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                <div style="font-size: 1.3rem">Balance</div>
+                <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="price">0</span></div>
+            </div>
+            <div id="balance-prompt" style="margin-top: 0.6rem">
+                <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
+                <div style="display: inline;font-size: 0.8rem">You’re a qualified client with 200 SCTs. If you did receive,
+                    please contact
+                    the technical support.
+                </div>
+            </div>
+        </div>
+
+        <div id="client-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
+            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
+               href="redeemTokens.html"
+               class="btn btn-lg" role="button">
+                Redeem your tokens
+            </a>
+            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+               href="transactionHistory.html"
+               class="btn btn-lg" role="button">
+                Transaction history
+            </a>
+        </div>
+        <div id="social-kitchen-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
+            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
+               href="redeemTokens.html"
+               class="btn btn-lg" role="button">
+                Receive
+            </a>
+            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+               href="redeemVouchers.html"
+               class="btn btn-lg" role="button">
+                Redeem vouchers from CODA
+            </a>
+            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+               href="transactionHistory.html"
+               class="btn btn-lg" role="button">
+                Transaction history
+            </a>
+        </div>
+
+    </div>
+
+    <div style="border: 1px solid var(--base-green);padding: 1.8rem 1.5rem;margin: 1.75rem 1.5rem 0;border-radius: 0.4rem">
+        <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;">
+            Help Center
+        </h1>
+        <div style="margin-top: 3rem;">
+            <div style="display: flex;">
+                <div>How it works</div>
+                <img style="margin-left: 0.5rem" src="./media/Go.svg">
+            </div>
+            <div style="display: flex;margin-top: 1.5rem">
+                <div>Technical support</div>
+                <img style="margin-left: 0.5rem" src="./media/Go.svg">
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">Powered by CODA Bridge</div>
+</div>
+</body>
+<script>
+    const loadingPlace = document.getElementById("loading")
+    const bodyPlace = document.getElementById("body")
+    const balancePrompt = document.getElementById("balance-prompt")
+    const clientButton = document.getElementById("client-button")
+    const socialKitchenButton = document.getElementById("social-kitchen-button")
+    setTimeout(() => {
+        const role = "Client"
+        // const role = "Social Kitchen"
+        loadingPlace.style.display = "none"
+        bodyPlace.style.display = "block"
+        switch (role) {
+            case "Client":
+                clientButton.style.display = "flex";
+                break;
+            case "Social Kitchen":
+                balancePrompt.style.display = "none";
+                socialKitchenButton.style.display = "flex";
+                break;
+            default:
+                console.log("error access",role)
+        }
+    }, 2000)
+
+</script>
+</html>

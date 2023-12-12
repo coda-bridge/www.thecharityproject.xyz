@@ -1,110 +1,161 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script>
-document.addEventListener("DOMContentLoaded", function(event) { 
-  var form = document.getElementById('form');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    register(new FormData(form));
-  });
-});
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="module" src="./component/index.js"></script>
+</head>
+<body class="container">
+<a style="width: min-content;display: block;" href="index.html">
+    <div style="margin-top: 1.2rem;margin-left: 0.5rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
+<h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">Welcome
+    to
+    <br>
+    the Social Kitchen PBM project!</h1>
+<div id="errorMsg" class="alert alert-danger" role="alert" style="display:none">Sorry, there is a problem with your
+    registration.
+</div>
+<div id="successMsg" class="alert alert-success" role="alert" style="display:none">
+    <h4 class="alert-heading">Well done!</h4>
+    <p>Please check your phone or email to activate your account.</p>
+</div>
 
-function register(formData) {
-  form_json = Object.fromEntries(formData);
-  form_json['user_id'] = 0;
-
-  console.log("formData is:");
-  console.log(JSON.stringify(form_json));
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/register', {
-      method: 'POST',
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form_json),
-
-  }).then(function(response) { 
-    return response.json();
-
-  }).then(function(data) {
-    console.log(data);
-    if (data['status']) {
-      document.getElementById("form").style.display = "none";
-      document.getElementById("successMsg").style.display = "block";
-    } else {
-      var em = document.getElementById("errorMsg");
-      em.innerHTML = data['message'];
-      em.style.display = "block";
-    }
-
-  }).catch(error => {
-    console.error('Error:', error);
-    var em = document.getElementById("errorMsg");
-    em.style.display = "block";
-  });
-}
-    </script>
-  </head>
-  <body class="container">
-    <h1>Registration</h1>
-    <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none">Sorry, there is a problem with your registration.</div>
-    <div id="successMsg" class="alert alert-success" role="alert" style="display:none">
-      <h4 class="alert-heading">Well done!</h4>
-      <p>Please check your phone or email to activate your account.</p>
+<form style="padding: 0 2rem" id="form">
+    <div id="select" style="margin-top: 4rem;" class="form-group">
+    </div>
+    <div class="form-group">
+        <account-component></account-component>
+    </div>
+    <div class="form-group">
+        <div style="display: flex;margin-top: 2rem;justify-content: space-between;">
+            <input style="width: 50%;margin-right: 0.5rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"
+                   type="text" name="first_name" id="first_name" placeholder="Enter your first name">
+            <input style="width: 50%;margin-left: 0.5rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"
+                   type="text" name="last_name" id="last_name" placeholder="Enter your last name">
+        </div>
     </div>
 
-    <form id="form">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-      </div>
+    <div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 4rem">
+        <button disabled style="background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.2rem 2rem"
+                type="submit" id="submitBtn" class="btn">
+            Create an account
+        </button>
+        <div id="alertText"
+             style="display: none;text-align: center;margin-top: 2.5rem;font-size: 0.8rem;font-weight: 700">Before you
+            create an account, please make sure your phone number and last is correct.
+        </div>
+    </div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script>
+    const phoneReg = /^([8|9])\d{7}$/
+    const emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
+    const button = document.getElementById('submitBtn');
+    const alertText = document.getElementById('alertText')
+    // const roleSelector = document.createElement('select-component');
+    const accountInputer = document.querySelector('account-component');
+    const firstNameInputer = document.getElementById('first_name');
+    const lastNameInputer = document.getElementById('last_name');
 
-      <div class="form-group">
-        <label for="phone_country">Country</label>
-        <select class="form-control" name="phone_country" id="phone_country">
-          <option value="65" selected>Singapore</option>
-          <option value="86">China</option>
-          <option value="1">USA</option>
-        </select>
-      </div>
+    const form = document.getElementById('form');
 
-      <div class="form-group">
-        <label for="phone_number">Phone number</label>
-        <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Phone number">
-      </div>
+    //form表单输入校验
+    function checkValidity() {
+        const firstNameValue = firstNameInputer.value
+        const lastNameValue = lastNameInputer.value
+        const accountValue = (accountInputer.type === "phone" && phoneReg.test(accountInputer.value)) || (accountInputer.type === "email" && emailReg.test(accountInputer.value))
+        if (accountValue && firstNameValue && lastNameValue) {
+            button.style.backgroundColor = 'var(--base-green)';
+            alertText.style.display = "block"
+            alertText.innerText = "Before you create an account, please make sure your " + (accountInputer.type === "phone" ? "phone number" : "email address") + " and last is correct."
+            button.disabled = false
+        } else {
+            button.style.backgroundColor = '#9B9C9C';
+            alertText.style.display = "none"
+            button.disabled = true
+        }
+    }
 
-      <div class="form-group">
-        <label for="payment_pin">PIN</label>
-        <input type="text" class="form-control" name="payment_pin" id="payment_pin" placeholder="4-digit PIN for payment">
-      </div>
+    accountInputer.addEventListener("changeCallBack", checkValidity)
+    firstNameInputer.addEventListener("input", () => {
+        if (firstNameInputer.value) {
+            firstNameInputer.style.borderColor = "var(--base-green)";
+        }
+        checkValidity()
+    })
+    firstNameInputer.addEventListener("blur", () => {
+        const value = firstNameInputer.value;
+        if (value) {
+            firstNameInputer.style.borderColor = "var(--base-green)";
+        } else {
+            firstNameInputer.style.borderColor = "red";
+        }
+    })
+    lastNameInputer.addEventListener("input", () => {
+        if (lastNameInputer.value) {
+            lastNameInputer.style.borderColor = "var(--base-green)";
+        }
+        checkValidity()
+    })
+    lastNameInputer.addEventListener("blur", () => {
+        const value = lastNameInputer.value;
+        if (value) {
+            lastNameInputer.style.borderColor = "var(--base-green)";
+        } else {
+            lastNameInputer.style.borderColor = "red";
+        }
+    })
 
-      <div class="form-group">
-        <label for="firstname">First name</label>
-        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name">
-      </div>
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        register(new FormData(form));
+    });
 
-      <div class="form-group">
-        <label for="lastname">Last name</label>
-        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last name">
-      </div>
+    function register(formData) {
+        const form_json = Object.fromEntries(formData);
+        form_json.user_id = 0;
+        if (accountInputer.type === "phone") {
+            form_json.phone_country = 65
+            form_json.phone_number = accountInputer.value
+        } else {
+            form_json.email_address = accountInputer.value
+        }
 
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" class="form-control" name="address" id="address" placeholder="Address">
-      </div>
+        fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/register', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form_json),
 
-      <div class="form-group">
-        <label for="dob">Date of birth</label>
-        <input type="date" class="form-control" name="dob" id="dob">
-      </div>
+        }).then(function (response) {
+            return response.json();
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+        }).then(function (data) {
+            if (data['status']) {
+                document.getElementById("form").style.display = "none";
+                document.getElementById("successMsg").style.display = "block";
+            } else {
+                const em = document.getElementById("errorMsg");
+                em.innerHTML = data['message'];
+                em.style.display = "block";
+            }
+
+        }).catch(error => {
+            console.error('Error:', error);
+            const em = document.getElementById("errorMsg");
+            em.style.display = "block";
+        });
+    }
+</script>
+</body>
 </html>

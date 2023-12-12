@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>redeem your Tokens</title>
+    <meta charset="UTF-8">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="dist/zxing.min.js"></script>
+</head>
+<body>
+<a id="back-button" href="home.html">
+    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
+<div id="edit-amount"
+     style="background-color: white;padding: 0 1.5rem 2rem;display: none;flex-direction: column;align-items: center;">
+    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
+        Edit the amount
+    </h1>
+    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Inout the amount you want to receive</div>
+    <input name="amount" id="amount-input"
+           style="width: 75vw;padding: 0.8rem 1rem;border: 2px solid var(--base-green);font-size: 2.5rem"/>
+    <div id="confirm-button"
+         style="margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
+         class="btn">
+        Confirm
+    </div>
+</div>
+<div id="receive"
+     style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
+    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
+        Receive
+    </h1>
+    <div id="result"></div>
+    <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
+        <div id="open-edit">Edit the amount</div>
+        <div>Download the QR code</div>
+    </div>
+    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
+        <div>Today’s collection record</div>
+        <div style="margin-right: 1rem">More ></div>
+    </div>
+    <div style="background-color: black;height: 1px;width: 100%"></div>
+    <div id="history-place">
+
+    </div>
+    <div style="font-size: 0.9rem">
+        <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
+        <div style="display: flex;">
+            <div style="margin-right: 0.25rem">1.</div>
+            <div>
+                This address can only receive voucher for Social Kitchen.
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div style="margin-right: 0.25rem">2.</div>
+            <div>
+                Please DO NOT send any other assets to this address. We can't help you recover the assets.
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+</div>
+<script>
+    const kitchenName = "Social Kitchen (Orchard Road)"
+
+    const confirmButton = document.getElementById("confirm-button");
+    const amountInput = document.getElementById("amount-input");
+    const receivePlace = document.getElementById("receive");
+    const editPlace = document.getElementById("edit-amount");
+    const backButton = document.getElementById("back-button");
+
+    function parseAmount(string) {
+        return parseFloat(string).toFixed(2).toString();
+    }
+
+    const oldAmount = sessionStorage.getItem("QRAmount");
+    if (oldAmount) {
+        amountInput.value = parseAmount(oldAmount)
+    } else {
+        amountInput.value = "0.00"
+    }
+
+    amountInput.addEventListener("input", (e) => {
+        let value = amountInput.value;
+        let prevCursorPos = amountInput.selectionStart || 0;
+        if (!value) {
+            value = "0.00"
+        }
+        //处理小数点前及输入非数字情况
+        if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
+            prevCursorPos -= 1
+        }
+        value = value.replace(/^0+|[^\d.]/g, '');
+        if (value.indexOf('.') === 0) {
+            value = '0' + value;
+        }
+
+        //处理小数点后
+        const idx = value.indexOf('.') + 3;
+        amountInput.value = value.substring(0, idx);
+        amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
+    })
+
+    amountInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            saveAmount()
+        }
+    });
+
+    function closeEdit() {
+        receivePlace.style.display = "flex";
+        editPlace.style.display = "none";
+        backButton.removeAttribute("onclick");
+        setTimeout(() => {
+            backButton.href = "home.html";
+        }, 100);
+        generateQRCode()
+    }
+
+    function saveAmount() {
+        sessionStorage.setItem("QRAmount", parseAmount(amountInput.value))
+        closeEdit()
+    }
+
+    confirmButton.addEventListener("click", saveAmount)
+
+    function openEdit(e) {
+        receivePlace.style.display = "none";
+        editPlace.style.display = "flex";
+        amountInput.value = sessionStorage.getItem("QRAmount")
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', 'closeEdit()');
+        e.preventDefault()
+    }
+
+    document.getElementById("open-edit").addEventListener("click", openEdit)
+
+    function generateQRCode() {
+        const amount = sessionStorage.getItem("QRAmount")
+        document.getElementById("result").innerHTML = ""
+        if (amount && amount !== "0.00") {
+            document.getElementById("result").innerHTML = `<div style="font-size: 4rem;color: var(--base-green);font-weight: 700;text-align: center;">${amount}</div>`
+        }
+        const codeWriter = new ZXing.BrowserQRCodeSvgWriter()
+        codeWriter.writeToDom('#result', JSON.stringify({
+            name: kitchenName,
+            amount
+        }), 300, 300);
+    }
+
+    generateQRCode()
+</script>
+</body>
+</html>
