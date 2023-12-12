@@ -39,7 +39,8 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script>
-    const phoneReg = /^([8|9])\d{7}$/
+    // const phoneReg = /^([8|9])\d{7}$/
+    const phoneReg = /^\d{10}$/
     const emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
     const button = document.getElementById('submitBtn');
     const accountInputer = document.querySelector('account-component');
@@ -64,11 +65,14 @@
         let form_json = {}
         let typeUrl = "login_phone"
         if (accountInputer.type === "phone") {
-            form_json.phone_country = 65
+            // form_json.phone_country = "65"
+            form_json.phone_country = "1"
             form_json.phone_number = accountInputer.value
+            form_json.role = "0"
         } else {
             typeUrl = "login_email"
             form_json.email_address = accountInputer.value
+            form_json.role = "0"
         }
         fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/' + typeUrl, {
             method: 'POST',
