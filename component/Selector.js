@@ -29,7 +29,7 @@ class Selector extends HTMLElement {
         <div id="roleSelect" tabIndex="-1"
              style="cursor: pointer;display: flex;justify-content: space-between;align-items: center;border-radius: 0.6rem;">
             <div id="roleValue" style="user-select: none;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                Select your role here first
+                ${this.placeholder}
             </div>
             <input style="display: none" name="role" id="role">
             <img width="20" src="media/Selector.svg"/>
@@ -45,8 +45,8 @@ class Selector extends HTMLElement {
 
         const that = this;
 
-        const roleSelect = this.shadowRoot.querySelector("#roleSelect")
-        const selectOptionList = this.shadowRoot.querySelector("#selectOptionList")
+        const roleSelect = this.shadowRoot.querySelector("#roleSelect");
+        const selectOptionList = this.shadowRoot.querySelector("#selectOptionList");
 
         if (this.list) {
             this.list.forEach(value => {
@@ -122,6 +122,7 @@ class Selector extends HTMLElement {
         function selectValue(e) {
             if (e.target.tagName === 'DIV' && e.target.id && e.target.id !== "selectOptionList") {
                 setValue(e.target.id)
+                syncWidth()
                 if(that.changeCallBack){
                     that.changeCallBack(e.target.id)
                 }else {

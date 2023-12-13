@@ -56,8 +56,6 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script>
-    const phoneReg = /^([8|9])\d{7}$/
-    const emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
     const button = document.getElementById('submitBtn');
     const alertText = document.getElementById('alertText')
     // const roleSelector = document.createElement('select-component');
@@ -71,8 +69,7 @@
     function checkValidity() {
         const firstNameValue = firstNameInputer.value
         const lastNameValue = lastNameInputer.value
-        const accountValue = (accountInputer.type === "phone" && phoneReg.test(accountInputer.value)) || (accountInputer.type === "email" && emailReg.test(accountInputer.value))
-        if (accountValue && firstNameValue && lastNameValue) {
+        if (accountInputer.check && firstNameValue && lastNameValue) {
             button.style.backgroundColor = 'var(--base-green)';
             alertText.style.display = "block"
             alertText.innerText = "Before you create an account, please make sure your " + (accountInputer.type === "phone" ? "phone number" : "email address") + " and last is correct."
@@ -122,12 +119,7 @@
     function register(formData) {
         const form_json = Object.fromEntries(formData);
         form_json.user_id = 0;
-        if (accountInputer.type === "phone") {
-            form_json.phone_country = 65
-            form_json.phone_number = accountInputer.value
-        } else {
-            form_json.email_address = accountInputer.value
-        }
+        Object.assign(form_json, accountInputer.value)
 
         fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',

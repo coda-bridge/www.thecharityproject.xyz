@@ -155,7 +155,7 @@
     }
 
     const checkNext = () => {
-        if ((kitchenName || kitchenSelector) && amount) {
+        if ((kitchenName || kitchenSelector.value) && amount) {
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
         } else {
