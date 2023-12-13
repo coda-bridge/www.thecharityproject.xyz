@@ -35,11 +35,13 @@
     <div class="form-group">
         <div style="display: flex;margin-top: 2rem;justify-content: space-between;">
             <input style="width: 50%;margin-right: 0.5rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"
-                   type="text" name="first_name" id="first_name" placeholder="Enter your first name">
+                   type="text" name="firstname" id="firstname" placeholder="Enter your first name">
             <input style="width: 50%;margin-left: 0.5rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"
-                   type="text" name="last_name" id="last_name" placeholder="Enter your last name">
+                   type="text" name="lastname" id="lastname" placeholder="Enter your last name">
         </div>
     </div>
+
+    <input type="hidden" name="payment_pin" name="payment_pin" value="1234">
 
     <div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 4rem">
         <button disabled style="background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.2rem 2rem"
@@ -60,8 +62,8 @@
     const alertText = document.getElementById('alertText')
     // const roleSelector = document.createElement('select-component');
     const accountInputer = document.querySelector('account-component');
-    const firstNameInputer = document.getElementById('first_name');
-    const lastNameInputer = document.getElementById('last_name');
+    const firstNameInputer = document.getElementById('firstname');
+    const lastNameInputer = document.getElementById('lastname');
 
     const form = document.getElementById('form');
 
