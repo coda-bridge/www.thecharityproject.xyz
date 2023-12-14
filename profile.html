@@ -13,10 +13,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       headers: {
         "Content-Type": "application/json"
       },
-
   }).then(function(response) { 
     return response.json();
-
   }).then(function(data) {
     console.log(data);
     document.getElementById("user_id").innerHTML = data['user']['user_id'];
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("phone").innerHTML = "+" + data['user']['phone_country'] + "-" + data['user']['phone_number'];
     document.getElementById("email").innerHTML = data['user']['email'];
     document.getElementById("dob").innerHTML = data['user']['dob'];
-
   }).catch(error => console.error('Error:', error)); 
 });
     </script>

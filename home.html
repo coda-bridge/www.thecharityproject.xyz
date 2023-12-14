@@ -21,14 +21,15 @@
                 Logo
             </div>
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
-                class="display-4">Welcome!</h1>
+                class="display-4">Welcome <span id="user_name"></span>!</h1>
             <div style="color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                 <div style="font-size: 1.3rem">Balance</div>
                 <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="price">0</span></div>
             </div>
             <div id="balance-prompt" style="margin-top: 0.6rem">
                 <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
-                <div style="display: inline;font-size: 0.8rem">You’re a qualified client with 200 SCTs. If you did receive,
+                <div style="display: inline;font-size: 0.8rem">You’re a qualified client with 200 SCTs. If you did
+                    receive,
                     please contact
                     the technical support.
                 </div>
@@ -47,7 +48,8 @@
                 Transaction history
             </a>
         </div>
-        <div id="social-kitchen-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
+        <div id="social-kitchen-button"
+             style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
                href="redeemTokens.html"
                class="btn btn-lg" role="button">
@@ -86,14 +88,41 @@
 </div>
 </body>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log(data);
+            document.getElementById("user_name").innerText = data['user']['firstname'] + " " + data['user']['lastname'];
+            const role = data['user']['role']
+            switch (role) {
+                case "0":
+                    clientButton.style.display = "flex";
+                    break;
+                case "1":
+                    balancePrompt.style.display = "none";
+                    socialKitchenButton.style.display = "flex";
+                    break;
+                default:
+                    console.log("error access", role)
+            }
+        }).catch(error => console.error('Error:', error));
+    });
+
     const loadingPlace = document.getElementById("loading")
     const bodyPlace = document.getElementById("body")
     const balancePrompt = document.getElementById("balance-prompt")
     const clientButton = document.getElementById("client-button")
     const socialKitchenButton = document.getElementById("social-kitchen-button")
     setTimeout(() => {
-        const role = "Client"
-        // const role = "Social Kitchen"
+        // const role = "Client"
+        const role = "Social Kitchen"
         loadingPlace.style.display = "none"
         bodyPlace.style.display = "block"
         switch (role) {
@@ -105,7 +134,7 @@
                 socialKitchenButton.style.display = "flex";
                 break;
             default:
-                console.log("error access",role)
+                console.log("error access", role)
         }
     }, 2000)
 

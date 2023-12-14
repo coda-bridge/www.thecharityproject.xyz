@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="module" src="component/index.js"></script>
+</head>
+<body class="container">
+<a style="width: min-content;display: block;" href="index.html">
+    <div style="margin-top: 1.2rem;margin-left: 0.5rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
+<h3 style="text-align: center;font-weight: 600;margin-bottom: 2rem;">Welcome back!</h3>
+<div id="errorMsg" class="alert alert-danger" role="alert" style="display:none;">Sorry, there is a problem with your
+    login attempt.
+</div>
+<div id="successMsg" class="alert alert-success" role="alert" style="display:none;text-align: center;">
+    <h4 class="alert-heading">Well done!</h4>
+    <p>A magic link for activating your account has been sent to your phone number.</p>
+    <br/>
+    <p>Please go to check out your Messages App to finish the process of registration.</p>
+</div>
+
+<form style="padding: 0 2rem" id="form">
+    <div id="select" style="margin-top: 2rem;" class="form-group">
+    </div>
+    <div class="form-group">
+        <account-component changeCallBack="checkValidity"></account-component>
+    </div>
+    <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
+        <button disabled style="background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.2rem 3.5rem;"
+                type="submit" id="submitBtn" class="btn">Log in
+        </button>
+    </div>
+</form>
+<script>
+    const button = document.getElementById('submitBtn');
+    const accountInputer = document.querySelector('account-component');
+
+    const form = document.getElementById('form');
+
+    const open = () => {
+        button.style.backgroundColor = 'var(--base-green)';
+        button.style.cursor = 'pointer';
+        button.disabled = false;
+    }
+
+    const close = () => {
+        button.style.backgroundColor = '#9B9C9C';
+        button.style.cursor = 'not-allowed';
+        button.disabled = true;
+    }
+    
+    function checkValidity() {
+        if (accountInputer.check) {
+            open()
+        } else {
+            close()
+        }
+    }
+
+    accountInputer.addEventListener("changeCallBack", checkValidity)
+
+    function openSMS() {
+        window.location.href = 'sms:';
+    }
+
+    function login() {
+        close();
+        let form_json = {
+            role: "0"
+        }
+        let typeUrl
+        if (accountInputer.type === "phone") {
+            typeUrl = "login_phone"
+        }else {
+            typeUrl = "login_email"
+        }
+        Object.assign(form_json, accountInputer.value)
+        fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/' + typeUrl, {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form_json),
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            if (data['status']) {
+                document.getElementById("form").style.display = "none";
+                document.getElementById("successMsg").style.display = "block";
+            } else {
+                const em = document.getElementById("errorMsg");
+                em.innerText = data['message'];
+                em.style.display = "block";
+                open();
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            const em = document.getElementById("errorMsg");
+            em.innerText = "Sorry, there is a problem with your login attempt."
+            em.style.display = "block";
+            open();
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        login();
+    });
+</script>
+</body>
+</html>
