@@ -4,44 +4,45 @@
     <title>redeem your Tokens</title>
     <meta charset="UTF-8">
     <link href="./dist/css/index.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="dist/zxing.min.js"></script>
-    <script type="module" src="component/Selector.js"></script>
+    <script src="dist/zxing.min.js" type="text/javascript"></script>
+    <script src="component/Selector.js" type="module"></script>
 </head>
 <body>
 <div id="camera"
      style="position: fixed;top:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
-    <div onclick="closeCamera()" id="video_close"
+    <div id="video_close" onclick="closeCamera()"
          style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
         ×
     </div>
-    <img src="./media/Change.svg"
-         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"
-         onclick="nextCamera()"/>
+    <img onclick="nextCamera()"
+         src="./media/Change.svg"
+         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"/>
     <video autoplay id="video"></video>
 </div>
-<a id="back-button" href="home.html">
+<a href="home.html" id="back-button">
     <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
         <img src="media/Back.svg">
     </div>
 </a>
 
 <div style="background-color: white;padding: 0 1.5rem 2rem;">
-    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
+    <h1 class="display-4" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
         Redeem Your Tokens
     </h1>
-    <div style="display: flex;flex-direction: column;align-items: center;" id="home">
-        <img style="margin-top: 4rem;" src="./media/Qrcode.svg"/>
-        <a style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;"
+    <div id="home" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
+        <a class="btn btn-lg"
            onclick="startStreamAndDecode()"
-           class="btn btn-lg" role="button">
+           role="button" style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Scan the QR code to pay
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
-            <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
+            <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                Something wrong with your camera? Try <a id="go-manually" style="text-decoration: underline;">pay manually</a>.
+                Something wrong with your camera? Try <a id="go-manually" style="text-decoration: underline;">pay
+                manually</a>.
             </div>
         </div>
         <div style="font-size: 0.9rem">
@@ -75,19 +76,53 @@
             </div>
         </div>
     </div>
-    <div style="display: none;" id="manually">
+    <div id="manually" style="display: none;">
         <div style="margin-top: 3rem;">You're going to pay</div>
-        <div style="margin-top: 1.5rem;" id="kitchen">
+        <div id="kitchen" style="margin-top: 1.5rem;">
 
         </div>
-        <div style="margin-top: 0.6rem;" id="amount">
+        <div id="amount" style="margin-top: 0.6rem;">
 
         </div>
-        <a style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;"
-           onclick="goPay()" id="next-button"
-           class="btn btn-lg" role="button">
+        <a class="btn btn-lg"
+           id="next-button"
+           role="button" style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
+    </div>
+    <div id="confirm" style="display: none;margin-top: 2.5rem;">
+        <div style="border: 2px solid #49B05D;padding: 2rem;border-radius: 0.625rem">
+            <div id="confirm-text" style="text-align: center;">
+
+            </div>
+            <a class="btn btn-lg"
+               id="confirm-button"
+               role="button" style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+                Confirm
+            </a>
+        </div>
+    </div>
+    <div id="pay" style="display: none;">
+        <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+            <img id="refresh-icon" loading="lazy" src="media/Refresh.svg" style="display: none;"/>
+            <img id="success-icon" loading="lazy" src="media/Success.svg" style="display: none;"/>
+            <img id="error-icon" loading="lazy" src="media/Error.svg" style="display: none;"/>
+        </div>
+        <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
+        <div id="pay-Button">
+            <a class="btn btn-lg"
+               href="transactionHistory.html"
+               id="go-history-button"
+               role="button" style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+                Check out the transaction history
+            </a>
+            <a class="btn btn-lg"
+               id="go-redeem-button"
+               onclick="backToScan()"
+               role="button" style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+                Initiate another transaction
+            </a>
+        </div>
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
@@ -96,19 +131,37 @@
     const videoPlace = document.getElementById("camera");
     const home = document.getElementById("home");
     const manually = document.getElementById("manually");
+    const confirm = document.getElementById("confirm");
+    const pay = document.getElementById("pay");
+    const loading = document.getElementById("loading");
+    const success = document.getElementById("success");
+    const error = document.getElementById("error");
     const goButton = document.getElementById("go-manually");
     const kitchenPlace = document.getElementById("kitchen");
     const amountPlace = document.getElementById("amount");
+    const confirmText = document.getElementById("confirm-text");
     const backButton = document.getElementById("back-button");
     const nextButton = document.getElementById("next-button");
+    const confirmButton = document.getElementById("confirm-button");
     const kitchenSelector = document.createElement("select-component");
+
+    const refreshIcon = document.getElementById("refresh-icon");
+    const successIcon = document.getElementById("success-icon");
+    const errorIcon = document.getElementById("error-icon");
+
+    const payText = document.getElementById("pay-text");
+
+    const goHistoryButton = document.getElementById("go-history-button");
+    const goRedeemButton = document.getElementById("go-redeem-button");
 
 
     let deviceIdList;
     let selectedIndex = 0;
 
     let kitchenName;
+    let ethAddress;
     let amount;
+    let code;
 
     function closeCamera() {
         videoPlace.style.display = "none"
@@ -129,8 +182,13 @@
     }
 
     const backToScan = () => {
+        kitchenName = "";
+        ethAddress = "";
+        amount = "";
+        code = "";
         home.style.display = "flex";
         manually.style.display = "none";
+        pay.style.display = "none";
         backButton.removeAttribute("onclick");
         setTimeout(() => {
             backButton.href = "home.html";
@@ -148,19 +206,104 @@
         addAmountInput()
     }
 
-    goButton.addEventListener("click",goManually)
+    goButton.addEventListener("click", goManually)
+
+    const goConfirm = () => {
+        code = "";
+        manually.style.display = "none";
+        confirm.style.display = "block";
+        if (parseFloat(amount) > 10) {
+            confirmText.innerHTML = `<div>We have send a one-time code to your phone number. Please enter the code to proceed the payment.</div>
+                <div style="display: flex;justify-content: space-around;margin-top: 1rem">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input1">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input2">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input3">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input4">
+                </div>`
+            const inputList = confirmText.querySelectorAll("input");
+
+            for (let i = 0; i < inputList.length; i++) {
+                inputList[i].onkeyup = function () {
+                    checkConfirm()
+                    if (this.value.length === 1) {
+                        if (i < inputList.length - 1) {
+                            inputList[i + 1].focus();
+                        }
+                    }
+                }
+            }
+            confirmButton.style.backgroundColor = "#ADA9A9";
+            confirmButton.style.cursor = "not-allowed";
+            confirmButton.removeAttribute("onclick");
+        } else {
+            confirmText.innerHTML = `<div>The amount you’re going to pay  is under 10 SCTs</div><br/><div>Click Confirm button to confirm the payment.</div>`;
+            confirmButton.style.backgroundColor = "var(--base-green)";
+            confirmButton.style.cursor = "pointer";
+            confirmButton.setAttribute('onclick', "goPay()");
+        }
+    }
 
     const goPay = () => {
-
+        console.log("one-time code", code)
+        console.log("eth address", ethAddress)
+        console.log("amount", amount)
+        confirm.style.display = "none";
+        pay.style.display = "block";
+        refreshIcon.style.display = "block";
+        payText.innerHTML = `<div>Your transaction is in process.</div><br/><div>Please do not leave this page.</div>`
+        successIcon.style.display = "none";
+        errorIcon.style.display = "none";
+        goRedeemButton.style.display = "none";
+        goHistoryButton.style.display = "none";
+        setTimeout(() => {
+            refreshIcon.style.display = "none";
+            const state = true;
+            if (state === true) {
+                successIcon.style.display = "block";
+                payText.innerHTML = `<div>Your transaction is successful!</div><br/><div>Next, you can</div>`
+                goRedeemButton.style.display = "block";
+                goHistoryButton.style.display = "block";
+            } else {
+                errorIcon.style.display = "block";
+                payText.innerText = "Your transaction is failed!"
+                goRedeemButton.style.display = "block";
+            }
+        }, 5000)
     }
 
     const checkNext = () => {
         if ((kitchenName || kitchenSelector.value) && amount) {
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
+            nextButton.setAttribute('onclick', "goConfirm()");
         } else {
             nextButton.style.backgroundColor = "#ADA9A9"
             nextButton.style.cursor = "not-allowed"
+            nextButton.removeAttribute("onclick");
+        }
+    }
+
+    const checkConfirm = () => {
+        const inputList = confirmText.querySelectorAll("input");
+        let checkStatus = true
+        code = ""
+        for (let i = 0; i < inputList.length; i++) {
+            const thisValue = inputList[i].value
+            if (thisValue.length === 0) {
+                checkStatus = false;
+                break;
+            } else {
+                code += thisValue
+            }
+        }
+        if (checkStatus) {
+            confirmButton.style.backgroundColor = "var(--base-green)";
+            confirmButton.style.cursor = "pointer";
+            confirmButton.setAttribute('onclick', "goPay()");
+        } else {
+            confirmButton.style.backgroundColor = "#ADA9A9";
+            confirmButton.style.cursor = "not-allowed";
+            confirmButton.removeAttribute("onclick");
         }
     }
 
@@ -198,15 +341,16 @@
             closeCamera()
             let QRData
             if (result) {
-                if(result) {
+                if (result) {
                     QRData = JSON.parse(result.text)
-                }else {
+                } else {
                     QRData = JSON.parse(result)
                 }
                 if (QRData.name) {
                     kitchenName = QRData.name
                     kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
                 }
+                ethAddress = QRData.ethAddress
                 if (QRData.amount && QRData.amount !== "0.00") {
                     amount = QRData.amount
                     amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`

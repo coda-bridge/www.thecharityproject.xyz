@@ -99,20 +99,31 @@
             return response.json();
         }).then(function (data) {
             console.log(data);
-            document.getElementById("user_name").innerText = data['user']['firstname'] + " " + data['user']['lastname'];
-            const role = data['user']['role']
+            loadingPlace.style.display = "none";
+            bodyPlace.style.display = "block"
+            let userName = ""
+
+            document.getElementById("price").innerText = data['balance'] || "0";
+            const role = data['role']
             switch (role) {
                 case "0":
                     clientButton.style.display = "flex";
+                    userName = data['firstname'] + " " + data['lastname'];
                     break;
                 case "1":
                     balancePrompt.style.display = "none";
                     socialKitchenButton.style.display = "flex";
+                    userName = data["merchant_name"]
                     break;
                 default:
-                    console.log("error access", role)
+                    console.log("error access——", role)
             }
-        }).catch(error => console.error('Error:', error));
+            document.getElementById("user_name").innerText = userName
+        }).catch(error => {
+            console.error('Error:', error)
+            loadingPlace.style.display = "none"
+            bodyPlace.style.display = "block"
+        });
     });
 
     const loadingPlace = document.getElementById("loading")
@@ -120,23 +131,23 @@
     const balancePrompt = document.getElementById("balance-prompt")
     const clientButton = document.getElementById("client-button")
     const socialKitchenButton = document.getElementById("social-kitchen-button")
-    setTimeout(() => {
-        // const role = "Client"
-        const role = "Social Kitchen"
-        loadingPlace.style.display = "none"
-        bodyPlace.style.display = "block"
-        switch (role) {
-            case "Client":
-                clientButton.style.display = "flex";
-                break;
-            case "Social Kitchen":
-                balancePrompt.style.display = "none";
-                socialKitchenButton.style.display = "flex";
-                break;
-            default:
-                console.log("error access", role)
-        }
-    }, 2000)
+    // setTimeout(() => {
+    //     // const role = "Client"
+    //     const role = "Social Kitchen"
+    //     loadingPlace.style.display = "none"
+    //     bodyPlace.style.display = "block"
+    //     switch (role) {
+    //         case "Client":
+    //             clientButton.style.display = "flex";
+    //             break;
+    //         case "Social Kitchen":
+    //             balancePrompt.style.display = "none";
+    //             socialKitchenButton.style.display = "flex";
+    //             break;
+    //         default:
+    //             console.log("error access", role)
+    //     }
+    // }, 2000)
 
 </script>
 </html>

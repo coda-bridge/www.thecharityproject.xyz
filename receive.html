@@ -35,8 +35,8 @@
     </h1>
     <div id="result"></div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
-        <div id="open-edit">Edit the amount</div>
-        <div>Download the QR code</div>
+        <div style="cursor: pointer;" id="open-edit">Edit the amount</div>
+        <div style="cursor: pointer;" onclick="downloadQRCode()" id="download">Download the QR code</div>
     </div>
     <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
         <div>Today’s collection record</div>
@@ -64,7 +64,8 @@
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
 <script>
-    const kitchenName = "Social Kitchen (Orchard Road)"
+    let kitchenName
+    let ethAddress
 
     const confirmButton = document.getElementById("confirm-button");
     const amountInput = document.getElementById("amount-input");
@@ -81,6 +82,30 @@
         amountInput.value = parseAmount(oldAmount)
     } else {
         amountInput.value = "0.00"
+    }
+
+    function downloadQRCode() {
+
+        // 获取SVG DOM
+        const svg = document.getElementById("result").querySelector("svg");
+
+        // 获取SVG源代码
+        const serializer = new XMLSerializer();
+        const svgData = serializer.serializeToString(svg);
+
+        // 构建Blob对象
+        const blob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
+
+        // 生成下载链接
+        const url = URL.createObjectURL(blob);
+
+        // 模拟点击下载
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = kitchenName + " $" + amountInput.value + " qrcode.svg";
+        a.click();
+
+        URL.revokeObjectURL(url);
     }
 
     amountInput.addEventListener("input", (e) => {
@@ -147,11 +172,32 @@
         const codeWriter = new ZXing.BrowserQRCodeSvgWriter()
         codeWriter.writeToDom('#result', JSON.stringify({
             name: kitchenName,
+            ethAddress,
             amount
         }), 300, 300);
     }
 
-    generateQRCode()
+
+    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+            kitchenName = data["merchant_name"]
+            ethAddress = data["eth_address"]
+        }
+        generateQRCode()
+    }).catch(error => {
+        console.error('Error:', error)
+        loadingPlace.style.display = "none"
+        bodyPlace.style.display = "block"
+    });
+
 </script>
 </body>
 </html>
