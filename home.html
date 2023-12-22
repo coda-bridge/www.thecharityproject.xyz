@@ -17,21 +17,32 @@
             <img src="media/Signout.svg">
         </a>
         <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
-            <div style="width: 6rem;background-color: #d5d5d5;height: 6rem;border-radius: 3rem;color: white;text-align: center;line-height: 6rem">
-                Logo
-            </div>
+            <img width="96" src="media/coda-logo.png">
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
                 class="display-4">Welcome <span id="user_name"></span>!</h1>
-            <div style="color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                <div style="font-size: 1.3rem">Balance</div>
+            <div id="balance"
+                 style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                <div style="font-size: 1.3rem">Balance Vouchers</div>
                 <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="price">0</span></div>
+            </div>
+            <div style="width: 100%;display: none;" id="donor-data">
+                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                    <div style="font-size: 1.3rem">Donated</div>
+                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="donated">0</span></div>
+                </div>
+                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;border:1px solid var(--base-green);color:var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                    <div style="font-size: 1.3rem">Redeemed</div>
+                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="redeemed">0</span></div>
+                </div>
+                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                    <div style="font-size: 1.3rem">Meal served</div>
+                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem"><span id="meal-served">0</span>
+                    </div>
+                </div>
             </div>
             <div id="balance-prompt" style="margin-top: 0.6rem">
                 <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
-                <div style="display: inline;font-size: 0.8rem">You’re a qualified client with 200 SCTs. If you did
-                    receive,
-                    please contact
-                    the technical support.
+                <div style="display: inline;font-size: 0.8rem">You should receive $XXX vouchers. Please contact the help desk if this is wrong.
                 </div>
             </div>
         </div>
@@ -40,7 +51,7 @@
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
                href="redeemTokens.html"
                class="btn btn-lg" role="button">
-                Redeem your tokens
+                Redeem your vouchers for meals
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transactionHistory.html"
@@ -88,6 +99,14 @@
 </div>
 </body>
 <script>
+    const loadingPlace = document.getElementById("loading");
+    const bodyPlace = document.getElementById("body");
+    const balancePlace = document.getElementById("balance");
+    const donorPlace = document.getElementById("donor-data");
+    const balancePrompt = document.getElementById("balance-prompt");
+    const clientButton = document.getElementById("client-button");
+    const socialKitchenButton = document.getElementById("social-kitchen-button");
+
     document.addEventListener("DOMContentLoaded", function () {
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
             method: 'GET',
@@ -115,6 +134,12 @@
                     socialKitchenButton.style.display = "flex";
                     userName = data["merchant_name"]
                     break;
+                case "2":
+                    balancePlace.style.display = "none";
+                    balancePrompt.style.display = "none";
+                    donorPlace.style.display = "block";
+                    userName = data["merchant_name"]
+                    break;
                 default:
                     console.log("error access——", role)
             }
@@ -126,11 +151,6 @@
         });
     });
 
-    const loadingPlace = document.getElementById("loading")
-    const bodyPlace = document.getElementById("body")
-    const balancePrompt = document.getElementById("balance-prompt")
-    const clientButton = document.getElementById("client-button")
-    const socialKitchenButton = document.getElementById("social-kitchen-button")
     // setTimeout(() => {
     //     // const role = "Client"
     //     const role = "Social Kitchen"
@@ -148,6 +168,5 @@
     //             console.log("error access", role)
     //     }
     // }, 2000)
-
 </script>
 </html>
