@@ -1,71 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
-document.addEventListener("DOMContentLoaded", function(event) {
-  let code = "NA";
-  let role = "0";
-  let queryString = new URLSearchParams(window.location.href.split('?')[1]);
-  for (let pair of queryString.entries()) {
-   if (pair[0] == "code") {
-     code = pair[1];
-   }
-   if (pair[0] == "role") {
-     role = pair[1];
-   }
-  }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            let code = "NA";
+            let role = "0";
+            let queryString = new URLSearchParams(window.location.href.split('?')[1]);
+            for (let pair of queryString.entries()) {
+                if (pair[0] == "code") {
+                    code = pair[1];
+                }
+                if (pair[0] == "role") {
+                    role = pair[1];
+                }
+            }
 
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code + "/" + role, {
-      method: 'GET',
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-  }).then(function(response) {
-    return response.json();
+            fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code + "/" + role, {
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function (response) {
+                return response.json();
 
-  }).then(function(data) {
-    console.log(data);
-    if (data['status']) {
-      window.location.replace("home.html");
-    } else {
-      document.getElementById("wait").style.display = "none";
-      document.getElementById("error").style.display = "block";
-    }
+            }).then(function (data) {
+                console.log(data);
+                if (data['status']) {
+                    window.location.replace("home.html");
+                } else {
+                    document.getElementById("wait").style.display = "none";
+                    document.getElementById("error").style.display = "block";
+                }
 
-  }).catch(error => {
-    console.error('Error:', error);
-    document.getElementById("wait").style.display = "none";
-    document.getElementById("error").style.display = "block";
-  });
-});
+            }).catch(error => {
+                console.error('Error:', error);
+                document.getElementById("wait").style.display = "none";
+                document.getElementById("error").style.display = "block";
+            });
+        });
     </script>
-  </head>
-  <body class="container">
-    <div id="wait">
-      <div class="d-flex align-items-center">
-        <strong>Loading...</strong>
-        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-      </div>
+</head>
+<body style="padding: 0 1.5rem 2rem;" class="container">
+<div id="wait">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+        <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg"/>
     </div>
+    <div style="text-align: center;margin: 2rem 0;">Loading...</div>
+</div>
 
-    <div id="error" style="display:none">
-      <h1>Error</h1>
-      <div id="errorMsg" class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">Oops</h4>
-        Sorry, there is a problem with your login attempt. Try again?
-      </div>
-
-      <div>
-        <a href="login_email.html" class="btn btn-primary btn-lg" role="button" aria-disabled="true">Login with email</a>
-        <a href="login_phone.html" class="btn btn-primary btn-lg" role="button" aria-disabled="true">Login with phone</a>
-      </div>
+<div id="error" style="display:none">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+        <img id="error-icon" loading="lazy" src="media/Error.svg"/>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+    <div style="text-align: center;margin: 2rem 0;">Sorry, there is a problem with your login attempt. Try again?</div>
+    <a class="btn btn-lg"
+       href="login_form.html"
+       role="button"
+       style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;">
+        Login with phone
+    </a>
+</div>
+</body>
 </html>

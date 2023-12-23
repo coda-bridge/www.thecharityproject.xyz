@@ -35,7 +35,8 @@
         <img src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
         <a class="btn btn-lg"
            onclick="startStreamAndDecode()"
-           role="button" style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+           role="button"
+           style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Scan the QR code to pay
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
@@ -86,7 +87,8 @@
         </div>
         <a class="btn btn-lg"
            id="next-button"
-           role="button" style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+           role="button"
+           style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
     </div>
@@ -97,14 +99,15 @@
             </div>
             <a class="btn btn-lg"
                id="confirm-button"
-               role="button" style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+               role="button"
+               style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
                 Confirm
             </a>
         </div>
     </div>
     <div id="pay" style="display: none;">
         <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
-            <img id="refresh-icon" loading="lazy" src="media/Refresh.svg" style="display: none;"/>
+            <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg" style="display: none;"/>
             <img id="success-icon" loading="lazy" src="media/Success.svg" style="display: none;"/>
             <img id="error-icon" loading="lazy" src="media/Error.svg" style="display: none;"/>
         </div>
@@ -113,14 +116,23 @@
             <a class="btn btn-lg"
                href="transactionHistory.html"
                id="go-history-button"
-               role="button" style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+               role="button"
+               style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
                 Check out the transaction history
             </a>
             <a class="btn btn-lg"
                id="go-redeem-button"
                onclick="backToScan()"
-               role="button" style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+               role="button"
+               style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
                 Initiate another transaction
+            </a>
+            <a class="btn btn-lg"
+               href="home.html"
+               id="back-home-button"
+               role="button"
+               style="margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+                Back to home
             </a>
         </div>
     </div>
@@ -152,6 +164,7 @@
     const payText = document.getElementById("pay-text");
 
     const goHistoryButton = document.getElementById("go-history-button");
+    const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
 
 
@@ -188,6 +201,7 @@
         code = "";
         home.style.display = "flex";
         manually.style.display = "none";
+        confirm.style.display = "none";
         pay.style.display = "none";
         backButton.removeAttribute("onclick");
         setTimeout(() => {
@@ -200,7 +214,13 @@
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
-        kitchenSelector.list = ["Social Kitchen (Orchard Road)"]
+        kitchenSelector.list = [{name: "Social Kitchen (Orchard Road)", value: "0x1234"}]
+        kitchenSelector.changeCallBack = (value) => {
+            if (value && value.name && value.value) {
+                kitchenName = value.name
+                ethAddress = value.value
+            }
+        }
         kitchenPlace.innerHTML = ""
         kitchenPlace.appendChild(kitchenSelector)
         addAmountInput()
@@ -245,8 +265,6 @@
 
     const goPay = () => {
         console.log("one-time code", code)
-        console.log("eth address", ethAddress)
-        console.log("amount", amount)
         confirm.style.display = "none";
         pay.style.display = "block";
         refreshIcon.style.display = "block";
@@ -255,20 +273,43 @@
         errorIcon.style.display = "none";
         goRedeemButton.style.display = "none";
         goHistoryButton.style.display = "none";
-        setTimeout(() => {
+        backHomeButton.style.display = "none";
+        const payData = {"to_address": ethAddress, "amount": amount}
+        fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payData),
+        }).then(function (response) {
             refreshIcon.style.display = "none";
-            const state = true;
-            if (state === true) {
+            return response.json();
+        }).then(function (data) {
+            if (data['status']) {
                 successIcon.style.display = "block";
                 payText.innerHTML = `<div>Your transaction is successful!</div><br/><div>Next, you can</div>`
                 goRedeemButton.style.display = "block";
                 goHistoryButton.style.display = "block";
+                backHomeButton.style.display = "block";
             } else {
                 errorIcon.style.display = "block";
                 payText.innerText = "Your transaction is failed!"
                 goRedeemButton.style.display = "block";
             }
-        }, 5000)
+        }).catch(error => {
+            console.log(error)
+            successIcon.style.display = "block";
+            payText.innerHTML = `<div>Your transaction is successful!</div><br/><div>Next, you can</div>`
+            goRedeemButton.style.display = "block";
+            goHistoryButton.style.display = "block";
+            backHomeButton.style.display = "block";
+            refreshIcon.style.display = "none";
+            // errorIcon.style.display = "block";
+            // refreshIcon.style.display = "none";
+            // payText.innerText = "Your transaction is failed!"
+            // goRedeemButton.style.display = "block";
+        });
     }
 
     const checkNext = () => {

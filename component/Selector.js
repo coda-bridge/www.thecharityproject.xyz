@@ -5,7 +5,13 @@ class Selector extends HTMLElement {
     }
 
     get value() {
-        return this.shadowRoot.querySelector("#role").value;
+        const thisName = this.shadowRoot.querySelector("#role").value;
+        const thisValue = this.shadowRoot.querySelector("#role").id;
+        if (thisName === thisValue) {
+            return thisValue;
+        } else {
+            return {name: thisName, value: thisValue};
+        }
     }
 
     render() {
@@ -29,7 +35,7 @@ class Selector extends HTMLElement {
         <div id="roleSelect" tabIndex="-1"
              style="cursor: pointer;display: flex;justify-content: space-between;align-items: center;border-radius: 0.6rem;">
             <div id="roleValue" style="user-select: none;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                ${this.placeholder}
+                ${this.placeholder || ""}
             </div>
             <input style="display: none" name="role" id="role">
             <img width="20" src="media/Selector.svg"/>
@@ -52,13 +58,18 @@ class Selector extends HTMLElement {
             this.list.forEach(value => {
                 const valueItem = document.createElement('div');
                 valueItem.style.cursor = "pointer";
-                if(!this.type || this.type === "normal"){
+                if (!this.type || this.type === "normal") {
                     valueItem.style.padding = "0.5rem 0.75rem";
-                }else {
+                } else {
                     valueItem.style.padding = "0.5rem 0";
                 }
-                valueItem.id = value.toString();
-                valueItem.innerText = value.toString();
+                if (typeof value === "object") {
+                    valueItem.id = value.value.toString();
+                    valueItem.innerText = value.name.toString();
+                } else {
+                    valueItem.id = value.toString();
+                    valueItem.innerText = value.toString();
+                }
                 selectOptionList.appendChild(valueItem)
                 if (this.defaultValue) {
                     setValue(this.defaultValue)
@@ -121,11 +132,17 @@ class Selector extends HTMLElement {
 
         function selectValue(e) {
             if (e.target.tagName === 'DIV' && e.target.id && e.target.id !== "selectOptionList") {
-                setValue(e.target.id)
+                setValue(e.target.innerText)
                 syncWidth()
-                if(that.changeCallBack){
-                    that.changeCallBack(e.target.id)
-                }else {
+                if (that.changeCallBack) {
+                    const thisName = e.target.innerText
+                    const thisValue = e.target.id
+                    if (thisName === thisValue) {
+                        that.changeCallBack(thisName)
+                    }else {
+                        that.changeCallBack({name:thisName,value:thisValue})
+                    }
+                } else {
                     this.dispatchEvent(new CustomEvent('changeCallBack', {
                         composed: true
                     }));
