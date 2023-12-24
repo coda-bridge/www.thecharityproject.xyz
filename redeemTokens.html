@@ -214,7 +214,7 @@
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
-        kitchenSelector.list = [{name: "Social Kitchen (Orchard Road)", value: "0x1234"}]
+        kitchenSelector.list = [{name: "Social Kitchen (Orchard Road)", value: "0x9201866F5043D58213604A48E62CF150171B2c96"}]
         kitchenSelector.changeCallBack = (value) => {
             if (value && value.name && value.value) {
                 kitchenName = value.name
@@ -274,7 +274,7 @@
         goRedeemButton.style.display = "none";
         goHistoryButton.style.display = "none";
         backHomeButton.style.display = "none";
-        const payData = {"to_address": ethAddress, "amount": amount, "pin": "0000"}
+        const payData = {"to_address": ethAddress, "amount": amount}
         fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
             method: 'POST',
             credentials: "include",
