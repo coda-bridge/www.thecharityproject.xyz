@@ -274,7 +274,7 @@
         goRedeemButton.style.display = "none";
         goHistoryButton.style.display = "none";
         backHomeButton.style.display = "none";
-        const payData = {"to_address": ethAddress, "amount": amount}
+        const payData = {"to_address": ethAddress, "amount": amount, "pin": "0000"}
         fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
             method: 'POST',
             credentials: "include",
