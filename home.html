@@ -49,12 +49,12 @@
 
         <div id="client-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
-               href="redeemTokens.html"
+               href="pay.html"
                class="btn btn-lg" role="button">
-                Redeem your vouchers for meals
+                Pay
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
-               href="transactionHistory.html"
+               href="transaction_history.html"
                class="btn btn-lg" role="button">
                 Transaction history
             </a>
@@ -62,17 +62,17 @@
         <div id="social-kitchen-button"
              style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
-               href="redeemTokens.html"
+               href="pay.html"
                class="btn btn-lg" role="button">
                 Receive
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
-               href="redeemVouchers.html"
+               href="redeem_vouchers.html"
                class="btn btn-lg" role="button">
                 Redeem vouchers from CODA
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
-               href="transactionHistory.html"
+               href="transaction_history.html"
                class="btn btn-lg" role="button">
                 Transaction history
             </a>
@@ -121,7 +121,6 @@
             loadingPlace.style.display = "none";
             bodyPlace.style.display = "block"
             let userName = ""
-
             document.getElementById("price").innerText = data['balance'] || "0";
             const role = data['role']
             switch (role) {

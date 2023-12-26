@@ -5,8 +5,8 @@ class Selector extends HTMLElement {
     }
 
     get value() {
-        const thisName = this.shadowRoot.querySelector("#role").value;
-        const thisValue = this.shadowRoot.querySelector("#role").id;
+        const thisName = this.shadowRoot.querySelector("#roleValue").textContent;
+        const thisValue = this.shadowRoot.querySelector("#role").value;
         if (thisName === thisValue) {
             return thisValue;
         } else {
@@ -81,9 +81,16 @@ class Selector extends HTMLElement {
         if (!this.type || this.type === "normal") {
             roleSelect.className = "normal-body"
             selectOptionList.className = "normal-list"
+        } else {
+            roleSelect.style.padding = "0.5rem 0"
+            roleSelect.style.border = "1px solid transparent"
         }
 
         function open() {
+            if (that.type && that.type !== "normal") {
+                roleSelect.style.border = "1px solid var(--base-green)"
+                selectOptionList.style.border = "1px solid var(--base-green)"
+            }
             roleSelect.style.borderRadius = "0.6rem 0.6rem 0 0"
             selectOptionList.style.display = "block"
             selectOptionList.addEventListener('mousedown', selectValue)
@@ -94,7 +101,10 @@ class Selector extends HTMLElement {
             selectOptionList.style.display = "none"
             selectOptionList.removeEventListener('mousedown', selectValue)
             const roleInput = roleSelect.querySelector("#role");
-            if (roleInput.value) {
+            if (that.type && that.type !== "normal") {
+                roleSelect.style.borderColor = "transparent"
+                selectOptionList.style.borderColor = "transparent"
+            } else if (roleInput.value) {
                 roleSelect.style.borderColor = "var(--base-green)"
             } else {
                 roleSelect.style.borderColor = "red"
@@ -118,8 +128,13 @@ class Selector extends HTMLElement {
             const select = roleSelect.querySelector("#roleValue");
             const roleInput = roleSelect.querySelector("#role");
             select.style.color = "black"
-            select.textContent = value
-            roleInput.value = value
+            if (typeof value === "string") {
+                select.innerText = value
+                roleInput.value = value
+            }else {
+                select.innerText = value.name
+                roleInput.value = value.value
+            }
             const divs = selectOptionList.querySelectorAll('div');
             divs.forEach(div => {
                 if (div.id !== value) {
@@ -132,16 +147,18 @@ class Selector extends HTMLElement {
 
         function selectValue(e) {
             if (e.target.tagName === 'DIV' && e.target.id && e.target.id !== "selectOptionList") {
-                setValue(e.target.innerText)
+                const thisName = e.target.innerText
+                const thisValue = e.target.id
+                let finalData
+                if (thisName === thisValue) {
+                    finalData = thisName
+                } else {
+                    finalData = {name: thisName, value: thisValue}
+                }
+                setValue(finalData)
                 syncWidth()
                 if (that.changeCallBack) {
-                    const thisName = e.target.innerText
-                    const thisValue = e.target.id
-                    if (thisName === thisValue) {
-                        that.changeCallBack(thisName)
-                    }else {
-                        that.changeCallBack({name:thisName,value:thisValue})
-                    }
+                    that.changeCallBack(finalData)
                 } else {
                     this.dispatchEvent(new CustomEvent('changeCallBack', {
                         composed: true

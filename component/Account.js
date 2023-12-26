@@ -74,6 +74,12 @@ class Account extends HTMLElement {
 
         const setCountry = (countryCode) => {
             phoneCountry.value = parseInt(countryCode.replace("+",""));
+            let value = phoneNumber.value;
+            if (this.phoneReg[phoneCountry.value].test(value)) {
+                phoneNumber.style.borderColor = "var(--base-green)"
+            } else {
+                phoneNumber.style.borderColor = "red"
+            }
             checkValidity()
         }
 

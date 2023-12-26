@@ -39,9 +39,13 @@
 </form>
 <script>
     const button = document.getElementById('submitBtn');
+    const roleSelector = document.createElement('select-component');
     const accountInputer = document.querySelector('account-component');
 
     const form = document.getElementById('form');
+
+    roleSelector.list = [{value: "0", name: "Client"}, {value: "1", name: "Merchant"}]
+    document.getElementById("select").appendChild(roleSelector);
 
     const open = () => {
         button.style.backgroundColor = 'var(--base-green)';
@@ -54,15 +58,16 @@
         button.style.cursor = 'not-allowed';
         button.disabled = true;
     }
-    
+
     function checkValidity() {
-        if (accountInputer.check) {
+        if (roleSelector.value && accountInputer.check) {
             open()
         } else {
             close()
         }
     }
 
+    roleSelector.addEventListener("changeCallBack", checkValidity)
     accountInputer.addEventListener("changeCallBack", checkValidity)
 
     function openSMS() {
@@ -71,15 +76,15 @@
 
     function login() {
         close();
-        let form_json = {
-            role: "0"
-        }
-        let typeUrl
-        if (accountInputer.type === "phone") {
-            typeUrl = "login_phone"
-        }else {
-            typeUrl = "login_email"
-        }
+        let form_json = {}
+        form_json.role = roleSelector.value.value
+        console.log(roleSelector.value)
+        let typeUrl = "login_phone"
+        // if (accountInputer.type === "phone") {
+        //     typeUrl = "login_phone"
+        // }else {
+        //     typeUrl = "login_email"
+        // }
         Object.assign(form_json, accountInputer.value)
         fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/' + typeUrl, {
             method: 'POST',

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transaction history</title>
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module" src="component/TransactionTab.js"></script>
+    <script type="module" src="component/Selector.js"></script>
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<a href="home.html">
+    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
+<div style="text-align: center">
+    Transaction History
+    <img id="export-icon" onclick="exportCsv()" style="margin-left: 2rem;position: absolute;width: 2rem;display: none;"
+         src="media/Export.svg">
+</div>
+<div style="padding: 1.2rem;">
+    <div id="title" style="display: flex;justify-content: space-between;align-items: center;">
+        <div id="distributed" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        </div>
+        <div id="redeemed" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        </div>
+    </div>
+    <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
+    <div id="history-place"></div>
+</div>
+<script>
+    const historyPlace = document.getElementById("history-place")
+    const distributedPlace = document.getElementById("distributed")
+    const timeSelector = document.createElement("select-component")
+    const redeemedPlace = document.getElementById("redeemed")
+    let transactionData = []
+    let distributed = 0
+    let redeemed = 0
+    let role = 0
+
+    const getTransaction = async (reQuery) => {
+        try {
+            const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            )
+            const getData = await response.json();
+            console.log("get transaction history", getData)
+            transactionData = getData
+            distributed = getData.reduce((acc, cur) => acc + cur.amount, 0);
+            document.getElementById("distributed-value").innerText = "$" + distributed
+            filterByMonth(timeSelector.defaultValue)
+        } catch (error) {
+            console.error('Error:', error)
+        }
+        if (reQuery) {
+            setTimeout(() => {
+                getTransaction(true)
+            }, 3000)
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (response) {
+            return response.json();
+        }).then(function (profileData) {
+            role = profileData['role']
+            redeemed = profileData['balance']
+            let distributedTitle = document.createElement("div")
+            distributedTitle.style.marginRight = "0.25rem"
+            distributedTitle.innerText = "Distributed:"
+            distributedPlace.appendChild(distributedTitle)
+            let distributedValue = document.createElement("div")
+            distributedValue.id = "distributed-value"
+            distributedPlace.appendChild(distributedValue)
+            let redeemedTitle = document.createElement("div")
+            redeemedTitle.style.marginRight = "0.25rem"
+            redeemedTitle.innerText = "Redeemed:"
+            redeemedPlace.appendChild(redeemedTitle)
+            let redeemedValue = document.createElement("div")
+            redeemedValue.innerText = "$" + redeemed
+            redeemedPlace.appendChild(redeemedValue)
+            if (role === 0) {
+                getTransaction()
+            } else {
+                getTransaction(true)
+                document.getElementById("export-icon").style.display = "inline-block";
+            }
+        }).catch((error) => {
+            console.log("get profile error:", error)
+        })
+    })
+
+    function formatDate(date) {
+        if (!date) {
+            date = new Date();
+        }
+        const month = date.toLocaleString('en', {month: 'short'});
+        const year = date.getFullYear();
+        return month + " " + year
+    }
+
+    let current = new Date();
+    let startMonth = 11;
+    let currentMonth = current.getMonth() + 1;
+    let startYear = 2023;
+    let currentYear = current.getFullYear();
+
+    timeSelector.list = []
+    for (let year = startYear; year <= currentYear; year++) {
+        for (let month = startMonth; month <= 12; month++) {
+            if (year === currentYear && month > currentMonth) {
+                break;
+            }
+            let displayMonth = new Date(year, month - 1).toLocaleString('en', {month: 'short'});
+            let date = `${displayMonth} ${year}`;
+            timeSelector.list.push(date)
+        }
+        startMonth = 1
+    }
+
+    function filterByMonth(monthStr) {
+        historyPlace.innerHTML = ""
+        console.log(transactionData)
+        transactionData.filter(item => {
+            const [month, year] = monthStr.split(' ');
+            const date = new Date(`${month} 1, ${year}`);
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
+            const differentLength = 13 - item.timestamp.length;
+            const timestamp = parseInt(item.timestamp) * Math.pow(10, differentLength);
+            return timestamp >= firstDay && timestamp < lastDay;
+        }).forEach(item => {
+            const comp = document.createElement('transaction-component');
+            comp.img = role === 0 ? "media/kitchen-logo.png" : "";
+            comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
+            comp.price = item.amount;
+            comp.time = item.timestamp;
+            historyPlace.appendChild(comp);
+        });
+    }
+
+    timeSelector.defaultValue = formatDate()
+    timeSelector.type = "time"
+    timeSelector.changeCallBack = filterByMonth
+    const titlePart = document.getElementById("title")
+    titlePart.insertBefore(timeSelector, titlePart.firstChild);
+
+    function exportCsv() {
+        const formatTimestamp = (timestamp) => {
+            if (typeof timestamp === "string") {
+                timestamp = parseInt(timestamp)
+            }
+            const t = new Date(timestamp * Math.pow(10, 13 - timestamp.toString().length));
+            return t.getFullYear() + '-'
+                + (t.getMonth() + 1) + '-'
+                + t.getDate() + ' '
+                + t.getHours() + '-'
+                + t.getMinutes() + '-'
+                + t.getSeconds();
+        }
+        const data = transactionData
+        const headers = Object.keys(data[0]);
+        const arrayToCsv = (data) => [
+            headers.join(','),
+            ...data.map(row =>
+                headers.map(header => {
+                        if (header === "timestamp") {
+                            return formatTimestamp(row[header])
+                        } else {
+                            return `"${row[header] || ''}"`
+                        }
+                    }
+                ).join(',')
+            )
+        ].join('\n')
+        const csv = arrayToCsv(data);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        const blob = new Blob(["\ufeff" + csv], {type: 'text/csv;charset=utf-8;'});
+        link.href = URL.createObjectURL(blob);
+        const now = new Date();
+        const filename = now.getFullYear() + '-'
+            + (now.getMonth() + 1) + '-'
+            + now.getDate() + ' '
+            + now.getHours() + '-'
+            + now.getMinutes() + '-'
+            + now.getSeconds();
+
+        link.download = filename + '.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    //for test
+    // setTimeout(() => {
+    //     transactionData.push(
+    //         {
+    //             merchant_name: '店a',
+    //             amount: 19.99,
+    //             timestamp: '1700544246'
+    //         }, {
+    //             merchant_name: '店b',
+    //             amount: 5.99,
+    //             timestamp: '1701854367'
+    //         }, {
+    //             merchant_name: '店1',
+    //             amount: 3.99,
+    //             timestamp: '1701535454'
+    //         }
+    //     )
+    //     distributed = 200
+    //     redeemed = 29.97
+    //     let distributedTitle = document.createElement("div")
+    //     distributedTitle.style.marginRight = "0.25rem"
+    //     distributedTitle.innerText = "Distributed:"
+    //     distributedPlace.appendChild(distributedTitle)
+    //     let distributedValue = document.createElement("div")
+    //     distributedValue.innerText = "$" + distributed
+    //     distributedPlace.appendChild(distributedValue)
+    //     let redeemedTitle = document.createElement("div")
+    //     redeemedTitle.style.marginRight = "0.25rem"
+    //     redeemedTitle.innerText = "Distributed:"
+    //     redeemedPlace.appendChild(redeemedTitle)
+    //     let redeemedValue = document.createElement("div")
+    //     redeemedValue.innerText = "$" + redeemed
+    //     redeemedPlace.appendChild(redeemedValue)
+    //     filterByMonth(timeSelector.defaultValue)
+    // }, 2000)
+</script>
+</body>
+</html>

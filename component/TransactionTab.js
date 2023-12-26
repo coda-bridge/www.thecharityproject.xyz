@@ -22,7 +22,7 @@ class TransactionTab extends HTMLElement {
                     <div>${this.name}</div>
                 </div>
                 <div style="text-align: center">
-                    <div style="color: var(--base-green);font-weight: 700;">-${this.price} SCT</div>
+                    <div style="color: var(--base-green);font-weight: 700;">-$${this.price}</div>
                     <div style="font-size: 0.7rem">${formatDate(this.time)}</div>
                 </div>
             </div>
@@ -31,14 +31,13 @@ class TransactionTab extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        const imgDom = document.createElement('div');
+        const imgDom = document.createElement('img');
 
         if (this.img) {
-            imgDom.style.backgroundColor = "#D9D9D9"
-            imgDom.style.width = "4rem"
-            imgDom.style.height = "4rem"
-            imgDom.style.borderRadius = "2rem"
-            imgDom.style.marginRight = "0.5rem"
+            imgDom.src = this.img
+            imgDom.style.width = "3rem"
+            imgDom.style.paddingRight = "1rem"
+            imgDom.style.borderRadius = "100%"
             const leftPartDOM = this.shadowRoot.getElementById("left-part")
             leftPartDOM.insertBefore(imgDom, leftPartDOM.firstChild)
         }

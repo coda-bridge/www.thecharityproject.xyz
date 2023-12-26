@@ -1,112 +1,441 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pay</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script>
-document.addEventListener("DOMContentLoaded", function(event) {
-  var form = document.getElementById('form');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    pay(new FormData(form));
-  });
+<head>
+    <title>redeem your Tokens</title>
+    <meta charset="UTF-8">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="dist/zxing.min.js" type="text/javascript"></script>
+    <script src="component/Selector.js" type="module"></script>
+</head>
+<body>
+<div id="camera"
+     style="position: fixed;top:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
+    <div id="video_close" onclick="closeCamera()"
+         style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
+        ×
+    </div>
+    <img onclick="nextCamera()"
+         src="./media/Change.svg"
+         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"/>
+    <video autoplay id="video"></video>
+</div>
+<a href="home.html" id="back-button">
+    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+        <img src="media/Back.svg">
+    </div>
+</a>
 
-  fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-      method: 'GET',
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
+<div style="background-color: white;padding: 0 1.5rem 2rem;">
+    <h1 class="display-4" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
+        Redeem Your Tokens
+    </h1>
+    <div id="home" style="display: flex;flex-direction: column;align-items: center;">
+        <img src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
+        <a class="btn btn-lg"
+           onclick="startStreamAndDecode()"
+           role="button"
+           style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+            Scan QR code
+        </a>
+        <div style="display: flex;align-items: center;margin-top: 0.9rem">
+            <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
+            <div style="display: inline;font-size: 0.8rem">
+                Something wrong with your camera? Try <a id="go-manually" style="text-decoration: underline;">pay
+                manually</a>.
+            </div>
+        </div>
+        <div style="font-size: 0.9rem">
+            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">1.</div>
+                <div>
+                    Under $10? No verification needed !
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">2.</div>
+                <div>
+                    Above $10? Enter your verification code sent via SMS.
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">3.</div>
+                <div>
+                    Redeem vouchers exclusively at Social Kitchen Branches
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 0.25rem">4.</div>
+                <div>
+                    Stay on this page until you receive a clear transaction result.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="manually" style="display: none;">
+        <div style="margin-top: 3rem;">You're going to pay</div>
+        <div id="kitchen" style="margin-top: 1.5rem;">
 
-  }).then(function(response) {
-    return response.json();
+        </div>
+        <div id="amount" style="margin-top: 0.6rem;">
 
-  }).then(function(data) {
-    console.log(data);
-    document.getElementById("firstname").innerHTML = data['user']['firstname'];
-    document.getElementById("lastname").innerHTML = data['user']['lastname'];
-    document.getElementById("wait").style.display = "none";
-    document.getElementById("main").style.display = "block";
+        </div>
+        <a class="btn btn-lg"
+           id="next-button"
+           role="button"
+           style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+            Next
+        </a>
+    </div>
+    <div id="confirm" style="display: none;margin-top: 2.5rem;">
+        <div style="border: 2px solid #49B05D;padding: 2rem;border-radius: 0.625rem">
+            <div id="confirm-text" style="text-align: center;">
 
-  }).catch(error => console.error('Error:', error));
-});
+            </div>
+            <a class="btn btn-lg"
+               id="confirm-button"
+               role="button"
+               style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+                Confirm
+            </a>
+        </div>
+    </div>
+    <div id="pay" style="display: none;">
+        <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+            <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg" style="display: none;"/>
+            <img id="success-icon" loading="lazy" src="media/Success.svg" style="display: none;"/>
+            <img id="error-icon" loading="lazy" src="media/Error.svg" style="display: none;"/>
+        </div>
+        <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
+        <div id="pay-Button">
+            <a class="btn btn-lg"
+               href="transaction_history.html"
+               id="go-history-button"
+               role="button"
+               style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+                Check out the transaction history
+            </a>
+            <a class="btn btn-lg"
+               id="go-redeem-button"
+               onclick="backToScan()"
+               role="button"
+               style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+                Initiate another transaction
+            </a>
+            <a class="btn btn-lg"
+               href="home.html"
+               id="back-home-button"
+               role="button"
+               style="margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+                Back to home
+            </a>
+        </div>
+    </div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+</div>
+<script>
+    const codeReader = new ZXing.BrowserQRCodeReader();
+    const videoPlace = document.getElementById("camera");
+    const home = document.getElementById("home");
+    const manually = document.getElementById("manually");
+    const confirm = document.getElementById("confirm");
+    const pay = document.getElementById("pay");
+    const loading = document.getElementById("loading");
+    const success = document.getElementById("success");
+    const error = document.getElementById("error");
+    const goButton = document.getElementById("go-manually");
+    const kitchenPlace = document.getElementById("kitchen");
+    const amountPlace = document.getElementById("amount");
+    const confirmText = document.getElementById("confirm-text");
+    const backButton = document.getElementById("back-button");
+    const nextButton = document.getElementById("next-button");
+    const confirmButton = document.getElementById("confirm-button");
+    const kitchenSelector = document.createElement("select-component");
 
-function pay(formData) {
-  form_json = Object.fromEntries(formData);
-  console.log("formData is:");
-  console.log(JSON.stringify(form_json));
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
-      method: 'POST',
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form_json),
+    const refreshIcon = document.getElementById("refresh-icon");
+    const successIcon = document.getElementById("success-icon");
+    const errorIcon = document.getElementById("error-icon");
 
-  }).then(function(response) {
-    return response.json();
+    const payText = document.getElementById("pay-text");
 
-  }).then(function(data) {
-    console.log(data);
-    if (data['status']) {
-      document.getElementById("form").style.display = "none";
-      document.getElementById("successMsg").style.display = "block";
-    } else {
-      document.getElementById("errorMsg").style.display = "block";
+    const goHistoryButton = document.getElementById("go-history-button");
+    const backHomeButton = document.getElementById("back-home-button");
+    const goRedeemButton = document.getElementById("go-redeem-button");
+
+
+    let deviceIdList;
+    let selectedIndex = 0;
+
+    let kitchenName;
+    let ethAddress;
+    let amount;
+    let code;
+
+    function closeCamera() {
+        videoPlace.style.display = "none"
+        document.body.style.overflow = "auto"
+        deviceIdList = undefined
+        selectedIndex = 0;
+        codeReader.reset()
     }
 
-  }).catch(error => {
-    console.error('Error:', error);
-    document.getElementById("errorMsg").style.display = "block";
-  });
-}
-    </script>
-  </head>
-  <body class="container">
-    <div id="wait">
-      <div class="d-flex align-items-center">
-        <strong>Loading...</strong>
-        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-      </div>
-    </div>
+    function nextCamera() {
+        codeReader.stopStreams()
+        if (selectedIndex < deviceIdList.length - 1) {
+            selectedIndex += 1
+        } else {
+            selectedIndex = 0
+        }
+        decodeOnce()
+    }
 
-    <div id="main" style="display:none">
-      <h1>Pay</h1>
-      <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none">Sorry, there is a problem with your payment attempt.</div>
-      <div id="successMsg" class="alert alert-success" role="alert" style="display:none">
-        <h4 class="alert-heading">Done!</h4>
-        <p>Your transaction ID is here!</p>
-      </div>
+    const backToScan = () => {
+        kitchenName = "";
+        ethAddress = "";
+        amount = "";
+        code = "";
+        home.style.display = "flex";
+        manually.style.display = "none";
+        confirm.style.display = "none";
+        pay.style.display = "none";
+        backButton.removeAttribute("onclick");
+        setTimeout(() => {
+            backButton.href = "home.html";
+        }, 100);
+    }
 
-      <form id="form">
-        <h3>Hello! <span id="firstname"></span> <span id="lastname"></span></h3> 
-        <div class="form-group">
-          <label for="to_address">Pay to:</label>
-          <select class="form-control" name="to_address" id="to_address">
-            <option value="0x1234" selected>YMCA</option>
-            <option value="0x2345">Agape Village</option>
-            <option value="0x3456">Gardens By The Bay</option>
-            <option value="0x5678">Metta Welfare Association</option>
-            <option value="0x6789">Paya Lebar Quarter</option>
-            <option value="0x6789">Millenia Walk</option>
-            <option value="0x6789">Bank of Singapore Centre</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="amount">Pay amount (SGD)</label>
-          <select class="form-control" name="amount" id="amount">
-            <option value="1000" selected>10.00</option>
-            <option value="2000">20.00</option>
-            <option value="3000">30.00</option>
-            <option value="4000">40.00</option>
-            <option value="5000">50.00</option>
-          </select>
-        </div>
+    const goManually = () => {
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToScan()");
+        home.style.display = "none";
+        manually.style.display = "block";
+        kitchenSelector.list = [{name: "Social Kitchen (Orchard Road)", value: "0x1234"}]
+        kitchenSelector.changeCallBack = (value) => {
+            if (value && value.name && value.value) {
+                kitchenName = value.name
+                ethAddress = value.value
+            }
+        }
+        kitchenPlace.innerHTML = ""
+        kitchenPlace.appendChild(kitchenSelector)
+        addAmountInput()
+    }
 
-        <button type="submit" class="btn btn-primary">Pay</button>
-      </form>
-    </div>
-  </body>
+    goButton.addEventListener("click", goManually)
+
+    const goConfirm = () => {
+        code = "";
+        manually.style.display = "none";
+        confirm.style.display = "block";
+        if (parseFloat(amount) > 10) {
+            fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data['status']) {
+                    confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
+                <div style="display: flex;justify-content: space-around;margin-top: 1rem">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input1">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input2">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input3">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input4">
+                </div>`
+                    const inputList = confirmText.querySelectorAll("input");
+
+                    for (let i = 0; i < inputList.length; i++) {
+                        inputList[i].onkeyup = function () {
+                            checkConfirm()
+                            if (this.value.length === 1) {
+                                if (i < inputList.length - 1) {
+                                    inputList[i + 1].focus();
+                                }
+                            }
+                        }
+                    }
+                    confirmButton.style.backgroundColor = "#ADA9A9";
+                    confirmButton.style.cursor = "not-allowed";
+                    confirmButton.removeAttribute("onclick");
+                }
+            })
+        } else {
+            confirmText.innerHTML = `<div>The amount you’re going to pay is under $10.</div><br/><div>Click Confirm button to confirm the payment.</div>`;
+            confirmButton.style.backgroundColor = "var(--base-green)";
+            confirmButton.style.cursor = "pointer";
+            confirmButton.setAttribute('onclick', "goPay()");
+        }
+    }
+
+    const goPay = () => {
+        console.log("one-time code", code)
+        confirm.style.display = "none";
+        pay.style.display = "block";
+        refreshIcon.style.display = "block";
+        payText.innerHTML = `<div>Your transaction is in process.</div><br/><div>Please do not leave this page.</div>`
+        successIcon.style.display = "none";
+        errorIcon.style.display = "none";
+        goRedeemButton.style.display = "none";
+        goHistoryButton.style.display = "none";
+        backHomeButton.style.display = "none";
+        const payData = {"to_address": ethAddress, "amount": amount}
+        if (parseFloat(amount) > 10 && code) {
+            payData["pin"] = code
+        } else {
+            payData["pin"] = "0000"
+        }
+        fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payData),
+        }).then(function (response) {
+            refreshIcon.style.display = "none";
+            return response.json();
+        }).then(function (data) {
+            if (data['status']) {
+                successIcon.style.display = "block";
+                payText.innerText = `Your transaction is successful!`
+                goRedeemButton.style.display = "block";
+                goHistoryButton.style.display = "block";
+                backHomeButton.style.display = "block";
+            } else {
+                errorIcon.style.display = "block";
+                payText.innerText = "Your transaction is failed!"
+                goRedeemButton.style.display = "block";
+            }
+        }).catch(error => {
+            console.log(error)
+            refreshIcon.style.display = "none";
+            errorIcon.style.display = "block";
+            refreshIcon.style.display = "none";
+            payText.innerText = "Your transaction failed!"
+            goRedeemButton.style.display = "block";
+        });
+    }
+
+    const checkNext = () => {
+        if ((kitchenName || kitchenSelector.value) && amount) {
+            nextButton.style.backgroundColor = "var(--base-green)"
+            nextButton.style.cursor = "pointer"
+            nextButton.setAttribute('onclick', "goConfirm()");
+        } else {
+            nextButton.style.backgroundColor = "#ADA9A9"
+            nextButton.style.cursor = "not-allowed"
+            nextButton.removeAttribute("onclick");
+        }
+    }
+
+    const checkConfirm = () => {
+        const inputList = confirmText.querySelectorAll("input");
+        let checkStatus = true
+        code = ""
+        for (let i = 0; i < inputList.length; i++) {
+            const thisValue = inputList[i].value
+            if (thisValue.length === 0) {
+                checkStatus = false;
+                break;
+            } else {
+                code += thisValue
+            }
+        }
+        if (checkStatus) {
+            confirmButton.style.backgroundColor = "var(--base-green)";
+            confirmButton.style.cursor = "pointer";
+            confirmButton.setAttribute('onclick', "goPay()");
+        } else {
+            confirmButton.style.backgroundColor = "#ADA9A9";
+            confirmButton.style.cursor = "not-allowed";
+            confirmButton.removeAttribute("onclick");
+        }
+    }
+
+    const addAmountInput = () => {
+        amountPlace.innerHTML = `<input name="amount" id="amount-input"
+                   style="width: 100%;padding: 0.8rem 1rem;border: 2px solid var(--base-green);border-radius: 0.4rem;"/>`
+        const amountInput = document.getElementById("amount-input")
+        amountInput.addEventListener("input", () => {
+            let value = amountInput.value;
+            let prevCursorPos = amountInput.selectionStart || 0;
+            if (!value) {
+                value = "0.00"
+            }
+            //处理小数点前及输入非数字情况
+            if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
+                prevCursorPos -= 1
+            }
+            value = value.replace(/^0+|[^\d.]/g, '');
+            if (value.indexOf('.') === 0) {
+                value = '0' + value;
+            }
+
+            //处理小数点后
+            const idx = value.indexOf('.') + 3;
+            const finalValue = value.substring(0, idx)
+            amountInput.value = finalValue;
+            amount = finalValue;
+            amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
+            checkNext()
+        })
+    }
+
+    const decodeOnce = () => {
+        codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
+            closeCamera()
+            let QRData
+            if (result) {
+                if (result) {
+                    QRData = JSON.parse(result.text)
+                } else {
+                    QRData = JSON.parse(result)
+                }
+                if (QRData.name) {
+                    kitchenName = QRData.name
+                    kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+                }
+                ethAddress = QRData.ethAddress
+                if (QRData.amount && QRData.amount !== "0.00") {
+                    amount = QRData.amount
+                    amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
+                } else {
+                    addAmountInput()
+                }
+                backButton.removeAttribute("href");
+                backButton.setAttribute('onclick', "backToScan()");
+                home.style.display = "none";
+                manually.style.display = "block";
+                checkNext()
+            }
+        }).catch((err) => {
+            console.error(err)
+            document.getElementById('result').textContent = err
+        })
+    }
+
+    function startStreamAndDecode() {
+        codeReader.getVideoInputDevices()
+            .then((videoInputDevices) => {
+                deviceIdList = videoInputDevices
+                const facingBackCameraIndex = videoInputDevices.findIndex(device => {
+                    return device.label.indexOf("back") !== -1
+                })
+                if (facingBackCameraIndex !== -1) {
+                    selectedIndex = facingBackCameraIndex
+                } else {
+                    selectedIndex = 0
+                }
+                videoPlace.style.display = "flex"
+                document.body.style.overflow = "hidden"
+                decodeOnce()
+            })
+    }
+</script>
+</body>
 </html>
