@@ -62,14 +62,14 @@
         <div id="social-kitchen-button"
              style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
-               href="pay.html"
+               href="receive.html"
                class="btn btn-lg" role="button">
-                Receive
+                Receive vouchers
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="redeem_vouchers.html"
                class="btn btn-lg" role="button">
-                Redeem vouchers from CODA
+                Settle vouchers with CODA
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transaction_history.html"
@@ -122,7 +122,7 @@
             bodyPlace.style.display = "block"
             let userName = ""
             document.getElementById("price").innerText = data['balance'] || "0";
-            const role = data['role']
+            const role = data['role'].toString()
             switch (role) {
                 case "0":
                     clientButton.style.display = "flex";

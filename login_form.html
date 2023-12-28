@@ -18,7 +18,7 @@
 <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none;">Sorry, there is a problem with your
     login attempt.
 </div>
-<div id="successMsg" class="alert alert-success" role="alert" style="display:none;text-align: center;">
+<div id="successMsg" class="alert" role="alert" style="display:none;text-align: center;border: 1px solid var(--base-green);background-color: #FEFEFE;padding: 3rem;">
     <h4 class="alert-heading">Well done!</h4>
     <p>A magic link for activating your account has been sent to your phone number.</p>
     <br/>
@@ -45,6 +45,7 @@
     const form = document.getElementById('form');
 
     roleSelector.list = [{value: "0", name: "Client"}, {value: "1", name: "Merchant"}]
+    roleSelector.defaultValue = {value: "0", name: "Client"}
     document.getElementById("select").appendChild(roleSelector);
 
     const open = () => {
@@ -78,7 +79,6 @@
         close();
         let form_json = {}
         form_json.role = roleSelector.value.value
-        console.log(roleSelector.value)
         let typeUrl = "login_phone"
         // if (accountInputer.type === "phone") {
         //     typeUrl = "login_phone"

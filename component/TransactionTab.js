@@ -6,7 +6,8 @@ class TransactionTab extends HTMLElement {
 
     render() {
         function formatDate(timestamp) {
-            const date = new Date(timestamp * 1000);
+            const differentLength = 13 - timestamp.toString().length;
+            const date = new Date(parseInt(timestamp) * Math.pow(10, differentLength));
             return date.toLocaleString('en', {
                 // year: 'numeric',
                 month: '2-digit',

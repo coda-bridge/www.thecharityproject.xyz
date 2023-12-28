@@ -22,9 +22,9 @@
 </div>
 <div style="padding: 1.2rem;">
     <div id="title" style="display: flex;justify-content: space-between;align-items: center;">
-        <div id="distributed" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        <div id="income" style="display: flex;flex-wrap: wrap;justify-content: end;">
         </div>
-        <div id="redeemed" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        <div id="expense" style="display: flex;flex-wrap: wrap;justify-content: end;">
         </div>
     </div>
     <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
@@ -32,12 +32,14 @@
 </div>
 <script>
     const historyPlace = document.getElementById("history-place")
-    const distributedPlace = document.getElementById("distributed")
+    const incomePlace = document.getElementById("income")
     const timeSelector = document.createElement("select-component")
-    const redeemedPlace = document.getElementById("redeemed")
+    const expensePlace = document.getElementById("expense")
+    const incomeValue = document.createElement("div")
+    const expenseValue = document.createElement("div")
     let transactionData = []
-    let distributed = 0
-    let redeemed = 0
+    let income = 0
+    let expense = 0
     let role = 0
 
     const getTransaction = async (reQuery) => {
@@ -52,9 +54,10 @@
             )
             const getData = await response.json();
             console.log("get transaction history", getData)
-            transactionData = getData
-            distributed = getData.reduce((acc, cur) => acc + cur.amount, 0);
-            document.getElementById("distributed-value").innerText = "$" + distributed
+            transactionData = getData.map(item=>{
+                item.timestamp = new Date(item.timestamp).getTime();
+                return item;
+            })
             filterByMonth(timeSelector.defaultValue)
         } catch (error) {
             console.error('Error:', error)
@@ -77,21 +80,18 @@
             return response.json();
         }).then(function (profileData) {
             role = profileData['role']
-            redeemed = profileData['balance']
-            let distributedTitle = document.createElement("div")
-            distributedTitle.style.marginRight = "0.25rem"
-            distributedTitle.innerText = "Distributed:"
-            distributedPlace.appendChild(distributedTitle)
-            let distributedValue = document.createElement("div")
-            distributedValue.id = "distributed-value"
-            distributedPlace.appendChild(distributedValue)
-            let redeemedTitle = document.createElement("div")
-            redeemedTitle.style.marginRight = "0.25rem"
-            redeemedTitle.innerText = "Redeemed:"
-            redeemedPlace.appendChild(redeemedTitle)
-            let redeemedValue = document.createElement("div")
-            redeemedValue.innerText = "$" + redeemed
-            redeemedPlace.appendChild(redeemedValue)
+            expense = profileData['balance']
+            let incomeTitle = document.createElement("div")
+            incomeTitle.style.marginRight = "0.25rem"
+            incomeTitle.innerText = "Income:"
+            incomePlace.appendChild(incomeTitle)
+            // incomeValue.innerText = "+ $" + income
+            incomePlace.appendChild(incomeValue)
+            let expenseTitle = document.createElement("div")
+            expenseTitle.style.marginRight = "0.25rem"
+            expenseTitle.innerText = "Expense:"
+            expensePlace.appendChild(expenseTitle)
+            expensePlace.appendChild(expenseValue)
             if (role === 0) {
                 getTransaction()
             } else {
@@ -132,6 +132,11 @@
     }
 
     function filterByMonth(monthStr) {
+        if (role === 0) {
+            expense = 0
+        } else {
+            income = 0
+        }
         historyPlace.innerHTML = ""
         console.log(transactionData)
         transactionData.filter(item => {
@@ -139,17 +144,27 @@
             const date = new Date(`${month} 1, ${year}`);
             const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
             const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
-            const differentLength = 13 - item.timestamp.length;
-            const timestamp = parseInt(item.timestamp) * Math.pow(10, differentLength);
+            const differentLength = 13 - item.timestamp.toString().length;
+            const timestamp = item.timestamp * Math.pow(10, differentLength);
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
             comp.price = item.amount;
+            if (role === 0) {
+                expense += parseFloat(item.amount);
+            } else {
+                income += parseFloat(item.amount);
+            }
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
+        if (role === 0) {
+            expenseValue.innerText = "-$" + expense;
+        } else {
+            incomeValue.innerText = "+$" + income;
+        }
     }
 
     timeSelector.defaultValue = formatDate()
@@ -204,42 +219,6 @@
         link.click();
         document.body.removeChild(link);
     }
-
-    //for test
-    // setTimeout(() => {
-    //     transactionData.push(
-    //         {
-    //             merchant_name: '店a',
-    //             amount: 19.99,
-    //             timestamp: '1700544246'
-    //         }, {
-    //             merchant_name: '店b',
-    //             amount: 5.99,
-    //             timestamp: '1701854367'
-    //         }, {
-    //             merchant_name: '店1',
-    //             amount: 3.99,
-    //             timestamp: '1701535454'
-    //         }
-    //     )
-    //     distributed = 200
-    //     redeemed = 29.97
-    //     let distributedTitle = document.createElement("div")
-    //     distributedTitle.style.marginRight = "0.25rem"
-    //     distributedTitle.innerText = "Distributed:"
-    //     distributedPlace.appendChild(distributedTitle)
-    //     let distributedValue = document.createElement("div")
-    //     distributedValue.innerText = "$" + distributed
-    //     distributedPlace.appendChild(distributedValue)
-    //     let redeemedTitle = document.createElement("div")
-    //     redeemedTitle.style.marginRight = "0.25rem"
-    //     redeemedTitle.innerText = "Distributed:"
-    //     redeemedPlace.appendChild(redeemedTitle)
-    //     let redeemedValue = document.createElement("div")
-    //     redeemedValue.innerText = "$" + redeemed
-    //     redeemedPlace.appendChild(redeemedValue)
-    //     filterByMonth(timeSelector.defaultValue)
-    // }, 2000)
 </script>
 </body>
 </html>
