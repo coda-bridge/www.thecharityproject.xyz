@@ -54,9 +54,9 @@
             )
             const getData = await response.json();
             console.log("get transaction history", getData)
-            // transactionData = getData.map(item=>{
-            //     item.timestamp = new Date(item.timestamp).getTime()
-            // })
+            transactionData = getData.map(item=>{
+                item.timestamp = new Date(item.timestamp).getTime()
+            })
             filterByMonth(timeSelector.defaultValue)
         } catch (error) {
             console.error('Error:', error)
