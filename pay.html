@@ -367,17 +367,13 @@
     }
 
     const checkNext = () => {
-        console.log(totalBalance)
-        console.log(parseFloat(totalBalance))
-        console.log(amount)
-        console.log(parseFloat(amount))
-        if ((kitchenName || kitchenSelector.value) && amount && parseFloat(totalBalance) <= parseFloat(amount)) {
+        if ((kitchenName || kitchenSelector.value) && amount && parseFloat(amount) <= parseFloat(totalBalance)) {
             alartPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
-            if(parseFloat(totalBalance) > parseFloat(amount)){
+            if(parseFloat(amount) > parseFloat(totalBalance)){
                 alartPlace.style.display = "block";
             }
             nextButton.style.backgroundColor = "#ADA9A9"
