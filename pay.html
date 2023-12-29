@@ -252,7 +252,7 @@
             }).then(function (data) {
                 if (data['status']) {
                     confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
-                <div style="display: flex;justify-content: space-around;margin-top: 1rem">
+                <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
@@ -275,34 +275,6 @@
                     confirmButton.style.cursor = "not-allowed";
                     confirmButton.removeAttribute("onclick");
                 }
-            }).catch(e=>{
-                confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
-                <div style="display: flex;justify-content: space-around;margin-top: 1rem">
-                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
-                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
-                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
-                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input4">
-                </div>`
-                const inputList = confirmText.querySelectorAll("input");
-                inputList[0].focus();
-                for (let i = 0; i < inputList.length; i++) {
-                    inputList[i].onkeyup = function () {
-                        console.log(inputList[i].value)
-                        checkConfirm()
-                        if (inputList[i].value.length > 0) {
-                            if (i < inputList.length - 1) {
-                                inputList[i + 1].focus();
-                            }
-                        }else {
-                            if (i > 0) {
-                                inputList[i - 1].focus();
-                            }
-                        }
-                    }
-                }
-                confirmButton.style.backgroundColor = "#ADA9A9";
-                confirmButton.style.cursor = "not-allowed";
-                confirmButton.removeAttribute("onclick");
             })
         } else {
             confirmText.innerHTML = `<div>The amount you’re going to pay is under $10.</div><br/><div>Click Confirm button to confirm the payment.</div>`;
