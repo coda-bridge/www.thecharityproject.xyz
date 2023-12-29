@@ -20,8 +20,8 @@
         Edit the amount
     </h1>
     <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Inout the amount you want to receive</div>
-    <input name="amount" id="amount-input"
-           style="width: 75vw;padding: 0.8rem 1rem;border: 2px solid var(--base-green);font-size: 2.5rem"/>
+    <input name="amount" id="amount-input" type="text" inputmode="decimal"
+           style="width: 75vw;padding: 0.8rem 1rem;border: 1px solid var(--base-green);font-size: 2.5rem"/>
     <div id="confirm-button"
          style="margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
          class="btn">
@@ -77,29 +77,12 @@
         return parseFloat(string).toFixed(2).toString();
     }
 
-    const oldAmount = sessionStorage.getItem("QRAmount");
-    if (oldAmount) {
-        amountInput.value = parseAmount(oldAmount)
-    } else {
-        amountInput.value = "0.00"
-    }
-
     function downloadQRCode() {
-
-        // 获取SVG DOM
         const svg = document.getElementById("result").querySelector("svg");
-
-        // 获取SVG源代码
         const serializer = new XMLSerializer();
         const svgData = serializer.serializeToString(svg);
-
-        // 构建Blob对象
         const blob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
-
-        // 生成下载链接
         const url = URL.createObjectURL(blob);
-
-        // 模拟点击下载
         const a = document.createElement("a");
         a.href = url;
         a.download = kitchenName + " $" + amountInput.value + " qrcode.svg";
@@ -111,10 +94,6 @@
     amountInput.addEventListener("input", (e) => {
         let value = amountInput.value;
         let prevCursorPos = amountInput.selectionStart || 0;
-        if (!value) {
-            value = "0.00"
-        }
-        //处理小数点前及输入非数字情况
         if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
             prevCursorPos -= 1
         }
@@ -122,10 +101,12 @@
         if (value.indexOf('.') === 0) {
             value = '0' + value;
         }
-
-        //处理小数点后
-        const idx = value.indexOf('.') + 3;
-        amountInput.value = value.substring(0, idx);
+        if (value.indexOf('.') !== -1) {
+            const idx = value.indexOf('.') + 3;
+            amountInput.value = value.substring(0, idx)
+        }else {
+            amountInput.value = value
+        }
         amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
     })
 
