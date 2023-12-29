@@ -84,7 +84,7 @@
 
         </div>
         <div id="balance">
-            Balance: $
+            Your balance: $
             <span id="balance-value"></span>
         </div>
         <a class="btn btn-lg"
@@ -367,13 +367,13 @@
     }
 
     const checkNext = () => {
-        if ((kitchenName || kitchenSelector.value) && amount && totalBalance <= amount) {
+        if ((kitchenName || kitchenSelector.value) && amount && totalBalance <= parseFloat(amount)) {
             alartPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
-            if(totalBalance > amount){
+            if(totalBalance > parseFloat(amount)){
                 alartPlace.style.display = "block";
             }
             nextButton.style.backgroundColor = "#ADA9A9"
