@@ -224,6 +224,29 @@
     }
 
     goButton.addEventListener("click", goManually)
+    confirmText.innerHTML = ""
+    confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
+                <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input1">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input2">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input3">
+                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input4">
+                </div>`
+    const inputList = confirmText.querySelectorAll("input");
+
+    for (let i = 0; i < inputList.length; i++) {
+        inputList[i].onkeyup = function () {
+            checkConfirm()
+            if (this.value.length === 1) {
+                if (i < inputList.length - 1) {
+                    inputList[i + 1].focus();
+                }
+            }
+        }
+    }
+    confirmButton.style.backgroundColor = "#ADA9A9";
+    confirmButton.style.cursor = "not-allowed";
+    confirmButton.removeAttribute("onclick");
 
     const goConfirm = () => {
         code = "";
@@ -242,10 +265,10 @@
                 if (data['status']) {
                     confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
                 <div style="display: flex;justify-content: space-around;margin-top: 1rem">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input1">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input2">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input3">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input4">
+                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
+                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
+                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
+                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input4">
                 </div>`
                     const inputList = confirmText.querySelectorAll("input");
 
@@ -358,16 +381,15 @@
     }
 
     const addAmountInput = () => {
-        amountPlace.innerHTML = `<input name="amount" id="amount-input"
+        amountPlace.innerHTML = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
                    style="width: 100%;padding: 0.8rem 1rem;border: 2px solid var(--base-green);border-radius: 0.4rem;"/>`
         const amountInput = document.getElementById("amount-input")
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
             let prevCursorPos = amountInput.selectionStart || 0;
-            if (!value) {
-                value = "0.00"
-            }
-            //处理小数点前及输入非数字情况
+            // if (!value) {
+            //     value = "0.00"
+            // }
             if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
                 prevCursorPos -= 1
             }
@@ -375,10 +397,11 @@
             if (value.indexOf('.') === 0) {
                 value = '0' + value;
             }
-
-            //处理小数点后
-            const idx = value.indexOf('.') + 3;
-            const finalValue = value.substring(0, idx)
+            let finalValue = value
+            if(value.indexOf('.')!==-1){
+                const idx = value.indexOf('.') + 3;
+                finalValue = value.substring(0, idx)
+            }
             amountInput.value = finalValue;
             amount = finalValue;
             amountInput.setSelectionRange(prevCursorPos, prevCursorPos);

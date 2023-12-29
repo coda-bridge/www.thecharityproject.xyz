@@ -117,7 +117,6 @@
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
-            console.log(data);
             loadingPlace.style.display = "none";
             bodyPlace.style.display = "block"
             let userName = ""
@@ -149,23 +148,5 @@
             bodyPlace.style.display = "block"
         });
     });
-
-    // setTimeout(() => {
-    //     // const role = "Client"
-    //     const role = "Social Kitchen"
-    //     loadingPlace.style.display = "none"
-    //     bodyPlace.style.display = "block"
-    //     switch (role) {
-    //         case "Client":
-    //             clientButton.style.display = "flex";
-    //             break;
-    //         case "Social Kitchen":
-    //             balancePrompt.style.display = "none";
-    //             socialKitchenButton.style.display = "flex";
-    //             break;
-    //         default:
-    //             console.log("error access", role)
-    //     }
-    // }, 2000)
 </script>
 </html>
