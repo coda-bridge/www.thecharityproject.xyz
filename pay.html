@@ -93,7 +93,7 @@
            style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
-        <div style="display: none;color: red;width: 100%;text-align: center;" id="alart">
+        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;" id="alert">
             Your balance is not enough.
         </div>
     </div>
@@ -156,7 +156,7 @@
     const amountPlace = document.getElementById("amount");
     const balancePlace = document.getElementById("balance");
     const balanceValue = document.getElementById("balance-value");
-    const alartPlace = document.getElementById("alart");
+    const alertPlace = document.getElementById("alert");
     const confirmText = document.getElementById("confirm-text");
     const backButton = document.getElementById("back-button");
     const nextButton = document.getElementById("next-button");
@@ -368,13 +368,13 @@
 
     const checkNext = () => {
         if ((kitchenName || kitchenSelector.value) && amount && parseFloat(amount) <= parseFloat(totalBalance)) {
-            alartPlace.style.display = "none";
+            alertPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
-            if(parseFloat(amount) > parseFloat(totalBalance)){
-                alartPlace.style.display = "block";
+            if(amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)){
+                alertPlace.style.display = "block";
             }
             nextButton.style.backgroundColor = "#ADA9A9"
             nextButton.style.cursor = "not-allowed"
