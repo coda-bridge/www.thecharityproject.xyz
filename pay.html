@@ -83,12 +83,19 @@
         <div id="amount" style="margin-top: 0.6rem;">
 
         </div>
+        <div id="balance">
+            Balance: $
+            <span id="balance-value"></span>
+        </div>
         <a class="btn btn-lg"
            id="next-button"
            role="button"
            style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
+        <div style="display: none;color: red;width: 100%;text-align: center;" id="alart">
+            Your balance is not enough.
+        </div>
     </div>
     <div id="confirm" style="display: none;margin-top: 2.5rem;">
         <div style="border: 2px solid #49B05D;padding: 2rem;border-radius: 0.625rem">
@@ -143,12 +150,13 @@
     const manually = document.getElementById("manually");
     const confirm = document.getElementById("confirm");
     const pay = document.getElementById("pay");
-    const loading = document.getElementById("loading");
-    const success = document.getElementById("success");
     const error = document.getElementById("error");
     const goButton = document.getElementById("go-manually");
     const kitchenPlace = document.getElementById("kitchen");
     const amountPlace = document.getElementById("amount");
+    const balancePlace = document.getElementById("balance");
+    const balanceValue = document.getElementById("balance-value");
+    const alartPlace = document.getElementById("alart");
     const confirmText = document.getElementById("confirm-text");
     const backButton = document.getElementById("back-button");
     const nextButton = document.getElementById("next-button");
@@ -164,6 +172,26 @@
     const goHistoryButton = document.getElementById("go-history-button");
     const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
+
+    let totalBalance = 0
+
+    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data["role"] === 0) {
+            totalBalance = data["balance"]
+            balanceValue.innerText = totalBalance
+        }
+    }).catch(error => {
+        console.error('Error:', error)
+        location.replace("index.html")
+    });
 
 
     let deviceIdList;
@@ -339,11 +367,15 @@
     }
 
     const checkNext = () => {
-        if ((kitchenName || kitchenSelector.value) && amount) {
+        if ((kitchenName || kitchenSelector.value) && amount && totalBalance <= amount) {
+            alartPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
+            if(totalBalance > amount){
+                alartPlace.style.display = "block";
+            }
             nextButton.style.backgroundColor = "#ADA9A9"
             nextButton.style.cursor = "not-allowed"
             nextButton.removeAttribute("onclick");
@@ -381,9 +413,6 @@
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
             let prevCursorPos = amountInput.selectionStart || 0;
-            // if (!value) {
-            //     value = "0.00"
-            // }
             if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
                 prevCursorPos -= 1
             }

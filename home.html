@@ -144,6 +144,7 @@
             document.getElementById("user_name").innerText = userName
         }).catch(error => {
             console.error('Error:', error)
+            location.replace("index.html")
             loadingPlace.style.display = "none"
             bodyPlace.style.display = "block"
         });
