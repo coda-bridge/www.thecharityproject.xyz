@@ -105,9 +105,9 @@
     </div>
     <div id="pay" style="display: none;">
         <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
-            <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg" style="display: none;"/>
-            <img id="success-icon" loading="lazy" src="media/Success.svg" style="display: none;"/>
-            <img id="error-icon" loading="lazy" src="media/Error.svg" style="display: none;"/>
+            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg" style="display: none;"/>
+            <img id="success-icon" src="media/Success.svg" style="display: none;"/>
+            <img id="error-icon" src="media/Error.svg" style="display: none;"/>
         </div>
         <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
         <div id="pay-Button">
@@ -261,6 +261,11 @@
                     const inputList = confirmText.querySelectorAll("input");
                     inputList[0].focus();
                     for (let i = 0; i < inputList.length; i++) {
+                        inputList[i].onkeydown = function (e) {
+                                if (isNaN(parseInt(e.key))) {
+                                    e.preventDefault();
+                                }
+                        }
                         inputList[i].onkeyup = function () {
                             console.log(inputList[i].value)
                             checkConfirm()
