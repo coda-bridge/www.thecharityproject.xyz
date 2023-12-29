@@ -6,6 +6,10 @@
     animation: rotate 2s linear infinite;
 }
 
+input:focus-visible {
+    outline: 1px solid var(--base-green);
+}
+
 @keyframes rotate {
     100% {
         transform: rotate(-360deg);

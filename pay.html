@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="dist/zxing.min.js" type="text/javascript"></script>
     <script src="component/Selector.js" type="module"></script>
@@ -211,7 +212,16 @@
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
-        kitchenSelector.list = [{name: "Michael Cafe", value: "0x84b5b41492bbe9d5c0d1951b9c78f784894d850f"}, {name: "Vivian Bakery", value: "0xd3ad6fea094f46a5317d8d4820ee11a61fa2f6ff"}, {name: "Yichen Noodle House", value: "0x346d7f76b324ed4d4d0f67bba3982a2c7ef1d2f0"}]
+        kitchenSelector.list = [{
+            name: "Michael Cafe",
+            value: "0x84b5b41492bbe9d5c0d1951b9c78f784894d850f"
+        }, {
+            name: "Vivian Bakery",
+            value: "0xd3ad6fea094f46a5317d8d4820ee11a61fa2f6ff"
+        }, {
+            name: "Yichen Noodle House",
+            value: "0x346d7f76b324ed4d4d0f67bba3982a2c7ef1d2f0"
+        }]
         kitchenSelector.changeCallBack = (value) => {
             if (value && value.name && value.value) {
                 kitchenName = value.name
@@ -224,33 +234,11 @@
     }
 
     goButton.addEventListener("click", goManually)
-    confirmText.innerHTML = ""
-    confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
-                <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input1">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input2">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input3">
-                    <input style="border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" maxlength="1" id="input4">
-                </div>`
-    const inputList = confirmText.querySelectorAll("input");
-
-    for (let i = 0; i < inputList.length; i++) {
-        inputList[i].onkeyup = function () {
-            checkConfirm()
-            if (this.value.length === 1) {
-                if (i < inputList.length - 1) {
-                    inputList[i + 1].focus();
-                }
-            }
-        }
-    }
-    confirmButton.style.backgroundColor = "#ADA9A9";
-    confirmButton.style.cursor = "not-allowed";
-    confirmButton.removeAttribute("onclick");
 
     const goConfirm = () => {
         code = "";
         manually.style.display = "none";
+        confirmText.innerHTML = "";
         confirm.style.display = "block";
         if (parseFloat(amount) > 10) {
             fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
@@ -265,17 +253,18 @@
                 if (data['status']) {
                     confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
                 <div style="display: flex;justify-content: space-around;margin-top: 1rem">
-                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
-                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
-                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
-                    <input style="border-style: solid;border-color: var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input4">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input4">
                 </div>`
                     const inputList = confirmText.querySelectorAll("input");
-
+                    inputList[0].focus();
                     for (let i = 0; i < inputList.length; i++) {
                         inputList[i].onkeyup = function () {
+                            console.log(inputList[i].value)
                             checkConfirm()
-                            if (this.value.length === 1) {
+                            if (inputList[i].value.length > 0) {
                                 if (i < inputList.length - 1) {
                                     inputList[i + 1].focus();
                                 }
@@ -286,6 +275,34 @@
                     confirmButton.style.cursor = "not-allowed";
                     confirmButton.removeAttribute("onclick");
                 }
+            }).catch(e=>{
+                confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
+                <div style="display: flex;justify-content: space-around;margin-top: 1rem">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input3">
+                    <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input4">
+                </div>`
+                const inputList = confirmText.querySelectorAll("input");
+                inputList[0].focus();
+                for (let i = 0; i < inputList.length; i++) {
+                    inputList[i].onkeyup = function () {
+                        console.log(inputList[i].value)
+                        checkConfirm()
+                        if (inputList[i].value.length > 0) {
+                            if (i < inputList.length - 1) {
+                                inputList[i + 1].focus();
+                            }
+                        }else {
+                            if (i > 0) {
+                                inputList[i - 1].focus();
+                            }
+                        }
+                    }
+                }
+                confirmButton.style.backgroundColor = "#ADA9A9";
+                confirmButton.style.cursor = "not-allowed";
+                confirmButton.removeAttribute("onclick");
             })
         } else {
             confirmText.innerHTML = `<div>The amount you’re going to pay is under $10.</div><br/><div>Click Confirm button to confirm the payment.</div>`;
@@ -362,7 +379,7 @@
         code = ""
         for (let i = 0; i < inputList.length; i++) {
             const thisValue = inputList[i].value
-            if (thisValue.length === 0) {
+            if (thisValue.length < 1) {
                 checkStatus = false;
                 break;
             } else {
@@ -382,7 +399,7 @@
 
     const addAmountInput = () => {
         amountPlace.innerHTML = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="width: 100%;padding: 0.8rem 1rem;border: 2px solid var(--base-green);border-radius: 0.4rem;"/>`
+                   style="width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
         const amountInput = document.getElementById("amount-input")
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
@@ -398,7 +415,7 @@
                 value = '0' + value;
             }
             let finalValue = value
-            if(value.indexOf('.')!==-1){
+            if (value.indexOf('.') !== -1) {
                 const idx = value.indexOf('.') + 3;
                 finalValue = value.substring(0, idx)
             }
