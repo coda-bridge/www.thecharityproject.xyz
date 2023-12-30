@@ -240,6 +240,9 @@
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
+<<<<<<< HEAD
+        kitchenSelector.list = [{name: "Michael Cafe", value: "0x84b5b41492bbe9d5c0d1951b9c78f784894d850f"}, {name: "Vivian Bakery", value: "0xd3ad6fea094f46a5317d8d4820ee11a61fa2f6ff"}, {name: "Yichen Noodle House", value: "0x346d7f76b324ed4d4d0f67bba3982a2c7ef1d2f0"}]
+=======
         kitchenSelector.list = [{
             name: "Michael Cafe",
             value: "0x84b5b41492bbe9d5c0d1951b9c78f784894d850f"
@@ -250,6 +253,7 @@
             name: "Yichen Noodle House",
             value: "0x346d7f76b324ed4d4d0f67bba3982a2c7ef1d2f0"
         }]
+>>>>>>> 06034e18a4b08e96cef5e165215861e23a3420bb
         kitchenSelector.changeCallBack = (value) => {
             if (value && value.name && value.value) {
                 kitchenName = value.name
