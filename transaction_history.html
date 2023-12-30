@@ -152,11 +152,12 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
-            comp.price = item.amount;
+            const rounded_number = Math.round( parseFloat(item.amount)) / 100;
+            comp.price = rounded_number;
             if (role === 0) {
-                expense += parseFloat(item.amount);
+                expense += rounded_number;
             } else {
-                income += parseFloat(item.amount);
+                income += rounded_number;
             }
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
