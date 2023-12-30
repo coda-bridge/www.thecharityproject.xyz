@@ -152,6 +152,7 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
+            comp.role = role;
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
             comp.price = rounded_number;
             if (role === 0) {
