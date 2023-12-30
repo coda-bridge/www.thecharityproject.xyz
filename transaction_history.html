@@ -155,9 +155,11 @@
             comp.role = role;
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
             comp.price = rounded_number;
+
             if (role === 0) {
                 expense += rounded_number;
             } else {
+                console.log(rounded_number)
                 income += rounded_number;
             }
             comp.time = item.timestamp;
@@ -166,6 +168,7 @@
         if (role === 0) {
             expenseValue.innerText = "-$" + expense;
         } else {
+            console.log(income)
             incomeValue.innerText = "+$" + income;
         }
     }
