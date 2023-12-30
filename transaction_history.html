@@ -53,7 +53,6 @@
                 }
             )
             const getData = await response.json();
-            console.log("get transaction history", getData)
             transactionData = getData.map(item => {
                 item.timestamp = new Date(item.timestamp).getTime();
                 return item;
@@ -139,7 +138,6 @@
             income = 0
         }
         historyPlace.innerHTML = ""
-        console.log(transactionData)
         transactionData.filter(item => {
             const [month, year] = monthStr.split(' ');
             const date = new Date(`${month} 1, ${year}`);
@@ -155,21 +153,18 @@
             comp.role = role;
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
             comp.price = rounded_number;
-
             if (role === 0) {
                 expense += rounded_number;
             } else {
-                console.log(rounded_number)
                 income += rounded_number;
             }
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
         if (role === 0) {
-            expenseValue.innerText = "-$" + expense;
+            expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
         } else {
-            console.log(income)
-            incomeValue.innerText = "+$" + income;
+            incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
         }
     }
 
