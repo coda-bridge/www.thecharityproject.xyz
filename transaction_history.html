@@ -54,7 +54,7 @@
             )
             const getData = await response.json();
             console.log("get transaction history", getData)
-            transactionData = getData.map(item=>{
+            transactionData = getData.map(item => {
                 item.timestamp = new Date(item.timestamp).getTime();
                 return item;
             })
@@ -152,7 +152,7 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
-            const rounded_number = Math.round( parseFloat(item.amount)) / 100;
+            const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
             comp.price = rounded_number;
             if (role === 0) {
                 expense += rounded_number;
