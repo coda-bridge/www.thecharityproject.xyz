@@ -59,7 +59,7 @@
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
                 return item;
             })
-            filterByMonth(timeSelector.defaultValue)
+            filterByMonth(timeSelector.value)
         } catch (error) {
             console.error('Error:', error)
         }
