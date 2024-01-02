@@ -297,13 +297,14 @@
                             if (inputList[i].value==="" && e.key === "Backspace" && i > 0) {
                                 inputList[i - 1].focus();
                             }
+                            if (inputList[i].value.length > 0 && !isNaN(parseInt(e.key)) && i < inputList.length - 1) {
+                                inputList[i + 1].focus();
+                            }
                         }
                         inputList[i].onkeyup = function () {
                             checkConfirm()
-                            if (inputList[i].value.length > 0) {
-                                if (i < inputList.length - 1) {
+                            if (inputList[i].value.length > 0 && i < inputList.length - 1) {
                                     inputList[i + 1].focus();
-                                }
                             }
                         }
                     }
