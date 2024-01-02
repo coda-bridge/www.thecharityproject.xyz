@@ -294,9 +294,7 @@
                             if (isNaN(parseInt(e.key)) && e.key !== "Backspace") {
                                 e.preventDefault();
                             }
-                            console.log(inputList[i].value)
-                            console.log(e.key)
-                            if (e.key === "Backspace" && i > 0) {
+                            if (inputList[i].value==="" && e.key === "Backspace" && i > 0) {
                                 inputList[i - 1].focus();
                             }
                         }
