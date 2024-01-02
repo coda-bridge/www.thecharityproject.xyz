@@ -54,7 +54,9 @@
             )
             const getData = await response.json();
             transactionData = getData.map(item => {
-                item.timestamp = new Date(item.timestamp).getTime();
+                const serverTime = new Date(item.timestamp);
+                const offset = new Date().getTimezoneOffset();
+                item.timestamp = serverTime.getTime() - offset * 60 * 1000;
                 return item;
             })
             filterByMonth(timeSelector.defaultValue)
