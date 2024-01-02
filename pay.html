@@ -93,7 +93,8 @@
            style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
-        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;" id="alert">
+        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
+             id="alert">
             Your balance is not enough.
         </div>
     </div>
@@ -290,10 +291,14 @@
                     inputList[0].focus();
                     for (let i = 0; i < inputList.length; i++) {
                         inputList[i].onkeydown = function (e) {
+                            if (isNaN(parseInt(e.key)) && e.key !== "Backspace") {
+                                e.preventDefault();
+                            }
+                            console.log(inputList[i].value)
                             console.log(e.key)
-                                if (isNaN(parseInt(e.key)) && e.key !== "Backspace") {
-                                    e.preventDefault();
-                                }
+                            if (e.key === "Backspace" && i > 0) {
+                                inputList[i - 1].focus();
+                            }
                         }
                         inputList[i].onkeyup = function () {
                             checkConfirm()
@@ -372,7 +377,7 @@
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
-            if(amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)){
+            if (amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)) {
                 alertPlace.style.display = "block";
             }
             nextButton.style.backgroundColor = "#ADA9A9"
