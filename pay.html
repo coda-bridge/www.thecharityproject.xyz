@@ -290,12 +290,11 @@
                     inputList[0].focus();
                     for (let i = 0; i < inputList.length; i++) {
                         inputList[i].onkeydown = function (e) {
-                                if (isNaN(parseInt(e.key))) {
+                                if (isNaN(parseInt(e.key)) || e.key !== "Backspace") {
                                     e.preventDefault();
                                 }
                         }
                         inputList[i].onkeyup = function () {
-                            console.log(inputList[i].value)
                             checkConfirm()
                             if (inputList[i].value.length > 0) {
                                 if (i < inputList.length - 1) {
@@ -318,7 +317,6 @@
     }
 
     const goPay = () => {
-        console.log("one-time code", code)
         confirm.style.display = "none";
         pay.style.display = "block";
         refreshIcon.style.display = "block";
