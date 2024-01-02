@@ -290,7 +290,8 @@
                     inputList[0].focus();
                     for (let i = 0; i < inputList.length; i++) {
                         inputList[i].onkeydown = function (e) {
-                                if (isNaN(parseInt(e.key)) || e.key !== "Backspace") {
+                            console.log(e.key)
+                                if (isNaN(parseInt(e.key)) && e.key !== "Backspace") {
                                     e.preventDefault();
                                 }
                         }
