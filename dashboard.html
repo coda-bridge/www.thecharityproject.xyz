@@ -2,29 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>home</title>
+    <title>donor dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div style="margin-top: 10rem;height: 100%;text-align: center;" id="enter-password">
-    Logging in...
+<div style="margin-top: 10rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">
+    <div>Enter your password to view donor information</div>
+    <div style="display: flex;align-items: center;margin-top: 1rem;">
+        <div style="position: relative;width: 100%;align-items: center;display: flex;">
+            <input id="password" type="password"
+                   style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
+            <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">
+            <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
+                 src="./media/CloseEye.svg">
+        </div>
+        <a id="go-button"
+           style="margin-left: 1rem;display: none;align-items: center;justify-content: center;height: 100%;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 1rem;">
+            <img src="./media/Go.svg">
+        </a>
+    </div>
 </div>
-<div style="display: none" id="body">
+<div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
+    Getting data...
+</div>
+<div style="display: none;" id="body">
     <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
         <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
             <img width="96" src="media/coda-logo.png">
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
                 class="display-4">Welcome!</h1>
-            <div style="width: 100%;display: none;" id="donor-data">
+            <div style="width: 100%;">
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">Donated</div>
-                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="donated">0</span></div>
+                    <div style="font-size: 1.3rem">Redeemed / Donated</div>
+                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span
+                            id="redeemed-donated">0</span></div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;border:1px solid var(--base-green);color:var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">Redeemed</div>
-                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="redeemed">0</span></div>
+                    <div style="font-size: 1.3rem">Families Helped</div>
+                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem"><span id="families-helped">0</span>
+                    </div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                     <div style="font-size: 1.3rem">Meal served</div>
@@ -56,22 +74,79 @@
 <script>
     const loadingPlace = document.getElementById("loading");
     const bodyPlace = document.getElementById("body");
-    const donorPlace = document.getElementById("donor-data");
+    const enterPasswordPlace = document.getElementById("enter-password");
+    let passwordInput = document.getElementById("password");
+    let eyeIcon = document.getElementById("eye");
+    let closeEyeIcon = document.getElementById("closeEye");
+    let goButton = document.getElementById("go-button");
+    let goButton = document.getElementById("go-button");
+    let goButton = document.getElementById("go-button");
+    let redeemedDonated = document.getElementById("redeemed-donated");
     let password
 
+    passwordInput.addEventListener("input", () => {
+        password = passwordInput.value
+        if (passwordInput.value.trim().length > 0) {
+            goButton.style.display = "block";
+        } else {
+            goButton.style.display = "none";
+        }
+    })
+
+    const open = () => {
+        passwordInput.type = "text";
+        eyeIcon.style.display = "none";
+        closeEyeIcon.style.display = "block";
+    }
+    eyeIcon.addEventListener("click", open)
+
+    const close = () => {
+        passwordInput.type = "password";
+        eyeIcon.style.display = "block";
+        closeEyeIcon.style.display = "none";
+    }
+    closeEyeIcon.addEventListener("click", close)
+
+
+    const getDonorData = () => {
+        enterPasswordPlace.style.display = "none";
+        loadingPlace.style.display = "block";
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/donor_report", {
             method: 'POST',
             credentials: "include",
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"password":"CodaSK"}),
+            body: JSON.stringify({password}),
+            // body: JSON.stringify({"password": "CodaSK"}),
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
+            loadingPlace.style.display = "none";
+            bodyPlace.style.display = "block";
+            document.getElementById("meal-served").innerText = data.payments || 0
+            document.getElementById("families-helped").innerText = data.users || 0
+            const num = Math.round(parseFloat(data.amounts) * 100) / 100;
+            let text
+            if (num >= 1000000000) {
+                text = (num / 1000000000).toFixed(1) + 'b';
+
+            } else if (num >= 1000000) {
+                text = (num / 1000000).toFixed(1) + 'm';
+
+            } else if (num >= 1000) {
+                text = (num / 1000).toFixed(1) + 'k';
+
+            } else {
+                text = num;
+            }
+            redeemedDonated.title = num || 0
+            redeemedDonated.innerText = text || 0
             console.log(data)
         }).catch(error => {
             console.error('Error:', error)
         });
+    }
+    goButton.addEventListener("click", getDonorData)
 </script>
 </html>
