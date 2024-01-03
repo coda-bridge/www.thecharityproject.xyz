@@ -7,6 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
+    <script>
+        if (sessionStorage.getItem("IsLogin") !== "true") {
+            location.replace("index.html")
+        } else {
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+                        kitchenName = data["merchant_name"]
+                        ethAddress = data["eth_address"]
+                    }
+                    generateQRCode()
+                }).catch(error => {
+                    console.error('Error:', error)
+                    location.replace("index.html")
+                });
+            })
+        }
+    </script>
 </head>
 <body>
 <a id="back-button" href="home.html">
@@ -33,7 +59,7 @@
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Receive
     </h1>
-    <div id="result"></div>
+    <div id="result" style="width:300px;height: 300px"></div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
         <div style="cursor: pointer;" id="open-edit">Edit the amount</div>
         <div style="cursor: pointer;" onclick="downloadQRCode()" id="download">Download the QR code</div>
@@ -104,7 +130,7 @@
         if (value.indexOf('.') !== -1) {
             const idx = value.indexOf('.') + 3;
             amountInput.value = value.substring(0, idx)
-        }else {
+        } else {
             amountInput.value = value
         }
         amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
@@ -127,7 +153,6 @@
     }
 
     function saveAmount() {
-        sessionStorage.setItem("QRAmount", parseAmount(amountInput.value))
         closeEdit()
     }
 
@@ -136,7 +161,6 @@
     function openEdit(e) {
         receivePlace.style.display = "none";
         editPlace.style.display = "flex";
-        amountInput.value = sessionStorage.getItem("QRAmount")
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', 'closeEdit()');
         e.preventDefault()
@@ -145,7 +169,7 @@
     document.getElementById("open-edit").addEventListener("click", openEdit)
 
     function generateQRCode() {
-        const amount = sessionStorage.getItem("QRAmount")
+        const amount = amountInput.value
         document.getElementById("result").innerHTML = ""
         if (amount && amount !== "0.00") {
             document.getElementById("result").innerHTML = `<div style="font-size: 4rem;color: var(--base-green);font-weight: 700;text-align: center;">${amount}</div>`
@@ -157,27 +181,6 @@
             amount
         }), 300, 300);
     }
-
-
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
-            kitchenName = data["merchant_name"]
-            ethAddress = data["eth_address"]
-        }
-        generateQRCode()
-    }).catch(error => {
-        console.error('Error:', error)
-        location.replace("index.html")
-    });
-
 </script>
 </body>
 </html>
