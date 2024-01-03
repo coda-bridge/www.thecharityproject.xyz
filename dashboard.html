@@ -125,7 +125,7 @@
             })
             if(data.status === 200) {
                 console.log(data)
-                data = data.data.json()
+                data = data.body.json()
                 let date = new Date();
 
                 document.getElementById("now").innerText = date.getDate() + ' ' +
