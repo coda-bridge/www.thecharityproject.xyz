@@ -8,30 +8,30 @@
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
     <script>
-        if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        } else {
-            document.addEventListener("DOMContentLoaded", function () {
-                fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-                    method: 'GET',
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                }).then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-                    if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
-                        kitchenName = data["merchant_name"]
-                        ethAddress = data["eth_address"]
-                    }
-                    generateQRCode()
-                }).catch(error => {
-                    console.error('Error:', error)
-                    location.replace("index.html")
-                });
-            })
-        }
+        // if (sessionStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // } else {
+        //     document.addEventListener("DOMContentLoaded", function () {
+        //         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        //             method: 'GET',
+        //             credentials: "include",
+        //             headers: {
+        //                 "Content-Type": "application/json"
+        //             },
+        //         }).then(function (response) {
+        //             return response.json();
+        //         }).then(function (data) {
+        //             if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+        //                 kitchenName = data["merchant_name"]
+        //                 ethAddress = data["eth_address"]
+        //             }
+        //             generateQRCode()
+        //         }).catch(error => {
+        //             console.error('Error:', error)
+        //             location.replace("index.html")
+        //         });
+        //     })
+        // }
     </script>
 </head>
 <body>
@@ -59,19 +59,21 @@
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Receive
     </h1>
-    <div id="result" style="width:300px;height: 300px"></div>
+    <div id="result" style="display: flex;justify-content:center;align-items: center;flex-direction: column;width:300px;min-height: 300px">
+        <img src="media/loading.gif">
+    </div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
         <div style="cursor: pointer;" id="open-edit">Edit the amount</div>
         <div style="cursor: pointer;" onclick="downloadQRCode()" id="download">Download the QR code</div>
     </div>
-    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
-        <div>Today’s collection record</div>
-        <div style="margin-right: 1rem">More ></div>
-    </div>
-    <div style="background-color: black;height: 1px;width: 100%"></div>
-    <div id="history-place">
+<!--    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">-->
+<!--        <div>Today’s collection record</div>-->
+<!--        <div style="margin-right: 1rem">More ></div>-->
+<!--    </div>-->
+<!--    <div style="background-color: black;height: 1px;width: 100%"></div>-->
+<!--    <div id="history-place">-->
 
-    </div>
+<!--    </div>-->
     <div style="font-size: 0.9rem">
         <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
         <div style="display: flex;">
