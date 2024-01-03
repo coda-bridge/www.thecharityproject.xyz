@@ -23,7 +23,7 @@
             <img src="./media/Go.svg">
         </a>
     </div>
-    <div id="warn" style="display: none;">Network failure or incorrect password, please try again</div>
+    <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect password, please try again</div>
 </div>
 <div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
     Getting data...
@@ -124,7 +124,8 @@
                 body: JSON.stringify({password}),
             })
             if(data.status === 200) {
-                data = data.json()
+                console.log(data)
+                data = data.data.json()
                 let date = new Date();
 
                 document.getElementById("now").innerText = date.getDate() + ' ' +
