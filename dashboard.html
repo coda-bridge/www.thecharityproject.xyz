@@ -124,8 +124,7 @@
                 body: JSON.stringify({password}),
             })
             if(data.status === 200) {
-                console.log(data)
-                data = data.body.json()
+                data = await data.json()
                 let date = new Date();
 
                 document.getElementById("now").innerText = date.getDate() + ' ' +
