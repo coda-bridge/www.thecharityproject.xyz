@@ -109,10 +109,12 @@
     closeEyeIcon.addEventListener("click", close)
 
 
-    const getDonorData = async () => {
+    const getDonorData = async (next) => {
         try{
             enterPasswordPlace.style.display = "none";
-            loadingPlace.style.display = "block";
+            if(!next){
+                loadingPlace.style.display = "block";
+            }
             let data = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/donor_report", {
                 method: 'POST',
                 credentials: "include",
@@ -121,11 +123,11 @@
                 },
                 body: JSON.stringify({password}),
             })
+            console.log(data.status)
             data = data.json()
             let date = new Date();
 
-            let formatted =
-                date.getDate() + ' ' +
+            let formatted = date.getDate() + ' ' +
                 date.toLocaleString('en', {month: 'short'}) + ' ' +
                 date.getHours() + ':' +
                 (date.getMinutes()<10?'0':'') + date.getMinutes();
@@ -152,7 +154,9 @@
             }
             redeemedDonated.title = num || 0
             redeemedDonated.innerText = text || 0
-            setTimeout(getDonorData, 3000)
+            setTimeout(()=>{
+                getDonorData(true)
+            }, 3000)
         }catch (e) {
             enterPasswordPlace.style.display = "block";
             loadingPlace.style.display = "none";
