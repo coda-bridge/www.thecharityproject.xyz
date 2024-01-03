@@ -87,6 +87,7 @@
 
     passwordInput.addEventListener("input", () => {
         password = passwordInput.value
+        warnText.style.display = "none";
         if (passwordInput.value.trim().length > 0) {
             goButton.style.display = "block";
         } else {
