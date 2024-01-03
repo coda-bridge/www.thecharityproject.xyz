@@ -9,19 +9,21 @@
 </head>
 <body>
 <div style="margin-top: 10rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">
-    <div>view the report</div>
-        <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">
-            <input id="password" type="password"
-                   style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
-            <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">
-            <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
-                 src="./media/CloseEye.svg">
-        </div>
+    <div>Enter password to view the report</div>
+    <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">
+        <input id="password" type="password"
+               style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
+        <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">
+        <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
+             src="./media/CloseEye.svg">
+    </div>
     <a id="go-button"
-       style="margin-top: 2rem;display: none;align-items: center;justify-content: center;height: 100%;background-color: var(--base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">
+       style="margin-top: 2rem;font-size:1.2rem;font-weight:700;color:white;display: none;height: 100%;background-color: var(--base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">
         Submit
     </a>
-    <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect password, please try again</div>
+    <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect
+        password, please try again
+    </div>
 </div>
 <div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
     Getting data...
@@ -86,7 +88,7 @@
     passwordInput.addEventListener("input", () => {
         password = passwordInput.value
         if (passwordInput.value.trim().length > 0) {
-            goButton.style.display = "flex";
+            goButton.style.display = "block";
         } else {
             goButton.style.display = "none";
         }
@@ -108,9 +110,9 @@
 
 
     const getDonorData = async (next) => {
-        try{
+        try {
             enterPasswordPlace.style.display = "none";
-            if(!next){
+            if (!next) {
                 loadingPlace.style.display = "block";
             }
             let data = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/donor_report", {
@@ -121,7 +123,7 @@
                 },
                 body: JSON.stringify({password}),
             })
-            if(data.status === 200) {
+            if (data.status === 200) {
                 data = await data.json()
                 let date = new Date();
 
@@ -150,19 +152,19 @@
                 }
                 redeemedDonated.title = num || 0
                 redeemedDonated.innerText = text || 0
-                setTimeout(()=>{
+                setTimeout(() => {
                     getDonorData(true)
                 }, 3000)
-            }else {
+            } else {
                 throw new Error('Query error!');
             }
-        }catch (e) {
+        } catch (e) {
             enterPasswordPlace.style.display = "block";
             loadingPlace.style.display = "none";
             warnText.style.display = "block";
         }
     }
-    goButton.addEventListener("click", ()=>{
+    goButton.addEventListener("click", () => {
         getDonorData(false)
     })
 </script>
