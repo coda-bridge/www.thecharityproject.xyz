@@ -23,6 +23,7 @@
             <img src="./media/Go.svg">
         </a>
     </div>
+    <div id="warn" style="display: none;">Network failure or incorrect password, please try again</div>
 </div>
 <div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
     Getting data...
@@ -33,6 +34,7 @@
             <img width="96" src="media/coda-logo.png">
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
                 class="display-4">Welcome!</h1>
+            <div>Last updated <span id="now"></span></div>
             <div style="width: 100%;">
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                     <div style="font-size: 1.3rem">Redeemed / Donated</div>
@@ -80,6 +82,7 @@
     let closeEyeIcon = document.getElementById("closeEye");
     let goButton = document.getElementById("go-button");
     let redeemedDonated = document.getElementById("redeemed-donated");
+    let warnText = document.getElementById("warn");
     let password
 
     passwordInput.addEventListener("input", () => {
@@ -106,20 +109,29 @@
     closeEyeIcon.addEventListener("click", close)
 
 
-    const getDonorData = () => {
-        enterPasswordPlace.style.display = "none";
-        loadingPlace.style.display = "block";
-        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/donor_report", {
-            method: 'POST',
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({password}),
-            // body: JSON.stringify({"password": "CodaSK"}),
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
+    const getDonorData = async () => {
+        try{
+            enterPasswordPlace.style.display = "none";
+            loadingPlace.style.display = "block";
+            let data = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/donor_report", {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({password}),
+            })
+            data = data.json()
+            let date = new Date();
+
+            let formatted =
+                date.getDate() + ' ' +
+                date.toLocaleString('en', {month: 'short'}) + ' ' +
+                date.getHours() + ':' +
+                (date.getMinutes()<10?'0':'') + date.getMinutes();
+
+            document.getElementById("now").innerText = formatted
+            warnText.style.display = "none";
             loadingPlace.style.display = "none";
             bodyPlace.style.display = "block";
             document.getElementById("meal-served").innerText = data.payments || 0
@@ -140,10 +152,12 @@
             }
             redeemedDonated.title = num || 0
             redeemedDonated.innerText = text || 0
-            console.log(data)
-        }).catch(error => {
-            console.error('Error:', error)
-        });
+            setTimeout(getDonorData, 3000)
+        }catch (e) {
+            enterPasswordPlace.style.display = "block";
+            loadingPlace.style.display = "none";
+            warnText.style.display = "block";
+        }
     }
     goButton.addEventListener("click", getDonorData)
 </script>
