@@ -9,20 +9,18 @@
 </head>
 <body>
 <div style="margin-top: 10rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">
-    <div>Enter your password to view donor information</div>
-    <div style="display: flex;align-items: center;margin-top: 1rem;">
-        <div style="position: relative;width: 100%;align-items: center;display: flex;">
+    <div>view the report</div>
+        <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">
             <input id="password" type="password"
                    style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
             <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">
             <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
                  src="./media/CloseEye.svg">
         </div>
-        <a id="go-button"
-           style="margin-left: 1rem;display: none;align-items: center;justify-content: center;height: 100%;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 1rem;">
-            <img src="./media/Go.svg">
-        </a>
-    </div>
+    <a id="go-button"
+       style="margin-top: 2rem;display: none;align-items: center;justify-content: center;height: 100%;background-color: var(--base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">
+        Submit
+    </a>
     <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect password, please try again</div>
 </div>
 <div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
@@ -88,7 +86,7 @@
     passwordInput.addEventListener("input", () => {
         password = passwordInput.value
         if (passwordInput.value.trim().length > 0) {
-            goButton.style.display = "block";
+            goButton.style.display = "flex";
         } else {
             goButton.style.display = "none";
         }
