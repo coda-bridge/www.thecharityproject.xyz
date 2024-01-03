@@ -123,46 +123,49 @@
                 },
                 body: JSON.stringify({password}),
             })
-            console.log(data.status)
-            data = data.json()
-            let date = new Date();
+            if(data.status === 200) {
+                data = data.json()
+                let date = new Date();
 
-            let formatted = date.getDate() + ' ' +
-                date.toLocaleString('en', {month: 'short'}) + ' ' +
-                date.getHours() + ':' +
-                (date.getMinutes()<10?'0':'') + date.getMinutes();
+                document.getElementById("now").innerText = date.getDate() + ' ' +
+                    date.toLocaleString('en', {month: 'short'}) + ' ' +
+                    date.getHours() + ':' +
+                    (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+                warnText.style.display = "none";
+                loadingPlace.style.display = "none";
+                bodyPlace.style.display = "block";
+                document.getElementById("meal-served").innerText = data.payments || 0
+                document.getElementById("families-helped").innerText = data.users || 0
+                const num = Math.round(parseFloat(data.amounts) * 100) / 100;
+                let text
+                if (num >= 1000000000) {
+                    text = (num / 1000000000).toFixed(1) + 'b';
 
-            document.getElementById("now").innerText = formatted
-            warnText.style.display = "none";
-            loadingPlace.style.display = "none";
-            bodyPlace.style.display = "block";
-            document.getElementById("meal-served").innerText = data.payments || 0
-            document.getElementById("families-helped").innerText = data.users || 0
-            const num = Math.round(parseFloat(data.amounts) * 100) / 100;
-            let text
-            if (num >= 1000000000) {
-                text = (num / 1000000000).toFixed(1) + 'b';
+                } else if (num >= 1000000) {
+                    text = (num / 1000000).toFixed(1) + 'm';
 
-            } else if (num >= 1000000) {
-                text = (num / 1000000).toFixed(1) + 'm';
+                } else if (num >= 1000) {
+                    text = (num / 1000).toFixed(1) + 'k';
 
-            } else if (num >= 1000) {
-                text = (num / 1000).toFixed(1) + 'k';
-
-            } else {
-                text = num;
+                } else {
+                    text = num;
+                }
+                redeemedDonated.title = num || 0
+                redeemedDonated.innerText = text || 0
+                setTimeout(()=>{
+                    getDonorData(true)
+                }, 3000)
+            }else {
+                throw new Error('Query error!');
             }
-            redeemedDonated.title = num || 0
-            redeemedDonated.innerText = text || 0
-            setTimeout(()=>{
-                getDonorData(true)
-            }, 3000)
         }catch (e) {
             enterPasswordPlace.style.display = "block";
             loadingPlace.style.display = "none";
             warnText.style.display = "block";
         }
     }
-    goButton.addEventListener("click", getDonorData)
+    goButton.addEventListener("click", ()=>{
+        getDonorData(false)
+    })
 </script>
 </html>
