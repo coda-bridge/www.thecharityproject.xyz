@@ -38,7 +38,7 @@
         Pay
     </h1>
     <div id="home" style="display: flex;flex-direction: column;align-items: center;">
-        <img src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
+        <img width="117" height="117" src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
         <a class="btn btn-lg"
            onclick="startStreamAndDecode()"
            role="button"
@@ -487,8 +487,10 @@
                 } else {
                     selectedIndex = 0
                 }
-                videoPlace.style.display = "flex"
-                document.body.style.overflow = "hidden"
+                document.getElementById("video").addEventListener('loadedmetadata', () => {
+                    videoPlace.style.display = "flex"
+                    document.body.style.overflow = "hidden"
+                });
                 decodeOnce()
             })
     }
