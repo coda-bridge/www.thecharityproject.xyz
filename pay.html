@@ -43,7 +43,8 @@
            onclick="startStreamAndDecode()"
            role="button"
            style="display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
-            <img id="rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>Scan QR code
+            <img id="rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>Scan QR code
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
@@ -195,7 +196,7 @@
         if (data["role"] === 0) {
             totalBalance = data["balance"]
             balanceValue.innerText = totalBalance
-        }else {
+        } else {
             location.replace("home.html")
         }
     }).catch(error => {
@@ -359,6 +360,8 @@
             return response.json();
         }).then(function (data) {
             if (data['status']) {
+                totalBalance = Math.round(totalBalance - parseFloat(amount))
+                balanceValue.innerText = totalBalance
                 successIcon.style.display = "block";
                 payText.innerText = `Your transaction is successful!`
                 goRedeemButton.style.display = "block";
@@ -479,7 +482,7 @@
     }
 
     function startStreamAndDecode() {
-        rolling.style.display="block"
+        rolling.style.display = "block"
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
                 deviceIdList = videoInputDevices
