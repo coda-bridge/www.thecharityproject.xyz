@@ -9,9 +9,9 @@
     <script type="module" src="component/Selector.js"></script>
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
-        if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (sessionStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
@@ -33,7 +33,11 @@
         </div>
     </div>
     <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
-    <div id="history-place"></div>
+    <div id="history-place">
+        <div style="display: flex;justify-content: center;margin-top: 2rem;">
+            <img width="100" src="media/loading.gif"/>
+        </div>
+    </div>
 </div>
 <script>
     const historyPlace = document.getElementById("history-place")
@@ -193,38 +197,38 @@
         document.body.removeChild(link);
     }
 
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        return response.json();
-    }).then(function (profileData) {
-        role = profileData['role']
-        expense = profileData['balance']
-        let incomeTitle = document.createElement("div")
-        incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerText = "Income:"
-        incomePlace.appendChild(incomeTitle)
-        // incomeValue.innerText = "+ $" + income
-        incomePlace.appendChild(incomeValue)
-        let expenseTitle = document.createElement("div")
-        expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerText = "Expense:"
-        expensePlace.appendChild(expenseTitle)
-        expensePlace.appendChild(expenseValue)
-        if (role === 0) {
-            getTransaction()
-        } else {
-            getTransaction(true)
-            document.getElementById("export-icon").style.display = "inline-block";
-        }
-    }).catch((error) => {
-        console.log("get profile error:", error)
-        location.replace("index.html")
-    })
+    // fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    //     method: 'GET',
+    //     credentials: "include",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    // }).then(function (response) {
+    //     return response.json();
+    // }).then(function (profileData) {
+    //     role = profileData['role']
+    //     expense = profileData['balance']
+    //     let incomeTitle = document.createElement("div")
+    //     incomeTitle.style.marginRight = "0.25rem"
+    //     incomeTitle.innerText = "Income:"
+    //     incomePlace.appendChild(incomeTitle)
+    //     // incomeValue.innerText = "+ $" + income
+    //     incomePlace.appendChild(incomeValue)
+    //     let expenseTitle = document.createElement("div")
+    //     expenseTitle.style.marginRight = "0.25rem"
+    //     expenseTitle.innerText = "Expense:"
+    //     expensePlace.appendChild(expenseTitle)
+    //     expensePlace.appendChild(expenseValue)
+    //     if (role === 0) {
+    //         getTransaction()
+    //     } else {
+    //         getTransaction(true)
+    //         document.getElementById("export-icon").style.display = "inline-block";
+    //     }
+    // }).catch((error) => {
+    //     console.log("get profile error:", error)
+    //     location.replace("index.html")
+    // })
 </script>
 </body>
 </html>
