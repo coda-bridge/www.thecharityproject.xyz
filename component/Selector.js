@@ -34,7 +34,7 @@ class Selector extends HTMLElement {
         </style>
         <div id="roleSelect" tabIndex="-1"
              style="cursor: pointer;display: flex;justify-content: space-between;align-items: center;border-radius: 0.6rem;">
-            <div id="roleValue" style="user-select: none;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <div id="roleValue" style="line-height: 1rem;user-select: none;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                 ${this.placeholder || ""}
             </div>
             <input style="display: none" name="role" id="role">
