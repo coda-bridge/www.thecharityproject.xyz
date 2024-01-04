@@ -6,10 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        if (sessionStorage.getItem("IsLogin") !== "true") {
+            location.replace("index.html")
+        }
+    </script>
 </head>
 <body>
-<div style="margin-top: 10rem;height: 100%;text-align: center;" id="loading">
-    Logging in...
+<div id="loading">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+        <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg"/>
+    </div>
+    <div style="text-align: center;margin: 2rem 0;">Loading...</div>
 </div>
 <div style="display: none" id="body">
     <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
@@ -42,7 +50,8 @@
             </div>
             <div id="balance-prompt" style="margin-top: 0.6rem">
                 <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
-                <div style="display: inline;font-size: 0.8rem">You should receive $XXX vouchers. Please contact the help desk if this is wrong.
+                <div style="display: inline;font-size: 0.8rem">You should receive $XXX vouchers. Please contact the help
+                    desk if this is wrong.
                 </div>
             </div>
         </div>
@@ -97,7 +106,6 @@
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">Powered by CODA Bridge</div>
 </div>
-</body>
 <script>
     const loadingPlace = document.getElementById("loading");
     const bodyPlace = document.getElementById("body");
@@ -106,48 +114,46 @@
     const balancePrompt = document.getElementById("balance-prompt");
     const clientButton = document.getElementById("client-button");
     const socialKitchenButton = document.getElementById("social-kitchen-button");
-
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-            method: 'GET',
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            loadingPlace.style.display = "none";
-            bodyPlace.style.display = "block"
-            let userName = ""
-            document.getElementById("price").innerText = data['balance'] || "0";
-            const role = data['role'].toString()
-            switch (role) {
-                case "0":
-                    clientButton.style.display = "flex";
-                    userName = data['firstname'] + " " + data['lastname'];
-                    break;
-                case "1":
-                    balancePrompt.style.display = "none";
-                    socialKitchenButton.style.display = "flex";
-                    userName = data["merchant_name"]
-                    break;
-                case "2":
-                    balancePlace.style.display = "none";
-                    balancePrompt.style.display = "none";
-                    donorPlace.style.display = "block";
-                    userName = data["merchant_name"]
-                    break;
-                default:
-                    console.log("error access——", role)
-            }
-            document.getElementById("user_name").innerText = userName
-        }).catch(error => {
-            console.error('Error:', error)
-            location.replace("index.html")
-            loadingPlace.style.display = "none"
-            bodyPlace.style.display = "block"
-        });
+    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        loadingPlace.style.display = "none";
+        bodyPlace.style.display = "block"
+        let userName = ""
+        document.getElementById("price").innerText = data['balance'] || "0";
+        const role = data['role'].toString()
+        switch (role) {
+            case "0":
+                clientButton.style.display = "flex";
+                userName = data['firstname'] + " " + data['lastname'];
+                break;
+            case "1":
+                balancePrompt.style.display = "none";
+                socialKitchenButton.style.display = "flex";
+                userName = data["merchant_name"]
+                break;
+            case "2":
+                balancePlace.style.display = "none";
+                balancePrompt.style.display = "none";
+                donorPlace.style.display = "block";
+                userName = data["merchant_name"]
+                break;
+            default:
+                console.log("error access——", role)
+        }
+        document.getElementById("user_name").innerText = userName
+    }).catch(error => {
+        console.error('Error:', error)
+        location.replace("index.html")
+        loadingPlace.style.display = "none"
+        bodyPlace.style.display = "block"
     });
 </script>
+</body>
 </html>

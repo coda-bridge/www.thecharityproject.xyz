@@ -25,9 +25,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }).then(function(response) {
     return response.json();
   }).then(function(data) {
-    console.log(data);
     if (data['status']) {
       window.location.replace("home.html");
+      sessionStorage.setItem("IsLogin","true");
     } else {
       document.getElementById("wait").style.display = "none";
       document.getElementById("error").style.display = "block";
