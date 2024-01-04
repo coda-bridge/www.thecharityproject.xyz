@@ -30,7 +30,6 @@
                 return response.json();
 
             }).then(function (data) {
-                console.log(data);
                 if (data['status']) {
                     window.location.replace("home.html");
                     sessionStorage.setItem("IsLogin","true");

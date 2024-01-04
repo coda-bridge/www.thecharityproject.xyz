@@ -42,8 +42,8 @@
         <a class="btn btn-lg"
            onclick="startStreamAndDecode()"
            role="button"
-           style="margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
-            Scan QR code
+           style="display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+            <img id="rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>Scan QR code
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
@@ -98,7 +98,8 @@
            style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
             Next
         </a>
-        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;" id="alert">
+        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
+             id="alert">
             Your balance is not enough.
         </div>
     </div>
@@ -177,6 +178,8 @@
     const goHistoryButton = document.getElementById("go-history-button");
     const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
+
+    const rolling = document.getElementById("rolling");
 
     let totalBalance = 0
 
@@ -300,7 +303,7 @@
                             if (isNaN(parseInt(e.key)) && e.key !== "Backspace") {
                                 e.preventDefault();
                             }
-                            if (inputList[i].value==="" && e.key === "Backspace" && i > 0) {
+                            if (inputList[i].value === "" && e.key === "Backspace" && i > 0) {
                                 inputList[i - 1].focus();
                             }
                             if (inputList[i].value.length > 0 && !isNaN(parseInt(e.key)) && i < inputList.length - 1) {
@@ -383,7 +386,7 @@
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
-            if(amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)){
+            if (amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)) {
                 alertPlace.style.display = "block";
             }
             nextButton.style.backgroundColor = "#ADA9A9"
@@ -476,6 +479,7 @@
     }
 
     function startStreamAndDecode() {
+        rolling.style.display="block"
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
                 deviceIdList = videoInputDevices
@@ -488,7 +492,9 @@
                     selectedIndex = 0
                 }
                 document.getElementById("video").addEventListener('loadedmetadata', () => {
+                    console.log("loadedmetadata")
                     videoPlace.style.display = "flex"
+                    rolling.style.display = "none"
                     document.body.style.overflow = "hidden"
                 });
                 decodeOnce()
