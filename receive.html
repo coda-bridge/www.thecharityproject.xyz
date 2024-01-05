@@ -189,6 +189,9 @@
             transactionData.filter(item => {
                 const differentLength = 13 - item.timestamp.toString().length;
                 const timestamp = item.timestamp * Math.pow(10, differentLength);
+                console.log(timestamp)
+                console.log(startOfToday)
+                console.log(endOfToday)
                 return timestamp >= startOfToday && timestamp < endOfToday;
             }).forEach(item => {
                 const comp = document.createElement('transaction-component');
