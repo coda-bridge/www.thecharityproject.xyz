@@ -38,21 +38,24 @@
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Receive
     </h1>
-    <div id="result" style="display: flex;justify-content:center;align-items: center;flex-direction: column;width:300px;min-height: 300px">
+    <div id="result"
+         style="display: flex;justify-content:center;align-items: center;flex-direction: column;width:300px;min-height: 300px">
         <img src="media/loading.gif">
     </div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
         <div style="cursor: pointer;" id="open-edit">Edit the amount</div>
         <div style="cursor: pointer;" onclick="downloadQRCode()" id="download">Download the QR code</div>
     </div>
-<!--    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">-->
-<!--        <div>Today’s collection record</div>-->
-<!--        <div style="margin-right: 1rem">More ></div>-->
-<!--    </div>-->
-<!--    <div style="background-color: black;height: 1px;width: 100%"></div>-->
-<!--    <div id="history-place">-->
-
-<!--    </div>-->
+    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
+        <div>Today’s collection record</div>
+        <div style="margin-right: 1rem">More ></div>
+    </div>
+    <div style="background-color: black;height: 1px;width: 100%"></div>
+    <div id="history-place">
+        <div style="display: flex;justify-content: center;margin-top: 2rem;">
+            <img width="100" src="media/loading.gif"/>
+        </div>
+    </div>
     <div style="font-size: 0.9rem">
         <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
         <div style="display: flex;">
@@ -74,15 +77,14 @@
     let kitchenName
     let ethAddress
 
+    let transactionData = []
+
+    const historyPlace = document.getElementById("history-place");
     const confirmButton = document.getElementById("confirm-button");
     const amountInput = document.getElementById("amount-input");
     const receivePlace = document.getElementById("receive");
     const editPlace = document.getElementById("edit-amount");
     const backButton = document.getElementById("back-button");
-
-    function parseAmount(string) {
-        return parseFloat(string).toFixed(2).toString();
-    }
 
     function downloadQRCode() {
         const svg = document.getElementById("result").querySelector("svg");
@@ -163,24 +165,66 @@
         }), 300, 300);
     }
 
-        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-            method: 'GET',
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
-                kitchenName = data["merchant_name"]
-                ethAddress = data["eth_address"]
-            }
-            generateQRCode()
-        }).catch(error => {
+    const getTransaction = async () => {
+        try {
+            const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            )
+            const getData = await response.json();
+            transactionData = getData.map(item => {
+                const serverTime = new Date(item.timestamp);
+                const offset = new Date().getTimezoneOffset();
+                item.timestamp = serverTime.getTime() - offset * 60 * 1000;
+                return item;
+            })
+            historyPlace.innerHTML = ""
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+            const endOfToday = startOfToday + 24 * 60 * 60 * 1000 - 1;
+            transactionData.filter(item => {
+                const differentLength = 13 - item.timestamp.toString().length;
+                const timestamp = item.timestamp * Math.pow(10, differentLength);
+                return timestamp >= startOfToday && timestamp < endOfToday;
+            }).forEach(item => {
+                const comp = document.createElement('transaction-component');
+                comp.img = role === 0 ? "media/kitchen-logo.png" : "";
+                comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
+                comp.role = role;
+                comp.price = Math.round(parseFloat(item.amount) * 100) / 100;
+                comp.time = item.timestamp;
+                historyPlace.appendChild(comp);
+            });
+        } catch (error) {
             console.error('Error:', error)
-            location.replace("index.html")
-        });
+        }
+        setTimeout(() => {
+            getTransaction(true)
+        }, 3000)
+    }
+
+    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+            kitchenName = data["merchant_name"]
+            ethAddress = data["eth_address"]
+        }
+        generateQRCode()
+    }).catch(error => {
+        console.error('Error:', error)
+        location.replace("index.html")
+    });
 </script>
 </body>
 </html>
