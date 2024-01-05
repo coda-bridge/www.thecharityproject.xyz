@@ -167,7 +167,7 @@
 
     const getTransaction = async () => {
         try {
-            const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_transactions`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
@@ -219,8 +219,11 @@
         if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
             kitchenName = data["merchant_name"]
             ethAddress = data["eth_address"]
+            generateQRCode()
+            getTransaction()
+        }else {
+            location.replace("home.html")
         }
-        generateQRCode()
     }).catch(error => {
         console.error('Error:', error)
         location.replace("index.html")
