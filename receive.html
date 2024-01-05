@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
+    <script type="module" src="component/TransactionTab.js"></script>
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
@@ -189,7 +190,6 @@
             transactionData.filter(item => {
                 const differentLength = 13 - item.timestamp.toString().length;
                 const timestamp = item.timestamp * Math.pow(10, differentLength);
-                console.log(timestamp >= startOfToday && timestamp < endOfToday);
                 return timestamp >= startOfToday && timestamp < endOfToday;
             }).forEach(item => {
                 const comp = document.createElement('transaction-component');
