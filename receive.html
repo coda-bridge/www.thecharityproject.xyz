@@ -193,19 +193,18 @@
                 const timestamp = item.timestamp * Math.pow(10, differentLength);
                 return timestamp >= startOfToday && timestamp < endOfToday;
             })
-            const oldSet = new Set(transactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
-            const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
+            if(transactionData) {
+                const oldSet = new Set(transactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
+                const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
 
-            if (newSet.size > oldSet.size) {
-                moneyAudio.play();
-                const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
-                newItems.forEach((item) => {
-                    const utterance = new SpeechSynthesisUtterance(`${item.split("_")[2]} dollars have been received`);
-                    speechSynthesis.speak(utterance);
-                })
-            }
-            if (transactionData && newTransactionData.length > transactionData.length) {
-
+                if (newSet.size > oldSet.size) {
+                    moneyAudio.play();
+                    const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
+                    newItems.forEach((item) => {
+                        const utterance = new SpeechSynthesisUtterance(`${item.split("_")[2]} dollars have been received`);
+                        speechSynthesis.speak(utterance);
+                    })
+                }
             }
 
             historyPlace.innerHTML = ""
