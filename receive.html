@@ -178,24 +178,38 @@
                 }
             )
             const getData = await response.json();
-            if(transactionData && getData.length > transactionData.length) {
-                moneyAudio.play()
-            }
-            transactionData = getData.map(item => {
+
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+            const endOfToday = startOfToday + 24 * 60 * 60 * 1000 - 1;
+
+            let newTransactionData = getData.map(item => {
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
                 return item;
-            })
-            historyPlace.innerHTML = ""
-            const today = new Date();
-            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-            const endOfToday = startOfToday + 24 * 60 * 60 * 1000 - 1;
-            transactionData.filter(item => {
+            }).filter(item => {
                 const differentLength = 13 - item.timestamp.toString().length;
                 const timestamp = item.timestamp * Math.pow(10, differentLength);
                 return timestamp >= startOfToday && timestamp < endOfToday;
-            }).forEach(item => {
+            })
+            const oldSet = new Set(transactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
+            const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
+
+            if (newSet.size > oldSet.size) {
+                moneyAudio.play();
+                const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
+                newItems.forEach((item) => {
+                    const utterance = new SpeechSynthesisUtterance(`${item.split("_")[2]} dollars have been received`);
+                    speechSynthesis.speak(utterance);
+                })
+            }
+            if (transactionData && newTransactionData.length > transactionData.length) {
+
+            }
+
+            historyPlace.innerHTML = ""
+            transactionData.forEach(item => {
                 const comp = document.createElement('transaction-component');
                 comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
                 comp.role = 1;
@@ -225,7 +239,7 @@
             ethAddress = data["eth_address"]
             generateQRCode()
             getTransaction()
-        }else {
+        } else {
             location.replace("home.html")
         }
     }).catch(error => {
