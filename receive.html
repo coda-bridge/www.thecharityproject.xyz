@@ -208,7 +208,7 @@
             }
 
             historyPlace.innerHTML = ""
-            transactionData.forEach(item => {
+            newTransactionData.forEach(item => {
                 const comp = document.createElement('transaction-component');
                 comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
                 comp.role = 1;
@@ -216,6 +216,7 @@
                 comp.time = item.timestamp;
                 historyPlace.appendChild(comp);
             });
+            transactionData = newTransactionData
         } catch (error) {
             console.error('Error:', error)
         }
