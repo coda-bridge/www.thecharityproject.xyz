@@ -74,11 +74,12 @@
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
+<audio id="money-audio" src="media/money.mp3"></audio>
 <script>
     let kitchenName
     let ethAddress
 
-    let transactionData = []
+    let transactionData
 
     const historyPlace = document.getElementById("history-place");
     const confirmButton = document.getElementById("confirm-button");
@@ -86,6 +87,9 @@
     const receivePlace = document.getElementById("receive");
     const editPlace = document.getElementById("edit-amount");
     const backButton = document.getElementById("back-button");
+    const moneyAudio = document.getElementById("money-audio");
+
+    moneyAudio.play()
 
     function downloadQRCode() {
         const svg = document.getElementById("result").querySelector("svg");
@@ -176,6 +180,9 @@
                 }
             )
             const getData = await response.json();
+            if(transactionData && getData.length > transactionData.length) {
+                moneyAudio.play()
+            }
             transactionData = getData.map(item => {
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
