@@ -428,11 +428,13 @@
         const amountInput = document.getElementById("amount-input")
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
-            let prevCursorPos = amountInput.selectionStart || 0;
-            if (/^0+|[^\d.]/g.test(value) && prevCursorPos > 0) {
-                prevCursorPos -= 1
+            if (value !== "0") {
+                if (value === "00") {
+                    value = "0";
+                } else {
+                    value = value.replace(/^0+|[^\d.]/g, '');
+                }
             }
-            value = value.replace(/^0+|[^\d.]/g, '');
             if (value.indexOf('.') === 0) {
                 value = '0' + value;
             }
@@ -443,7 +445,6 @@
             }
             amountInput.value = finalValue;
             amount = finalValue;
-            amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
             checkNext()
         })
     }

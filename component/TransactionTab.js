@@ -32,7 +32,6 @@ class TransactionTab extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        console.log(this.role)
         const imgDom = document.createElement('img');
         if (this.img) {
             imgDom.src = this.img
