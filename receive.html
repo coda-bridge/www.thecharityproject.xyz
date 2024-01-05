@@ -201,7 +201,9 @@
                     moneyAudio.play();
                     const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
-                        const utterance = new SpeechSynthesisUtterance(`${item.split("_")[2]} dollars have been received`);
+                        let amount = item.split("_")[2]
+                        amount = Math.round(parseFloat(amount) * 100) / 100;
+                        const utterance = new SpeechSynthesisUtterance(`${amount} dollars have been received`);
                         speechSynthesis.speak(utterance);
                     })
                 }
