@@ -430,6 +430,7 @@
             let value = amountInput.value;
             let prevCursorPos = amountInput.selectionStart || 0;
             value = value.replace(/^0*(\d+)/, '$1');
+            value = value.replace(/[^\d.]/g, "");
             if (value.indexOf('.') === 0) {
                 value = '0' + value;
                 prevCursorPos += 1

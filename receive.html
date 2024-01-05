@@ -103,15 +103,12 @@
 
     amountInput.addEventListener("input", () => {
         let value = amountInput.value;
-        if (value !== "0") {
-            if (value === "00") {
-                value = "0";
-            } else {
-                value = value.replace(/^0+|[^\d.]/g, '');
-            }
-        }
+        let prevCursorPos = amountInput.selectionStart || 0;
+        value = value.replace(/^0*(\d+)/, '$1');
+        value = value.replace(/[^\d.]/g, "");
         if (value.indexOf('.') === 0) {
             value = '0' + value;
+            prevCursorPos += 1;
         }
         if (value.indexOf('.') !== -1) {
             const idx = value.indexOf('.') + 3;
@@ -119,6 +116,7 @@
         } else {
             amountInput.value = value
         }
+        amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
     })
 
     amountInput.addEventListener('keydown', (event) => {
