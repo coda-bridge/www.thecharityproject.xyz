@@ -40,17 +40,17 @@
             <div style="width: 100%;">
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                     <div style="font-size: 1.3rem">Redeemed / Donated</div>
-                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span
-                            id="redeemed-donated">0</span> / $50,000</div>
+                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem">$<span
+                            id="redeemed-donated">0</span> / $50k</div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;border:1px solid var(--base-green);color:var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                     <div style="font-size: 1.3rem">Families Helped</div>
-                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem"><span id="families-helped">0</span>
+                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="families-helped">0</span>
                     </div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                     <div style="font-size: 1.3rem">Meal served</div>
-                    <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem"><span id="meal-served">0</span>
+                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="meal-served">0</span>
                     </div>
                 </div>
             </div>
@@ -97,6 +97,22 @@
         }
     })
 
+    const formatNum = (num) => {
+        if (num >= 1000000000) {
+            text = (num / 1000000000).toFixed(1) + 'b';
+
+        } else if (num >= 1000000) {
+            text = (num / 1000000).toFixed(1) + 'm';
+
+        } else if (num >= 1000) {
+            text = (num / 1000).toFixed(1) + 'k';
+
+        } else {
+            text = num;
+        }
+        return text;
+    }
+
     const open = () => {
         passwordInput.type = "text";
         eyeIcon.style.display = "none";
@@ -140,19 +156,7 @@
                 document.getElementById("meal-served").innerText = data.payments || 0
                 document.getElementById("families-helped").innerText = data.users || 0
                 const num = Math.round(parseFloat(data.amounts) * 100) / 100;
-                let text
-                if (num >= 1000000000) {
-                    text = (num / 1000000000).toFixed(1) + 'b';
-
-                } else if (num >= 1000000) {
-                    text = (num / 1000000).toFixed(1) + 'm';
-
-                } else if (num >= 1000) {
-                    text = (num / 1000).toFixed(1) + 'k';
-
-                } else {
-                    text = num;
-                }
+                let text = formatNum(num)
                 redeemedDonated.title = num || 0
                 redeemedDonated.innerText = text || 0
                 setTimeout(() => {
