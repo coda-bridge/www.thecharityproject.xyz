@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script src="dist/zxing.min.js" type="text/javascript"></script>
     <script src="component/Selector.js" type="module"></script>
     <script>
@@ -43,7 +44,7 @@
            onclick="startStreamAndDecode()"
            role="button"
            style="display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
-            <img id="rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+            <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                  src="media/Rolling.svg"/>Scan QR code
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
@@ -97,7 +98,8 @@
            id="next-button"
            role="button"
            style="margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
-            Next
+            <img id="next-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>Next
         </a>
         <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
              id="alert">
@@ -180,7 +182,8 @@
     const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
 
-    const rolling = document.getElementById("rolling");
+    const QRRolling = document.getElementById("QR-rolling");
+    const NextRolling = document.getElementById("next-rolling");
 
     let totalBalance = 0
 
@@ -276,9 +279,7 @@
 
     const goConfirm = () => {
         code = "";
-        manually.style.display = "none";
-        confirmText.innerHTML = "";
-        confirm.style.display = "block";
+        NextRolling.style.display = "block";
         if (parseFloat(amount) > 10) {
             fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
                 method: 'POST',
@@ -290,6 +291,10 @@
                 return response.json();
             }).then(function (data) {
                 if (data['status']) {
+                    NextRolling.style.display = "none";
+                    manually.style.display = "none";
+                    confirmText.innerHTML = "";
+                    confirm.style.display = "block";
                     confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
                 <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
@@ -363,8 +368,7 @@
                 totalBalance = Math.round(totalBalance - parseFloat(amount))
                 balanceValue.innerText = totalBalance
                 successIcon.style.display = "block";
-                payText.innerText = `Your transaction is successful!`
-                goRedeemButton.style.display = "block";
+                payText.innerText = `You just paid ${kitchenName} $${amount}.`
                 goHistoryButton.style.display = "block";
                 backHomeButton.style.display = "block";
             } else {
@@ -480,7 +484,7 @@
     }
 
     function startStreamAndDecode() {
-        rolling.style.display = "block"
+        QRRolling.style.display = "block"
         codeReader.getVideoInputDevices()
             .then((videoInputDevices) => {
                 deviceIdList = videoInputDevices
@@ -495,7 +499,7 @@
                 document.getElementById("video").addEventListener('loadedmetadata', () => {
                     console.log("loadedmetadata")
                     videoPlace.style.display = "flex"
-                    rolling.style.display = "none"
+                    QRRolling.style.display = "none"
                     document.body.style.overflow = "hidden"
                 });
                 decodeOnce()

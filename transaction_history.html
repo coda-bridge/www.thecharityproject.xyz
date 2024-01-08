@@ -8,6 +8,7 @@
     <script type="module" src="component/TransactionTab.js"></script>
     <script type="module" src="component/Selector.js"></script>
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
@@ -114,8 +115,8 @@
             income = 0
         }
         historyPlace.innerHTML = ""
+        const [month, year] = monthStr.split(' ');
         transactionData.filter(item => {
-            const [month, year] = monthStr.split(' ');
             const date = new Date(`${month} 1, ${year}`);
             const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
             const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
@@ -139,7 +140,11 @@
         });
         if (role === 0) {
             expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
-            incomeValue.innerText = "+$200";
+            if (year === "2024" && month === "1"){
+                incomeValue.innerText = "+$200";
+            }else {
+                incomeValue.innerText = "+$0";
+            }
         } else {
             incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
             expenseValue.innerText = "-$0";

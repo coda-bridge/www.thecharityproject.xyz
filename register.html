@@ -6,6 +6,7 @@
     <title>Register</title>
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="module" src="./component/index.js"></script>
 </head>
 <body class="container">
@@ -61,6 +62,7 @@
     const accountInputer = document.querySelector('account-component');
     const firstNameInputer = document.getElementById('firstname');
     const lastNameInputer = document.getElementById('lastname');
+    const em = document.getElementById("errorMsg");
 
     const form = document.getElementById('form');
 
@@ -142,10 +144,11 @@
 
         }).then(function (data) {
             if (data['status']) {
+                em.innerText = "";
+                em.style.display = "none";
                 document.getElementById("form").style.display = "none";
                 document.getElementById("successMsg").style.display = "block";
             } else {
-                const em = document.getElementById("errorMsg");
                 em.innerText = data['message'];
                 em.style.display = "block";
                 open();
@@ -153,7 +156,6 @@
 
         }).catch(error => {
             console.error('Error:', error);
-            const em = document.getElementById("errorMsg");
             em.innerText = "Sorry, there is a problem with your registration."
             em.style.display = "block";
             open();
