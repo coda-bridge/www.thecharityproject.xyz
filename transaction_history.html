@@ -72,10 +72,13 @@
             filterByMonth(timeSelector.value)
         } catch (error) {
             console.error('Error:', error)
+            if (!reQuery) {
+                await getTransaction()
+            }
         }
         if (reQuery) {
-            setTimeout(() => {
-                getTransaction(true)
+            setTimeout(async () => {
+                await getTransaction(true)
             }, 3000)
         }
     }
