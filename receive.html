@@ -203,7 +203,7 @@
                     newItems.forEach((item) => {
                         let amount = item.split("_")[2]
                         amount = Math.round(parseFloat(amount) * 100) / 100;
-                        const utterance = new SpeechSynthesisUtterance(`${amount} dollars have been received`);
+                        const utterance = new SpeechSynthesisUtterance(`You just received ${amount} dollar${amount>0.5?"s":""}!`);
                         utterance.lang = 'en-US';
                         speechSynthesis.speak(utterance);
                     })
