@@ -329,6 +329,10 @@
                 }
             })
         } else {
+            NextRolling.style.display = "none";
+            manually.style.display = "none";
+            confirmText.innerHTML = "";
+            confirm.style.display = "block";
             confirmText.innerHTML = `<div>The amount you’re going to pay is under $10.</div><br/><div>Click Confirm button to confirm the payment.</div>`;
             confirmButton.style.backgroundColor = "var(--base-green)";
             confirmButton.style.cursor = "pointer";
