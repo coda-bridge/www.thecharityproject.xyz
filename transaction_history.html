@@ -62,6 +62,42 @@
     let expense = 0
     let role = 0
 
+    document.addEventListener('DOMContentLoaded', function () {
+        console.time('get profile')
+        fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (response) {
+            console.timeEnd('get profile')
+            return response.json();
+        }).then(function (profileData) {
+            role = profileData['role']
+            expense = profileData['balance']
+            let incomeTitle = document.createElement("div")
+            incomeTitle.style.marginRight = "0.25rem"
+            incomeTitle.innerText = "Income:"
+            incomePlace.appendChild(incomeTitle)
+            incomePlace.appendChild(incomeValue)
+            let expenseTitle = document.createElement("div")
+            expenseTitle.style.marginRight = "0.25rem"
+            expenseTitle.innerText = "Expense:"
+            expensePlace.appendChild(expenseTitle)
+            expensePlace.appendChild(expenseValue)
+            if (role === 0) {
+                getTransaction()
+            } else {
+                getTransaction(true)
+                document.getElementById("export-icon").style.display = "inline-block";
+            }
+        }).catch((error) => {
+            console.log("get profile error:", error)
+            location.replace("index.html")
+        })
+    })
+
     const getTransaction = async (reQuery) => {
         try {
             console.time('get transactions')
@@ -76,10 +112,10 @@
             console.timeEnd('get transactions')
             const getData = await response.json();
             console.log("allData", getData)
-            console.log("allDataMap", getData.map(item=>{
-                if(item.timestamp && item.amount) {
+            console.log("allDataMap", getData.map(item => {
+                if (item.timestamp && item.amount) {
                     return item.timestamp + " & " + item.amount
-                }else {
+                } else {
                     return item
                 }
             }))
@@ -237,41 +273,6 @@
         link.click();
         document.body.removeChild(link);
     }
-
-    console.time('get profile')
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        console.timeEnd('get profile')
-        return response.json();
-    }).then(function (profileData) {
-        role = profileData['role']
-        expense = profileData['balance']
-        let incomeTitle = document.createElement("div")
-        incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerText = "Income:"
-        incomePlace.appendChild(incomeTitle)
-        // incomeValue.innerText = "+ $" + income
-        incomePlace.appendChild(incomeValue)
-        let expenseTitle = document.createElement("div")
-        expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerText = "Expense:"
-        expensePlace.appendChild(expenseTitle)
-        expensePlace.appendChild(expenseValue)
-        if (role === 0) {
-            getTransaction()
-        } else {
-            getTransaction(true)
-            document.getElementById("export-icon").style.display = "inline-block";
-        }
-    }).catch((error) => {
-        console.log("get profile error:", error)
-        location.replace("index.html")
-    })
 </script>
 </body>
 </html>
