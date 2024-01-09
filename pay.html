@@ -377,7 +377,9 @@
                 backHomeButton.style.display = "block";
             } else {
                 errorIcon.style.display = "block";
-                payText.innerText = "Your transaction is failed!"
+                if (data['message']) {
+                    payText.innerText = data['message'];
+                }
                 goRedeemButton.style.display = "block";
             }
         }).catch(error => {
@@ -385,7 +387,7 @@
             refreshIcon.style.display = "none";
             errorIcon.style.display = "block";
             refreshIcon.style.display = "none";
-            payText.innerText = "Your transaction failed!"
+            payText.innerText = "Your transaction failed!(network error)"
             goRedeemButton.style.display = "block";
         });
     }
