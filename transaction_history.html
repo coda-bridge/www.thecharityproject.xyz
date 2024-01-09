@@ -10,14 +10,14 @@
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
-        console.time('start');
+        console.time('pageLoad');
 
-        document.addEventListener('DOMContentLoaded', function () {
-            console.timeEnd('domLoad');
-        });
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     console.time('domLoad');
+        // });
 
         window.addEventListener('load', function () {
-            console.timeEnd('pageLoad');
+            console.time('pageLoad');
         });
 
         if (sessionStorage.getItem("IsLogin") !== "true") {
@@ -64,7 +64,7 @@
 
     const getTransaction = async (reQuery) => {
         try {
-            console.time('start get transactions')
+            console.time('get transactions')
             const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
@@ -73,12 +73,12 @@
                     },
                 }
             )
-            console.timeEnd('get transactions finish')
+            console.timeEnd('get transactions')
             const getData = await response.json();
             console.log("allData", getData)
             console.log("allDataMap", getData.map(item=>{
                 if(item.timestamp && item.amount) {
-                    return item.timestamp + item.amount
+                    return item.timestamp + " & " + item.amount
                 }else {
                     return item
                 }
@@ -238,7 +238,7 @@
         document.body.removeChild(link);
     }
 
-    console.time('start get profile')
+    console.time('get profile')
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
@@ -246,7 +246,7 @@
             "Content-Type": "application/json"
         },
     }).then(function (response) {
-        console.timeEnd('get profile finish')
+        console.timeEnd('get profile')
         return response.json();
     }).then(function (profileData) {
         role = profileData['role']
