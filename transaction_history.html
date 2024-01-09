@@ -10,6 +10,16 @@
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
+        console.time('start');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.timeEnd('domLoad');
+        });
+
+        window.addEventListener('load', function () {
+            console.timeEnd('pageLoad');
+        });
+
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
@@ -54,6 +64,7 @@
 
     const getTransaction = async (reQuery) => {
         try {
+            console.time('start get transactions')
             const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
@@ -62,7 +73,17 @@
                     },
                 }
             )
+            console.timeEnd('get transactions finish')
             const getData = await response.json();
+            console.log("allData", getData)
+            console.log("allDataMap", getData.map(item=>{
+                if(item.timestamp && item.amount) {
+                    return item.timestamp + item.amount
+                }else {
+                    return item
+                }
+            }))
+            console.log("allDataLength", getData.length)
             transactionData = getData.map(item => {
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
@@ -73,7 +94,9 @@
         } catch (error) {
             console.error('Error:', error)
             if (!reQuery) {
-                await getTransaction()
+                setTimeout(async () => {
+                    await getTransaction()
+                }, 3000)
             }
         }
         if (reQuery) {
@@ -141,11 +164,19 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
+        console.log("filterData", transactionData.filter(item => {
+            const date = new Date(`${month} 1, ${year}`);
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
+            const differentLength = 13 - item.timestamp.toString().length;
+            const timestamp = item.timestamp * Math.pow(10, differentLength);
+            return timestamp >= firstDay && timestamp < lastDay;
+        }))
         if (role === 0) {
             expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
-            if (year === "2024" && month === "Jan"){
+            if (year === "2024" && month === "Jan") {
                 incomeValue.innerText = "+$200";
-            }else {
+            } else {
                 incomeValue.innerText = "+$0";
             }
         } else {
@@ -207,6 +238,7 @@
         document.body.removeChild(link);
     }
 
+    console.time('start get profile')
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
@@ -214,6 +246,7 @@
             "Content-Type": "application/json"
         },
     }).then(function (response) {
+        console.timeEnd('get profile finish')
         return response.json();
     }).then(function (profileData) {
         role = profileData['role']
