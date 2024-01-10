@@ -51,7 +51,7 @@
         </button>
         <div id="alertText"
              style="display: none;text-align: center;margin-top: 2.5rem;font-size: 0.8rem;font-weight: 700">Before you
-            create an account, please make sure your phone number and last name are correct.
+            create an account, please make sure your phone number are correct.
         </div>
     </div>
 </form>
@@ -69,7 +69,7 @@
     const open = () => {
         button.style.backgroundColor = 'var(--base-green)';
         alertText.style.display = "block"
-        alertText.innerText = "Before you create an account, please make sure your " + (accountInputer.type === "phone" ? "phone number" : "email address") + " and last is correct."
+        alertText.innerText = "Before you create an account, please make sure your " + (accountInputer.type === "phone" ? "phone number" : "email address") + " is correct."
         button.disabled = false
     }
 
