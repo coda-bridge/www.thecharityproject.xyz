@@ -132,7 +132,7 @@
                 }else {
                     const nameList = item.user_name.split(' ')
                    item.name = nameList[nameList.length -1] + " (" + item.user_phone.slice(-4) + ")"
-
+                    delete item.user_name
                 }
                 if(item.user_phone){
                     delete item.user_phone;
