@@ -155,7 +155,7 @@
                 bodyPlace.style.display = "block";
                 document.getElementById("meal-served").innerText = data.payments || 0
                 document.getElementById("families-helped").innerText = data.users || 0
-                const num = Math.round(parseFloat(data.amounts) * 100) / 100;
+                const num = Math.round(parseFloat(data.amounts));
                 let text = formatNum(num)
                 redeemedDonated.title = num || 0
                 redeemedDonated.innerText = text || 0
