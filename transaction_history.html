@@ -127,7 +127,13 @@
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
-                item.name = item.merchant_name || (item.user_name.split(' ')[-1] + " (" + item.user_phone.slice(-4) + ")");
+                if(role === 0 && item.merchant_name){
+                    item.name = item.merchant_name
+                }else {
+                    const nameList = item.user_name.split(' ')
+                   item.name = nameList[nameList.length -1] + " (" + item.user_phone.slice(-4) + ")"
+
+                }
                 if(item.user_phone){
                     delete item.user_phone;
                 }
