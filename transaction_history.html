@@ -86,6 +86,9 @@
             expenseTitle.innerText = "Expense:"
             expensePlace.appendChild(expenseTitle)
             expensePlace.appendChild(expenseValue)
+            let audio = new Audio();
+            audio.src = "data:audio/mpeg;base64,//";
+            audio.play();
             if (role === 0) {
                 getTransaction()
             } else {
@@ -124,6 +127,10 @@
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
+                item.name = item.merchant_name || (item.user_name.split(' ')[-1] + " (" + item.user_phone.slice(-4) + ")");
+                if(item.user_phone){
+                    delete item.user_phone;
+                }
                 return item;
             })
             filterByMonth(timeSelector.value)
@@ -188,7 +195,6 @@
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
-            comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone.slice(-4) + ")");
             comp.role = role;
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
             comp.price = rounded_number;
