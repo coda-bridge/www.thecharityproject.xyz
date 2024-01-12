@@ -99,21 +99,26 @@
                     },
                 }
             )
-            const getData = await response.json();
-            transactionData = getData.map(item => {
-                const serverTime = new Date(item.timestamp);
-                const offset = new Date().getTimezoneOffset();
-                item.timestamp = serverTime.getTime() - offset * 60 * 1000;
-                if (role === 1 && item.user_name) {
-                    const nameList = item.user_name.split(' ')
-                    item.user_name = nameList[nameList.length - 1]
-                }
-                if (item.user_phone) {
-                    item.user_phone = item.user_phone.slice(-4);
-                }
-                return item;
-            })
-            filterByMonth(timeSelector.value)
+            if(response.status === 200) {
+                const getData = await response.json();
+                transactionData = getData.map(item => {
+                    const serverTime = new Date(item.timestamp);
+                    const offset = new Date().getTimezoneOffset();
+                    item.timestamp = serverTime.getTime() - offset * 60 * 1000;
+                    if (role === 1 && item.user_name) {
+                        const nameList = item.user_name.split(' ')
+                        item.user_name = nameList[nameList.length - 1]
+                    }
+                    if (item.user_phone) {
+                        item.user_phone = item.user_phone.slice(-4);
+                    }
+                    return item;
+                })
+                filterByMonth(timeSelector.value)
+            }else if(response.status === 401){
+                alert("Login invalid");
+                location.replace("index.html");
+            }
         } catch (error) {
             console.error('Error:', error)
             if (!reQuery) {
