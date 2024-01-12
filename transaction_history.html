@@ -116,7 +116,7 @@
                 })
                 filterByMonth(timeSelector.value)
             }else if(response.status === 401){
-                alert("Login invalid");
+                alert("Your login has expired. Please login again~");
                 location.replace("index.html");
             }
         } catch (error) {
