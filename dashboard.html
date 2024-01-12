@@ -151,7 +151,7 @@
                     date.toLocaleString('en', {month: 'short'}) + ' ' +
                     date.getHours() + ':' +
                     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
-                warnText.style.display = "none";
+                // warnText.style.display = "none";
                 loadingPlace.style.display = "none";
                 bodyPlace.style.display = "block";
                 document.getElementById("meal-served").innerText = data.payments || 0
@@ -169,8 +169,11 @@
         } catch (e) {
             // enterPasswordPlace.style.display = "block";
             loadingPlace.style.display = "none";
-            warnText.style.display = "block";
-            bodyPlace.style.display = "none";
+            // warnText.style.display = "block";
+            // bodyPlace.style.display = "none";
+            setTimeout(() => {
+                getDonorData(false)
+            }, 3000)
         }
     }
     // goButton.addEventListener("click", () => {
