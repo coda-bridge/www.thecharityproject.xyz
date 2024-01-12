@@ -78,7 +78,7 @@
 <script>
     const loadingPlace = document.getElementById("loading");
     const bodyPlace = document.getElementById("body");
-    const enterPasswordPlace = document.getElementById("enter-password");
+    // const enterPasswordPlace = document.getElementById("enter-password");
     // let passwordInput = document.getElementById("password");
     // let eyeIcon = document.getElementById("eye");
     // let closeEyeIcon = document.getElementById("closeEye");
@@ -98,6 +98,7 @@
     // })
 
     const formatNum = (num) => {
+        let text
         if (num >= 1000000000) {
             text = (num / 1000000000).toFixed(1) + 'b';
 
@@ -130,7 +131,7 @@
 
     const getDonorData = async (next) => {
         try {
-            enterPasswordPlace.style.display = "none";
+            // enterPasswordPlace.style.display = "none";
             if (!next) {
                 loadingPlace.style.display = "block";
             }
@@ -166,7 +167,7 @@
                 throw new Error('Query error!');
             }
         } catch (e) {
-            enterPasswordPlace.style.display = "block";
+            // enterPasswordPlace.style.display = "block";
             loadingPlace.style.display = "none";
             warnText.style.display = "block";
             bodyPlace.style.display = "none";
