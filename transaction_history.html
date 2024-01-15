@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>transaction history</title>
-    <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script async>
         let profileData
@@ -30,9 +29,6 @@
             queryProfile()
         }
     </script>
-    <script type="module" src="component/TransactionTab.js"></script>
-    <script type="module" src="component/Selector.js"></script>
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
 </head>
 <body>
@@ -60,6 +56,10 @@
         </div>
     </div>
 </div>
+<link href="./dist/css/index.css" rel="stylesheet">
+<link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+<script type="module" src="component/TransactionTab.js"></script>
+<script type="module" src="component/Selector.js"></script>
 <script>
     const historyPlace = document.getElementById("history-place")
     const incomePlace = document.getElementById("income")
