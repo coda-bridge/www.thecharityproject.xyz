@@ -8,7 +8,7 @@
         let profileData
 
         async function queryProfile() {
-            try{
+            try {
                 const fetchProfile = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
                     method: 'GET',
                     credentials: "include",
@@ -17,8 +17,12 @@
                     },
                 })
                 profileData = await fetchProfile.json()
-                console.log("query",profileData)
-            }catch (e) {
+                console.log("query", profileData)
+                document.addEventListener('DOMContentLoaded', function () {
+                    console.log("DOMContentLoaded", profileData)
+                    processProfile(profileData)
+                })
+            } catch (e) {
                 console.log("get profile error:", e)
                 location.replace("index.html")
             }
@@ -26,8 +30,9 @@
 
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
-        }else {
+        } else {
             queryProfile()
+
         }
     </script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
@@ -97,13 +102,6 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log("DOMContentLoaded",profileData)
-        if(profileData){
-            processProfile(profileData)
-        }
-    })
-
     const getTransaction = async (reQuery) => {
         try {
             const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
@@ -114,7 +112,7 @@
                     },
                 }
             )
-            if(response.status === 200) {
+            if (response.status === 200) {
                 const getData = await response.json();
                 transactionData = getData.map(item => {
                     const serverTime = new Date(item.timestamp);
@@ -130,7 +128,7 @@
                     return item;
                 })
                 filterByMonth(timeSelector.value)
-            }else if(response.status === 401){
+            } else if (response.status === 401) {
                 alert("Your login has expired. Please login again~");
                 location.replace("index.html");
             }
