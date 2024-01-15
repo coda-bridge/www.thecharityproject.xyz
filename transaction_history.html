@@ -37,7 +37,7 @@
         }
 
         async function processAllData() {
-            await Promise.all([queryHistory, queryProfile])
+            await Promise.all([queryHistory(), queryProfile()])
             if (document.readyState === 'complete') {
                 console.log("DOMContentLoaded", profileData)
                 console.log("DOMContentLoaded", historyResponse)
