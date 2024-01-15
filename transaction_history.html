@@ -40,6 +40,7 @@
             await Promise.all([queryHistory, queryProfile])
             if (document.readyState === 'complete') {
                 console.log("DOMContentLoaded", profileData)
+                console.log("DOMContentLoaded", historyResponse)
                 processHistory(historyResponse)
                 processProfile(profileData, true)
             } else {
@@ -122,13 +123,6 @@
             document.getElementById("export-icon").style.display = "inline-block";
         }
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log("DOMContentLoaded",profileData)
-        if(profileData){
-            processProfile(profileData)
-        }
-    })
 
     const processHistory = async (response) => {
         if (response.status === 200) {
