@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
         let profileData
+        let historyResponse
+
+        async function queryHistory() {
+            historyResponse = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            )
+        }
 
         async function queryProfile() {
             try {
@@ -18,26 +30,31 @@
                 })
                 profileData = await fetchProfile.json()
                 console.log("query", profileData)
-                if(document.readyState === 'complete') {
-                    console.log("DOMContentLoaded", profileData)
-                    processProfile(profileData)
-                }else {
-                    document.addEventListener('DOMContentLoaded', function () {
-                        console.log("DOMContentLoaded", profileData)
-                        processProfile(profileData)
-                    })
-                }
             } catch (e) {
                 console.log("get profile error:", e)
                 location.replace("index.html")
             }
         }
 
+        async function processAllData() {
+            await Promise.all([queryHistory, queryProfile])
+            if (document.readyState === 'complete') {
+                console.log("DOMContentLoaded", profileData)
+                processHistory(historyResponse)
+                processProfile(profileData, true)
+            } else {
+                document.addEventListener('DOMContentLoaded', function () {
+                    console.log("DOMContentLoaded", profileData)
+                    processHistory(historyResponse)
+                    processProfile(profileData)
+                })
+            }
+        }
+
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         } else {
-            queryProfile()
-
+            processAllData()
         }
     </script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
@@ -83,7 +100,7 @@
     let expense = 0
     let role = 0
 
-    function processProfile(profileData) {
+    function processProfile(profileData,fetchStatus) {
         role = profileData['role']
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
@@ -96,14 +113,43 @@
         expenseTitle.innerText = "Expense:"
         expensePlace.appendChild(expenseTitle)
         expensePlace.appendChild(expenseValue)
-        let audio = new Audio();
-        audio.src = "data:audio/mpeg;base64,//";
-        audio.play();
         if (role === 0) {
-            getTransaction()
+            if(!fetchStatus){
+                getTransaction()
+            }
         } else {
             getTransaction(true)
             document.getElementById("export-icon").style.display = "inline-block";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("DOMContentLoaded",profileData)
+        if(profileData){
+            processProfile(profileData)
+        }
+    })
+
+    const processHistory = async (response) => {
+        if (response.status === 200) {
+            const getData = await response.json();
+            transactionData = getData.map(item => {
+                const serverTime = new Date(item.timestamp);
+                const offset = new Date().getTimezoneOffset();
+                item.timestamp = serverTime.getTime() - offset * 60 * 1000;
+                if (role === 1 && item.user_name) {
+                    const nameList = item.user_name.split(' ')
+                    item.user_name = nameList[nameList.length - 1]
+                }
+                if (item.user_phone) {
+                    item.user_phone = item.user_phone.slice(-4);
+                }
+                return item;
+            })
+            filterByMonth(timeSelector.value)
+        } else if (response.status === 401) {
+            alert("Your login has expired. Please login again~");
+            location.replace("index.html");
         }
     }
 
@@ -117,26 +163,7 @@
                     },
                 }
             )
-            if (response.status === 200) {
-                const getData = await response.json();
-                transactionData = getData.map(item => {
-                    const serverTime = new Date(item.timestamp);
-                    const offset = new Date().getTimezoneOffset();
-                    item.timestamp = serverTime.getTime() - offset * 60 * 1000;
-                    if (role === 1 && item.user_name) {
-                        const nameList = item.user_name.split(' ')
-                        item.user_name = nameList[nameList.length - 1]
-                    }
-                    if (item.user_phone) {
-                        item.user_phone = item.user_phone.slice(-4);
-                    }
-                    return item;
-                })
-                filterByMonth(timeSelector.value)
-            } else if (response.status === 401) {
-                alert("Your login has expired. Please login again~");
-                location.replace("index.html");
-            }
+            await processProfile(response)
         } catch (error) {
             console.error('Error:', error)
             if (!reQuery) {
