@@ -18,10 +18,15 @@
                 })
                 profileData = await fetchProfile.json()
                 console.log("query", profileData)
-                document.addEventListener('DOMContentLoaded', function () {
+                if(document.readyState === 'complete') {
                     console.log("DOMContentLoaded", profileData)
                     processProfile(profileData)
-                })
+                }else {
+                    document.addEventListener('DOMContentLoaded', function () {
+                        console.log("DOMContentLoaded", profileData)
+                        processProfile(profileData)
+                    })
+                }
             } catch (e) {
                 console.log("get profile error:", e)
                 location.replace("index.html")
