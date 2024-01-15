@@ -6,17 +6,28 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        let fetchProfile
+        let profileData
+
+        async function queryProfile() {
+            try{
+                const fetchProfile = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
+                    method: 'GET',
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                })
+                profileData = fetchProfile.json()
+            }catch (e) {
+                console.log("get profile error:", e)
+                location.replace("index.html")
+            }
+        }
+
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }else {
-            fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
-                method: 'GET',
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
+            queryProfile()
         }
     </script>
     <script type="module" src="component/TransactionTab.js"></script>
@@ -86,15 +97,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        if(fetchProfile){
-            fetchProfile.then(function (response) {
-                return response.json();
-            }).then(data=>{
-                processProfile(data)
-            }).catch((error) => {
-                console.log("get profile error:", error)
-                location.replace("index.html")
-            })
+        if(profileData){
+            processProfile(profileData)
         }
     })
 
