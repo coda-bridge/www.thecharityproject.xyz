@@ -16,7 +16,7 @@
                         "Content-Type": "application/json"
                     },
                 })
-                profileData = fetchProfile.json()
+                profileData = await fetchProfile.json()
             }catch (e) {
                 console.log("get profile error:", e)
                 location.replace("index.html")
