@@ -30,7 +30,7 @@
                     },
                 }
             )
-            if(role === 0) {
+            if (role === 0) {
                 kitchenImg = new Image();
                 kitchenImg.src = "media/kitchen-logo.png";
             }
@@ -133,7 +133,8 @@
                 }
                 return item;
             })
-            filterByMonth(timeSelector.value)
+            console.log(timeSelector.value)
+            filterByMonth(timeSelector.value || formatDate())
         } else if (response.status === 401) {
             alert("Your login has expired. Please login again~");
             location.replace("index.html");
