@@ -27,7 +27,7 @@
             )
             if(role === 0) {
                 img = new Image();
-                img.src = "kitchen-logo.png";
+                img.src = "media/kitchen-logo.png";
             }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             profileData = await AllResponse[0].json()
