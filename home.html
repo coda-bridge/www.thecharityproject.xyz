@@ -129,6 +129,7 @@
         let userName = ""
         document.getElementById("price").innerText = data['balance'] || "0";
         const role = data['role'].toString()
+        sessionStorage.setItem("codaRole", role)
         switch (role) {
             case "0":
                 clientButton.style.display = "flex";
