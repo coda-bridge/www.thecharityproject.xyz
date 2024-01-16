@@ -13,6 +13,11 @@
         let profileData
         let role = 0
         let kitchenImg
+        let domReady = false
+
+        document.addEventListener('DOMContentLoaded', function () {
+            domReady = true;
+        })
 
         async function queryAllData() {
             const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
@@ -37,7 +42,7 @@
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             console.log("Promise")
             profileData = await AllResponse[0].json()
-            if (document.readyState === 'complete') {
+            if (domReady) {
                 console.log("DOMContentLoaded", profileData)
                 processTransaction(AllResponse[1])
                 processProfile(profileData)
