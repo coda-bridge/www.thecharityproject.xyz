@@ -7,6 +7,7 @@
     <script defer async>
         let profileData
         let role = 0
+        let img
 
         async function queryAllData() {
             const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
@@ -25,7 +26,7 @@
                 }
             )
             if(role === 0) {
-                const img = new Image();
+                img = new Image();
                 img.src = "kitchen-logo.png";
             }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
@@ -33,7 +34,7 @@
             if (document.readyState === 'complete') {
                 console.log("DOMContentLoaded", profileData)
                 processTransaction(AllResponse[1])
-                processProfile(profileData, true)
+                processProfile(profileData)
             } else {
                 document.addEventListener('DOMContentLoaded', function () {
                     console.log("DOMContentLoaded", profileData)
@@ -92,7 +93,7 @@
     let income = 0
     let expense = 0
 
-    function processProfile(profileData, fetchStatus) {
+    function processProfile(profileData) {
         role = profileData['role']
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
@@ -205,7 +206,7 @@
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? "media/kitchen-logo.png" : "";
+            comp.img = role === 0 ? img : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
