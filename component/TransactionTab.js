@@ -32,13 +32,12 @@ class TransactionTab extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        let imgDom
         if (this.img) {
-            console.log(this.img)
-            imgDom = this.img
+            const imgDom = this.shadowRoot.importNode(this.img);
             imgDom.style.width = "3rem"
             imgDom.style.paddingRight = "1rem"
             imgDom.style.borderRadius = "100%"
+            console.log(imgDom)
             const leftPartDOM = this.shadowRoot.getElementById("left-part")
             leftPartDOM.insertBefore(imgDom, leftPartDOM.firstChild)
         }
