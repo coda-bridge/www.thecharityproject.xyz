@@ -34,6 +34,7 @@ class TransactionTab extends HTMLElement {
         this.render()
         let imgDom
         if (this.img) {
+            console.log(this.img)
             imgDom = this.img
             imgDom.style.width = "3rem"
             imgDom.style.paddingRight = "1rem"
