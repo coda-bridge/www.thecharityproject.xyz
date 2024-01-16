@@ -12,7 +12,6 @@
     <script defer async>
         let profileData
         let role = 0
-        let kitchenImg
         let domReady = false
 
         async function queryAllData() {
@@ -31,10 +30,6 @@
                     },
                 }
             )
-            if (role === 0) {
-                kitchenImg = new Image();
-                kitchenImg.src = "media/kitchen-logo.png";
-            }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             profileData = await AllResponse[0].json()
             if (domReady) {
@@ -214,7 +209,7 @@
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? kitchenImg : "";
+            comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
