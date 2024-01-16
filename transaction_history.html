@@ -12,7 +12,7 @@
     <script defer async>
         let profileData
         let role = 0
-        let img
+        let kitchenImg
 
         async function queryAllData() {
             const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
@@ -31,8 +31,8 @@
                 }
             )
             if(role === 0) {
-                img = new Image();
-                img.src = "media/kitchen-logo.png";
+                kitchenImg = new Image();
+                kitchenImg.src = "media/kitchen-logo.png";
             }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             profileData = await AllResponse[0].json()
@@ -211,7 +211,8 @@
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? img : "";
+            console.log(kitchenImg)
+            comp.img = role === 0 ? kitchenImg : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
