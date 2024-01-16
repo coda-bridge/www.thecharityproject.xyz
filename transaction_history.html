@@ -43,6 +43,7 @@
             location.replace("index.html")
         } else {
             role = sessionStorage.getItem("codaRole") || 0
+            role = parseInt(role)
             queryAllData()
         }
     </script>
