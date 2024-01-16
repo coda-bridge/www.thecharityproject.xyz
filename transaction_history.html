@@ -15,10 +15,6 @@
         let kitchenImg
         let domReady = false
 
-        document.addEventListener('DOMContentLoaded', function () {
-            domReady = true;
-        })
-
         async function queryAllData() {
             const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
                 method: 'GET',
@@ -63,6 +59,10 @@
             role = parseInt(role)
             queryAllData()
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            domReady = true;
+        })
     </script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
 </head>
