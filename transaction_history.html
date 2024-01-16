@@ -24,6 +24,10 @@
                     },
                 }
             )
+            if(role === 0) {
+                const img = new Image();
+                img.src = "kitchen-logo.png";
+            }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             profileData = await AllResponse[0].json()
             if (document.readyState === 'complete') {
@@ -75,7 +79,6 @@
     </div>
 </div>
 <link href="./dist/css/index.css" rel="stylesheet">
-<link href="./dist/css/bootstrap.min.css" rel="stylesheet">
 <script type="module" src="component/TransactionTab.js"></script>
 <script type="module" src="component/Selector.js"></script>
 <script>
