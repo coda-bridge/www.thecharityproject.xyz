@@ -32,9 +32,9 @@ class TransactionTab extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        const imgDom = document.createElement('img');
+        let imgDom
         if (this.img) {
-            imgDom.src = this.img.src
+            imgDom = this.img
             imgDom.style.width = "3rem"
             imgDom.style.paddingRight = "1rem"
             imgDom.style.borderRadius = "100%"
