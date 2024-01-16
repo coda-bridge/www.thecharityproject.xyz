@@ -36,16 +36,12 @@
                 kitchenImg.src = "media/kitchen-logo.png";
             }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
-            console.log("Promise")
             profileData = await AllResponse[0].json()
             if (domReady) {
-                console.log("DOMContentLoaded", profileData)
                 processTransaction(AllResponse[1])
                 processProfile(profileData)
             } else {
-                console.log("not complete")
                 document.addEventListener('DOMContentLoaded', function () {
-                    console.log("DOMContentLoaded", profileData)
                     processTransaction(AllResponse[1])
                     processProfile(profileData)
                 })
@@ -140,7 +136,6 @@
                 }
                 return item;
             })
-            console.log(timeSelector.value)
             filterByMonth(timeSelector.value || formatDate())
         } else if (response.status === 401) {
             alert("Your login has expired. Please login again~");
@@ -219,7 +214,6 @@
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            console.log(kitchenImg)
             comp.img = role === 0 ? kitchenImg : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
@@ -233,14 +227,6 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        console.log("filterData", transactionData.filter(item => {
-            const date = new Date(`${month} 1, ${year}`);
-            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
-            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
-            const differentLength = 13 - item.timestamp.toString().length;
-            const timestamp = item.timestamp * Math.pow(10, differentLength);
-            return timestamp >= firstDay && timestamp < lastDay;
-        }))
         if (role === 0) {
             expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
             if (year === "2024" && month === "Jan") {

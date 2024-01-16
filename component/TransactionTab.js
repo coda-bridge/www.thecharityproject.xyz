@@ -37,7 +37,6 @@ class TransactionTab extends HTMLElement {
             imgDom.style.width = "3rem"
             imgDom.style.paddingRight = "1rem"
             imgDom.style.borderRadius = "100%"
-            console.log(imgDom)
             const leftPartDOM = this.shadowRoot.getElementById("left-part")
             leftPartDOM.insertBefore(imgDom, leftPartDOM.firstChild)
         }
