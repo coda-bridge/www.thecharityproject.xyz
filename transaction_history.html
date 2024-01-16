@@ -35,12 +35,14 @@
                 kitchenImg.src = "media/kitchen-logo.png";
             }
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
+            console.log("Promise")
             profileData = await AllResponse[0].json()
             if (document.readyState === 'complete') {
                 console.log("DOMContentLoaded", profileData)
                 processTransaction(AllResponse[1])
                 processProfile(profileData)
             } else {
+                console.log("not complete")
                 document.addEventListener('DOMContentLoaded', function () {
                     console.log("DOMContentLoaded", profileData)
                     processTransaction(AllResponse[1])
