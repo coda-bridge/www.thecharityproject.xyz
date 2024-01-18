@@ -121,6 +121,7 @@
             transactionData = getData.map(item => {
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
+                item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
                 if (role === 1 && item.user_name) {
                     const nameList = item.user_name.split(' ')
@@ -212,12 +213,11 @@
             comp.img = role === 0 ? "media/kitchen-logo.png" : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
-            const rounded_number = Math.round(parseFloat(item.amount) * 100) / 100;
-            comp.price = rounded_number;
+            comp.price = item.amount;
             if (role === 0) {
-                expense += rounded_number;
+                expense += item.amount;
             } else {
-                income += rounded_number;
+                income += item.amount;
             }
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
