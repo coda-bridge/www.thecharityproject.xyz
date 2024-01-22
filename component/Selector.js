@@ -38,7 +38,7 @@ class Selector extends HTMLElement {
                 ${this.placeholder || ""}
             </div>
             <input style="display: none" name="role" id="role">
-            <img width="20" height="20" src="media/Selector.svg"/>
+            <img width="20" height="20" src="https://coda.codeislaw.co/media/Selector.svg"/>
         </div>
         <div id="selectOptionList"
              style="z-index: 50;position:absolute;display: none;background-color: white;border-radius:0 0 0.6rem 0.6rem;">
