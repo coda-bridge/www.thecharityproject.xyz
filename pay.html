@@ -481,22 +481,24 @@
     }
 
     const setQRData = (QRData) => {
-        if (QRData.name) {
-            kitchenName = QRData.name
-            kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+        if ((QRData.name && QRData.ethAddress) || (QRData.amount && QRData.amount !== "0.00")) {
+            if (QRData.name && QRData.ethAddress) {
+                ethAddress = QRData.ethAddress
+                kitchenName = QRData.name
+                kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+            }
+            if (QRData.amount && QRData.amount !== "0.00") {
+                amount = QRData.amount
+                amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
+            } else {
+                addAmountInput()
+            }
+            backButton.removeAttribute("href");
+            backButton.setAttribute('onclick', "backToScan()");
+            home.style.display = "none";
+            manually.style.display = "block";
+            checkNext()
         }
-        ethAddress = QRData.ethAddress
-        if (QRData.amount && QRData.amount !== "0.00") {
-            amount = QRData.amount
-            amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
-        } else {
-            addAmountInput()
-        }
-        backButton.removeAttribute("href");
-        backButton.setAttribute('onclick', "backToScan()");
-        home.style.display = "none";
-        manually.style.display = "block";
-        checkNext()
     }
 
     const decodeOnce = () => {
