@@ -506,9 +506,9 @@
             let QRData
             if (result) {
                 if (result.text) {
-                    url = JSON.parse(result.text)
+                    url = result.text
                 } else {
-                    url = JSON.parse(result)
+                    url = result
                 }
                 QRData = getURLParams(url)
                 setQRData(QRData)
