@@ -192,7 +192,6 @@
 
     // 获取URL参数
     const getURLParams = (urlParams) => {
-        console.log(urlParams)
         const paramsArray = urlParams.split('&');
         const paramsObj = {};
 
@@ -512,8 +511,11 @@
                 } else {
                     url = result
                 }
-                QRData = getURLParams(url)
-                setQRData(QRData)
+                const urlList = url.slice("?");
+                if(urlList[1]){
+                    QRData = getURLParams(url.slice("?")[1])
+                    setQRData(QRData)
+                }
             }
         }).catch((err) => {
             console.error(err)
@@ -535,7 +537,6 @@
                     selectedIndex = 0
                 }
                 document.getElementById("video").addEventListener('loadedmetadata', () => {
-                    console.log("loadedmetadata")
                     videoPlace.style.display = "flex"
                     QRRolling.style.display = "none"
                     document.body.style.overflow = "hidden"
