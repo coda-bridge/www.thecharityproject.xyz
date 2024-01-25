@@ -187,6 +187,26 @@
 
     let totalBalance = 0
 
+    // 获取URL参数
+    const getURLParams = () => {
+        const urlParams = window.location.search.substring(1);
+        const paramsArray = urlParams.split('&');
+        const paramsObj = {};
+
+        paramsArray.forEach(param => {
+            const [key, value] = param.split('=');
+            paramsObj[key] = value;
+        });
+
+        return paramsObj;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const param = getURLParams();
+        setQRData(param);
+
+    });
+
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
@@ -456,6 +476,25 @@
         })
     }
 
+    const setQRData = (QRData) => {
+        if (name) {
+            kitchenName = QRData.name
+            kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+        }
+        ethAddress = QRData.ethAddress
+        if (QRData.amount && QRData.amount !== "0.00") {
+            amount = QRData.amount
+            amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
+        } else {
+            addAmountInput()
+        }
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToScan()");
+        home.style.display = "none";
+        manually.style.display = "block";
+        checkNext()
+    }
+
     const decodeOnce = () => {
         codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
             closeCamera()
@@ -466,22 +505,7 @@
                 } else {
                     QRData = JSON.parse(result)
                 }
-                if (QRData.name) {
-                    kitchenName = QRData.name
-                    kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
-                }
-                ethAddress = QRData.ethAddress
-                if (QRData.amount && QRData.amount !== "0.00") {
-                    amount = QRData.amount
-                    amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
-                } else {
-                    addAmountInput()
-                }
-                backButton.removeAttribute("href");
-                backButton.setAttribute('onclick', "backToScan()");
-                home.style.display = "none";
-                manually.style.display = "block";
-                checkNext()
+                setQRData(QRData)
             }
         }).catch((err) => {
             console.error(err)

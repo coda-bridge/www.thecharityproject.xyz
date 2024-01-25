@@ -118,7 +118,6 @@
 
     const signOut = () => {
         localStorage.removeItem("IsLogin");
-        window.history.pushState(null, null, document.URL);
         window.location.replace("index.html");
     }
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {

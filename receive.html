@@ -161,11 +161,7 @@
             document.getElementById("result").innerHTML = `<div style="font-size: 4rem;color: var(--base-green);font-weight: 700;text-align: center;">${amount}</div>`
         }
         const codeWriter = new ZXing.BrowserQRCodeSvgWriter()
-        codeWriter.writeToDom('#result', JSON.stringify({
-            name: kitchenName,
-            ethAddress,
-            amount
-        }), 300, 300);
+        codeWriter.writeToDom('#result', `https://coda.codeislaw.co/index.html?name=${kitchenName}&ethAddress=${ethAddress}&amount=${amount}`, 300, 300);
     }
 
     const getTransaction = async () => {
