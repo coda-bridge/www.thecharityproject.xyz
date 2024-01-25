@@ -92,7 +92,10 @@
         </div>
         <div id="balance">
             Your balance: $
-            <span id="balance-value"></span>
+            <span id="balance-value">
+                <img style="width: 1rem;height: 1rem;margin-right: 0.5rem"
+                     src="media/Rolling.svg"/>
+            </span>
         </div>
         <a class="btn btn-lg"
            id="next-button"
@@ -188,8 +191,7 @@
     let totalBalance = 0
 
     // 获取URL参数
-    const getURLParams = () => {
-        const urlParams = window.location.search.substring(1);
+    const getURLParams = (urlParams) => {
         console.log(urlParams)
         const paramsArray = urlParams.split('&');
         const paramsObj = {};
@@ -203,7 +205,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        const param = getURLParams();
+        const param = getURLParams(window.location.search.substring(1));
         setQRData(param);
 
     });
@@ -220,6 +222,7 @@
         if (data["role"] === 0) {
             totalBalance = data["balance"]
             balanceValue.innerText = totalBalance
+            checkNext()
         } else {
             location.replace("home.html")
         }
@@ -499,13 +502,15 @@
     const decodeOnce = () => {
         codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
             closeCamera()
+            let url
             let QRData
             if (result) {
-                if (result) {
-                    QRData = JSON.parse(result.text)
+                if (result.text) {
+                    url = JSON.parse(result.text)
                 } else {
-                    QRData = JSON.parse(result)
+                    url = JSON.parse(result)
                 }
+                QRData = getURLParams(url)
                 setQRData(QRData)
             }
         }).catch((err) => {
