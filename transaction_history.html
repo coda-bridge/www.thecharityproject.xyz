@@ -119,6 +119,7 @@
         if (response.status === 200) {
             const getData = await response.json();
             transactionData = getData.map(item => {
+                item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;

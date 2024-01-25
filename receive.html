@@ -185,6 +185,7 @@
             const endOfToday = startOfToday + 24 * 60 * 60 * 1000 - 1;
 
             let newTransactionData = getData.map(item => {
+                item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
