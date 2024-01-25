@@ -511,9 +511,9 @@
                 } else {
                     url = result
                 }
-                const urlList = url.slice("?");
+                const urlList = url.split("?");
                 if(urlList[1]){
-                    QRData = getURLParams(url.slice("?")[1])
+                    QRData = getURLParams(urlList[1])
                     setQRData(QRData)
                 }
             }
