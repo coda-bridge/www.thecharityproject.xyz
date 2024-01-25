@@ -10,7 +10,7 @@
     <script type="text/javascript" src="dist/zxing.min.js"></script>
     <script type="module" src="component/TransactionTab.js"></script>
     <script>
-        if (sessionStorage.getItem("IsLogin") !== "true") {
+        if (localStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
     </script>

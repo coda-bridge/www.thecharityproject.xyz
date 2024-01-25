@@ -40,21 +40,7 @@ class Account extends HTMLElement {
                 <input style="display: none" name="phone_country" id="phone_country">
                 <input style="margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem" type="tel"
                        class="form-control"
-                       name="phone_number" id="phone_number" placeholder="Enter your phone number">
-            </div>
-<!--            <div style="font-size: 0.7rem;margin-top: 1rem;">-->
-<!--            Phone number doesn't work? <span id="to_email" style="cursor: pointer;text-decoration-line: underline;user-select: none;">Try email here</span>-->
-<!--            </div>-->
-        </div>
-
-        <div id="email" style="display: none;margin-top: 2rem;" class="form-group">
-            <div style="display: flex;">
-                <input style="font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem" type="email"
-                   class="form-control"
-                   name="email_address" id="email_address" placeholder="Enter your email address">
-            </div>
-            <div style="font-size: 0.7rem;margin-top: 1rem;">
-            Email doesn't work? <span id="to_phone" style="cursor: pointer;text-decoration-line: underline;user-select: none;">Try phone number here</span>
+                       name="phone_number" id="phone_number" placeholder="Phone number">
             </div>
         </div>
     `
@@ -67,9 +53,6 @@ class Account extends HTMLElement {
         const emailPlace = this.shadowRoot.getElementById('email');
         const phoneNumber = this.shadowRoot.getElementById('phone_number');
         const phoneCountry = this.shadowRoot.getElementById('phone_country');
-        const emailAddress = this.shadowRoot.getElementById('email_address');
-        const toPhoneTab = this.shadowRoot.getElementById('to_phone');
-        // const toEmailTab = this.shadowRoot.getElementById('to_email');
         const countrySelector = document.createElement("select-component");
 
         const setCountry = (countryCode) => {
@@ -94,9 +77,6 @@ class Account extends HTMLElement {
             let value = phoneNumber.value;
             const prevCursorPos = phoneNumber.selectionStart || 0;
             value = value.replace(/\D/, '');
-            // if (value.length > 8) {
-            //     value = parseInt(value.slice(0, 8));
-            // }
             if (this.phoneReg[phoneCountry.value].test(value)) {
                 phoneNumber.style.borderColor = 'var(--base-green)';
             }
@@ -115,26 +95,6 @@ class Account extends HTMLElement {
             }
         })
 
-
-        emailAddress.addEventListener("input", () => {
-            const value = emailAddress.value;
-            if (this.emailReg.test(value)) {
-                emailAddress.style.borderColor = "var(--base-green)";
-            }
-            this.dispatchEvent(new CustomEvent('changeCallBack', {
-                composed: true
-            }));
-        })
-        emailAddress.addEventListener("blur", () => {
-            const value = emailAddress.value;
-            if (this.emailReg.test(value)) {
-                emailAddress.style.borderColor = "var(--base-green)"
-            } else {
-                emailAddress.style.borderColor = "red"
-            }
-        })
-
-
         function toPhone() {
             phonePlace.style.display = "block";
             emailPlace.style.display = "none";
@@ -144,14 +104,7 @@ class Account extends HTMLElement {
 
         toPhone()
 
-        function toEmail() {
-            emailPlace.style.display = "block";
-            phonePlace.style.display = "none";
-            checkValidity()
-        }
-
         toPhoneTab.addEventListener("click", toPhone)
-        // toEmailTab.addEventListener("click",toEmail)
     }
 
     checkInputType() {

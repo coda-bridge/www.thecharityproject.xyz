@@ -43,10 +43,10 @@
             }
         }
 
-        if (sessionStorage.getItem("IsLogin") !== "true") {
+        if (localStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         } else {
-            role = sessionStorage.getItem("codaRole") || 0
+            role = localStorage.getItem("codaRole") || 0
             role = parseInt(role)
             queryAllData()
         }
@@ -55,18 +55,18 @@
             domReady = true;
         })
     </script>
-    <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <link rel="icon" type="image/png" href="https://coda.codeislaw.co/media/coda-logo.png">
 </head>
 <body>
 <a href="home.html">
     <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
+        <img width="22" height="22" src="https://coda.codeislaw.co/media/Back.svg">
     </div>
 </a>
 <div style="text-align: center">
     Transaction History
     <img id="export-icon" onclick="exportCsv()" style="margin-left: 2rem;position: absolute;width: 2rem;display: none;"
-         src="media/Export.svg">
+         src="https://coda.codeislaw.co/media/Export.svg">
 </div>
 <div style="padding: 1.2rem;">
     <div id="title" style="display: flex;justify-content: space-between;align-items: center;">
@@ -78,13 +78,13 @@
     <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
     <div id="history-place">
         <div style="display: flex;justify-content: center;margin-top: 2rem;">
-            <img width="100" src="media/loading.gif"/>
+            <img width="100" src="https://coda.codeislaw.co/media/loading.gif"/>
         </div>
     </div>
 </div>
-<link href="./dist/css/index.css" rel="stylesheet">
-<script type="module" src="component/TransactionTab.js"></script>
-<script type="module" src="component/Selector.js"></script>
+<link href="https://coda.codeislaw.co/dist/css/index.css" rel="stylesheet">
+<script type="module" src="https://coda.codeislaw.co/component/TransactionTab.js"></script>
+<script type="module" src="https://coda.codeislaw.co/component/Selector.js"></script>
 <script>
     const historyPlace = document.getElementById("history-place")
     const incomePlace = document.getElementById("income")
@@ -120,10 +120,10 @@
             const getData = await response.json();
             transactionData = getData.map(item => {
                 item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
-                const serverTime = new Date(item.timestamp);
+                const serverTime = Date.parse(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
-                item.timestamp = serverTime.getTime() - offset * 60 * 1000;
+                item.timestamp = serverTime - offset * 60 * 1000;
                 if (role === 1 && item.user_name) {
                     const nameList = item.user_name.split(' ')
                     item.user_name = nameList[nameList.length - 1]
@@ -201,17 +201,19 @@
             income = 0
         }
         historyPlace.innerHTML = ""
-        const [month, year] = monthStr.split(' ');
+        const monthYear = monthStr.split(' ');
+        const month = monthYear[0];
+        const year = monthYear[1];
+        const date = new Date(`${month} 1, ${year}`);
+        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
         transactionData.filter(item => {
-            const date = new Date(`${month} 1, ${year}`);
-            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
-            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
             const differentLength = 13 - item.timestamp.toString().length;
-            const timestamp = item.timestamp * Math.pow(10, differentLength);
+            const timestamp = item.timestamp * (10 ** differentLength);
             return timestamp >= firstDay && timestamp < lastDay;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? "media/kitchen-logo.png" : "";
+            comp.img = role === 0 ? "https://coda.codeislaw.co/media/kitchen-logo.png" : "";
             comp.role = role;
             comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
