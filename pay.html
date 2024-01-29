@@ -123,10 +123,10 @@
         </div>
     </div>
     <div id="pay" style="display: none;">
-        <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
-            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg" style="display: none;"/>
-            <img id="success-icon" src="media/Success.svg" style="width: 4rem;height: 4rem;display: none;"/>
-            <img id="error-icon" src="media/Error.svg" style="display: none;"/>
+        <div style="display: flex;justify-content: center;">
+            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg" style="margin-top: 6.5rem;display: none;"/>
+            <img id="success-icon" src="media/Success.svg" style="margin-top: 1.5rem;width: 3rem;height: 3rem;display: none;"/>
+            <img id="error-icon" src="media/Error.svg" style="margin-top: 6.5rem;display: none;"/>
         </div>
         <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
         <div id="pay-Button">
@@ -396,21 +396,21 @@
                 totalBalance = Math.round(totalBalance - parseFloat(amount))
                 balanceValue.innerText = totalBalance
                 successIcon.style.display = "block";
-                let formatted = new Date().toLocaleDateString('default', {
+                let formatted = new Date().toLocaleDateString('en-US', {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
-                });
+                },);
                 payText.innerHTML = `<div style="margin-top: 1.5rem">From:</div>
-            <div style="color: var(--base-green);font-weight: bold;">You (${userName})</div>
+            <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">You (${userName})</div>
             <div style="margin-top: 1.5rem">To:</div>
-            <div style="color: var(--base-green);font-weight: bold;">${kitchenName}</div>
+            <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${kitchenName}</div>
             <div style="margin-top: 1.5rem">Amount:</div>
-            <div style="color: var(--base-green);font-weight: bold;">${amount}</div>
+            <div style="color: var(--base-green);font-weight: bold;font-size: 3.5rem;">${amount}</div>
             <div style="margin-top: 1.5rem">When:</div>
-            <div style="color: var(--base-green);font-weight: bold;">${formatted}</div>`
+            <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${formatted}</div>`
                 goHistoryButton.style.display = "block";
                 backHomeButton.style.display = "block";
             } else {
