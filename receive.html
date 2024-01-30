@@ -100,6 +100,9 @@
 
     const setUnMute = () => {
         moneyAudio.play();
+        const utterance = new SpeechSynthesisUtterance(`Start to speak!`);
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
         isMute = false;
         muteIcon.style.display="none";
         unmuteIcon.style.display="block";
@@ -223,7 +226,6 @@
                 const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
 
                 if (newSet.size > oldSet.size && !isMute) {
-                    alert("start")
                     moneyAudio.play();
                     const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
