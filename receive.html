@@ -101,7 +101,9 @@
     const setUnMute = () => {
         moneyAudio.volume = 0;
         moneyAudio.play();
-        moneyAudio.volume = 1;
+        setTimeout(()=>{
+            moneyAudio.volume = 1;
+        },1000)
         const utterance = new SpeechSynthesisUtterance(``);
         utterance.lang = 'en-US';
         utterance.volume = 0;
