@@ -99,9 +99,12 @@
     let isMute = true
 
     const setUnMute = () => {
+        moneyAudio.volume = 0;
         moneyAudio.play();
-        const utterance = new SpeechSynthesisUtterance(`Start to speak!`);
+        moneyAudio.volume = 1;
+        const utterance = new SpeechSynthesisUtterance(``);
         utterance.lang = 'en-US';
+        utterance.volume = 0;
         speechSynthesis.speak(utterance);
         isMute = false;
         muteIcon.style.display="none";
