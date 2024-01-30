@@ -516,6 +516,7 @@
     }
 
     const decodeOnce = () => {
+        alert(deviceIdList[selectedIndex].label)
         codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
             closeCamera()
             let url
