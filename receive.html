@@ -222,7 +222,8 @@
                 const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
 
                 if (newSet.size > oldSet.size && !isMute) {
-                    moneyAudio.play();
+                    alert("start")
+                    // moneyAudio.play();
                     const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
                         let amount = item.split("_")[2]
