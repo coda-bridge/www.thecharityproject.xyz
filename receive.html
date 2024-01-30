@@ -11,16 +11,20 @@
     <script type="module" src="component/TransactionTab.js"></script>
     <script>
         if (localStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
+            // location.replace("index.html")
         }
     </script>
 </head>
 <body>
-<a id="back-button" href="home.html">
-    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
-    </div>
-</a>
+<div style="display: flex;justify-content: space-between;align-items: center;">
+    <a id="back-button" href="home.html">
+        <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
+            <img width="22" height="22" src="media/Back.svg">
+        </div>
+    </a>
+    <img onclick="setUnMute()" id="mute-icon" style="cursor: pointer;margin-right: 1.2rem;" width="22" height="22" src="media/Mute.svg">
+    <img onclick="setMute()" id="unmute-icon" style="cursor: pointer;margin-right: 1.2rem;display: none;" width="22" height="22" src="media/Unmute.svg">
+</div>
 <div id="edit-amount"
      style="background-color: white;padding: 0 1.5rem 2rem;display: none;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
@@ -89,6 +93,22 @@
     const editPlace = document.getElementById("edit-amount");
     const backButton = document.getElementById("back-button");
     const moneyAudio = document.getElementById("money-audio");
+
+    const muteIcon = document.getElementById("mute-icon");
+    const unmuteIcon = document.getElementById("unmute-icon");
+    let isMute = true
+
+    const setUnMute = () => {
+        isMute = false;
+        muteIcon.style.display="none";
+        unmuteIcon.style.display="block";
+    }
+
+    const setMute = () => {
+        isMute = true;
+        muteIcon.style.display="block";
+        unmuteIcon.style.display="none";
+    }
 
     function downloadQRCode() {
         const svg = document.getElementById("result").querySelector("svg");
@@ -201,7 +221,7 @@
                 const oldSet = new Set(transactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
                 const newSet = new Set(newTransactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
 
-                if (newSet.size > oldSet.size) {
+                if (newSet.size > oldSet.size && !isMute) {
                     moneyAudio.play();
                     const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
@@ -247,11 +267,11 @@
             generateQRCode()
             getTransaction()
         } else {
-            location.replace("home.html")
+            // location.replace("home.html")
         }
     }).catch(error => {
         console.error('Error:', error)
-        location.replace("index.html")
+        // location.replace("index.html")
     });
 </script>
 </body>
