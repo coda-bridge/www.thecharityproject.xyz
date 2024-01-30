@@ -79,7 +79,7 @@
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
-<audio id="money-audio" src="media/money.mp3"></audio>
+<audio id="money-audio"></audio>
 <script>
     let kitchenName
     let ethAddress
@@ -99,11 +99,8 @@
     let isMute = true
 
     const setUnMute = () => {
-        moneyAudio.volume = 0;
         moneyAudio.play();
-        setTimeout(()=>{
-            moneyAudio.volume = 1;
-        },1000)
+        moneyAudio.src = "media/money.mp3"
         const utterance = new SpeechSynthesisUtterance(``);
         utterance.lang = 'en-US';
         utterance.volume = 0;
