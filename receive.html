@@ -99,6 +99,7 @@
     let isMute = true
 
     const setUnMute = () => {
+        moneyAudio.play();
         isMute = false;
         muteIcon.style.display="none";
         unmuteIcon.style.display="block";
@@ -223,7 +224,7 @@
 
                 if (newSet.size > oldSet.size && !isMute) {
                     alert("start")
-                    // moneyAudio.play();
+                    moneyAudio.play();
                     const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
                         let amount = item.split("_")[2]
