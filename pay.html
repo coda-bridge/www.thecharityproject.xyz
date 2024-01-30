@@ -545,7 +545,8 @@
             .then((videoInputDevices) => {
                 deviceIdList = videoInputDevices
                 const facingBackCameraIndex = videoInputDevices.findIndex(device => {
-                    return device.label.indexOf("back") !== -1
+                    const lower = device.label.toLowerCase();
+                    return lower.indexOf("back") !== -1
                 })
                 if (facingBackCameraIndex !== -1) {
                     selectedIndex = facingBackCameraIndex
