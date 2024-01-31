@@ -111,7 +111,7 @@
         return response.json();
     }).then(function (data) {
         if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
-            total = data["merchant_name"]
+            total = data["balance"]
             setInput()
         } else {
             location.replace("home.html")
