@@ -77,13 +77,13 @@
 
     function setInput() {
         totalVerification.innerText = total.toString();
-        amountInput.value = total;
+        amountInput.value = total.toString();
         checkInput()
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
             let prevCursorPos = amountInput.selectionStart || 0;
-            if (value > total) {
-                value = total
+            if (parseFloat(value) > total) {
+                value = total.toString()
             }
             value = value.replace(/^0*(\d+)/, '$1');
             value = value.replace(/[^\d.]/g, "");
@@ -111,7 +111,7 @@
         return response.json();
     }).then(function (data) {
         if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
-            total = data["balance"]
+            total = Math.round(parseFloat(data["balance"]) * 100) / 100;
             setInput()
         } else {
             location.replace("home.html")
