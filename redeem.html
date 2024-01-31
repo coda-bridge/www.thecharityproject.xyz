@@ -19,7 +19,8 @@
         <img width="22" height="22" src="media/Back.svg">
     </div>
 </a>
-<div style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
+<div id="redeem"
+     style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Redeem Tokens from CODA
     </h1>
@@ -41,14 +42,59 @@
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
+<div id="result" style="display: none;">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+        <img id="refresh-icon" class="loading-icon" src="https://coda.codeislaw.co/media/Refresh.svg"
+             style="display: none;"/>
+        <img id="success-icon" src="https://coda.codeislaw.co/media/Success.svg" style="display: none;"/>
+        <img id="error-icon" src="https://coda.codeislaw.co/media/Error.svg" style="display: none;"/>
+    </div>
+    <div id="result-text" style="text-align: center;margin: 2rem 0;"></div>
+    <div id="pay-Button">
+        <a class="btn btn-lg"
+           id="go-redeem-button"
+           onclick="backToRedeem()"
+           role="button"
+           style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+            Initiate another transaction
+        </a>
+        <a class="btn btn-lg"
+           href="home.html"
+           id="back-home-button"
+           role="button"
+           style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+            Back to homepage
+        </a>
+    </div>
+</div>
 <script>
     const amountInput = document.getElementById("amount-input")
     const totalVerification = document.getElementById("total")
     const NextButton = document.getElementById("next-button")
+    const redeemPlace = document.getElementById("redeem")
+    const resultPlace = document.getElementById("result")
+    const refreshIcon = document.getElementById("refresh-icon");
+    const successIcon = document.getElementById("success-icon");
+    const errorIcon = document.getElementById("error-icon");
+    const backHomeButton = document.getElementById("back-home-button");
+    const goRedeemButton = document.getElementById("go-redeem-button");
 
     let total = 0
 
+    function backToRedeem() {
+        redeemPlace.style.display = "block";
+        resultPlace.style.display = "none";
+    }
+
     function submit() {
+        redeemPlace.style.display = "none";
+        resultPlace.style.display = "block";
+        refreshIcon.style.display = "block";
+        successIcon.style.display = "none";
+        errorIcon.style.display = "none";
+        goRedeemButton.style.display = "none";
+        backHomeButton.style.display = "none";
+        payText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
             credentials: "include",
@@ -57,7 +103,19 @@
             },
             body: JSON.stringify({amount: amountInput.value})
         }).then(function (response) {
-
+            refreshIcon.style.display = "none";
+            if (response.status === 200) {
+                successIcon.style.display = "block";
+                payText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
+                backHomeButton.style.display = "block";
+            } else {
+                errorIcon.style.display = "none";
+                payText.innerText = "Your redeem is failed!";
+                goRedeemButton.style.display = "block";
+            }
+            return response.json();
+        }).then(function (data) {
+            console.log(data)
         })
     }
 
