@@ -50,7 +50,7 @@
         <img id="error-icon" src="https://coda.codeislaw.co/media/Error.svg" style="display: none;"/>
     </div>
     <div id="result-text" style="text-align: center;margin: 2rem 0;"></div>
-    <div id="pay-Button">
+    <div id="redeem-Button">
         <a class="btn btn-lg"
            id="go-redeem-button"
            onclick="backToRedeem()"
@@ -76,6 +76,7 @@
     const refreshIcon = document.getElementById("refresh-icon");
     const successIcon = document.getElementById("success-icon");
     const errorIcon = document.getElementById("error-icon");
+    const resultText = document.getElementById("result-text");
     const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
 
@@ -94,7 +95,7 @@
         errorIcon.style.display = "none";
         goRedeemButton.style.display = "none";
         backHomeButton.style.display = "none";
-        payText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
+        resultText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
             credentials: "include",
@@ -106,11 +107,11 @@
             refreshIcon.style.display = "none";
             if (response.status === 200) {
                 successIcon.style.display = "block";
-                payText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
+                resultText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
                 backHomeButton.style.display = "block";
             } else {
                 errorIcon.style.display = "block";
-                payText.innerText = "Your redeem is failed!";
+                resultText.innerText = "Your redeem is failed!";
                 goRedeemButton.style.display = "block";
             }
             return response.json();
@@ -119,7 +120,7 @@
         }).catch((e)=>{
             console.log(e)
             errorIcon.style.display = "block";
-            payText.innerText = "Your redeem is failed!";
+            resultText.innerText = "Your redeem is failed!";
             goRedeemButton.style.display = "block";
         })
     }
