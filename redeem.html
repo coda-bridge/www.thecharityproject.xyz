@@ -118,6 +118,7 @@
         }).then(function (data) {
             console.log(data)
         }).catch((e)=>{
+            refreshIcon.style.display = "none";
             console.log(e)
             errorIcon.style.display = "block";
             resultText.innerText = "Your redeem is failed!";
