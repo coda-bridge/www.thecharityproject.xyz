@@ -93,8 +93,6 @@
     }
 
     function submit() {
-        backButton.removeAttribute("href");
-        backButton.setAttribute('onclick', "backToRedeem()");
         redeemPlace.style.display = "none";
         resultPlace.style.display = "block";
         refreshIcon.style.display = "block";
@@ -103,35 +101,41 @@
         goRedeemButton.style.display = "none";
         backHomeButton.style.display = "none";
         resultText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
+        const thisAmount = parseFloat(amountInput.value)
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({amount: parseFloat(amountInput.value)})
+            body: JSON.stringify({amount: thisAmount})
         }).then(function (response) {
             refreshIcon.style.display = "none";
             if (response.status === 200) {
+                total -= thisAmount;
+                setInput()
                 successIcon.style.display = "block";
                 resultText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
                 backHomeButton.style.display = "block";
             } else {
-
-                errorIcon.style.display = "block";
-                resultText.innerText = "Your redeem is failed!";
-                goRedeemButton.style.display = "block";
+                showFalse()
             }
             return response.json();
         }).then(function (data) {
             console.log(data)
-        }).catch((e)=>{
-            refreshIcon.style.display = "none";
+        }).catch((e) => {
             console.log(e)
-            errorIcon.style.display = "block";
-            resultText.innerText = "Your redeem is failed!";
-            goRedeemButton.style.display = "block";
+            refreshIcon.style.display = "none";
+            showFalse()
         })
+    }
+
+    function showFalse() {
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToRedeem()");
+        errorIcon.style.display = "block";
+        resultText.innerText = "Your redeem is failed!";
+        goRedeemButton.style.display = "block";
     }
 
     function checkInput() {
