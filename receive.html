@@ -11,7 +11,7 @@
     <script type="module" src="component/TransactionTab.js"></script>
     <script>
         if (localStorage.getItem("IsLogin") !== "true") {
-            // location.replace("index.html")
+            location.replace("index.html")
         }
     </script>
 </head>
@@ -30,7 +30,7 @@
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Edit the amount
     </h1>
-    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Inout the amount you want to receive</div>
+    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Input the amount you want to receive</div>
     <input name="amount" id="amount-input" type="text" inputmode="decimal"
            style="width: 75vw;padding: 0.8rem 1rem;border: 1px solid var(--base-green);font-size: 2.5rem"/>
     <div id="confirm-button"
@@ -273,11 +273,11 @@
             generateQRCode()
             getTransaction()
         } else {
-            // location.replace("home.html")
+            location.replace("home.html")
         }
     }).catch(error => {
         console.error('Error:', error)
-        // location.replace("index.html")
+        location.replace("index.html")
     });
 </script>
 </body>
