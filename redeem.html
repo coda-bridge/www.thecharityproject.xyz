@@ -14,7 +14,7 @@
     </script>
 </head>
 <body>
-<a href="home.html">
+<a href="home.html" id="back-button">
     <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
         <img width="22" height="22" src="media/Back.svg">
     </div>
@@ -42,7 +42,7 @@
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
 </div>
-<div id="result" style="display: none;">
+<div id="result" style="padding: 0 1.5rem 2rem;display: none;">
     <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
         <img id="refresh-icon" class="loading-icon" src="https://coda.codeislaw.co/media/Refresh.svg"
              style="display: none;"/>
@@ -56,7 +56,7 @@
            onclick="backToRedeem()"
            role="button"
            style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
-            Initiate another transaction
+            Initiate another redeem
         </a>
         <a class="btn btn-lg"
            href="home.html"
@@ -79,15 +79,22 @@
     const resultText = document.getElementById("result-text");
     const backHomeButton = document.getElementById("back-home-button");
     const goRedeemButton = document.getElementById("go-redeem-button");
+    const backButton = document.getElementById("back-button");
 
     let total = 0
 
     function backToRedeem() {
-        redeemPlace.style.display = "block";
+        redeemPlace.style.display = "flex";
         resultPlace.style.display = "none";
+        backButton.removeAttribute("onclick");
+        setTimeout(() => {
+            backButton.href = "home.html";
+        }, 100);
     }
 
     function submit() {
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToRedeem()");
         redeemPlace.style.display = "none";
         resultPlace.style.display = "block";
         refreshIcon.style.display = "block";
@@ -110,6 +117,7 @@
                 resultText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
                 backHomeButton.style.display = "block";
             } else {
+
                 errorIcon.style.display = "block";
                 resultText.innerText = "Your redeem is failed!";
                 goRedeemButton.style.display = "block";
