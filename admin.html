@@ -214,8 +214,8 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({password, ...fileData[i]})
-                })
+                    body: JSON.stringify({password, amount: parseFloat(fileData[i]["amount"]), phone_country: fileData[i]["phone_country"].replace("+",""),phone_number:fileData[i]["phone_number"]})
+            })
                 if (query.status === 200) {
                     document.getElementById("resultTr" + i + "status").innerText = "Done"
                 } else {
