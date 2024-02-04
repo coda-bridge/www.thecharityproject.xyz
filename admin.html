@@ -7,6 +7,12 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <style>
+        #result table td, th {
+            padding: 0.8rem 0.6rem;
+            border: 1px solid #B9B9B9;
+        }
+    </style>
 </head>
 <body>
 <div style="margin-top: 5rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">
@@ -66,11 +72,34 @@
             <p>You can only upload one file each time.</p>
             <p>It may take several minutes to refill the vouchers.</p>
             <div>The transaction will continue even if the account doesn't exist. Once the client registers an account,
-                he/she will get the voucher at the same time.</div>
+                he/she will get the voucher at the same time.
+            </div>
         </div>
         <div id="button" style="width:100%;margin-top: 3.5rem;display: none;justify-content: space-around;">
-            <div id="noButton" style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">Cancel</div>
-            <div id="yesButton" style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">Confirm</div>
+            <div id="noButton" style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
+                Cancel
+            </div>
+            <div id="yesButton"
+                 style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
+                Confirm
+            </div>
+        </div>
+        <div id="result" style="display: none;width: 100%;">
+            <div style="color: red;font-size: 0.8rem;">Please do not leave this page until all the beneficiaries are
+                finished.
+            </div>
+            <table style="width: 100%;border-collapse: collapse;margin-top: 2rem;">
+                <thead>
+                <tr style="background-color: rgba(0,0,0,0.06);font-weight: 600;">
+                    <th>No.</th>
+                    <th>Phone Number</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="resultTbody">
+                </tbody>
+            </table>
         </div>
         <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0;">Powered by CODA Bridge</div>
     </div>
@@ -95,6 +124,9 @@
     let buttonPlace = document.getElementById("button");
     let yesButton = document.getElementById("yesButton");
     let noButton = document.getElementById("noButton");
+    let resultPlace = document.getElementById("result");
+    let tBodyPlace = document.getElementById("resultTbody");
+
     let fileData = []
     let password
 
@@ -118,7 +150,7 @@
             e.target.style.border = "1px solid var(--base-green)";
         }
     })
-    
+
     const backToDropFile = () => {
         dropZone.style.display = "block";
         notePlace.style.display = "block";
@@ -157,24 +189,41 @@
         }
     })
 
-    const goConfirm=(countAmount)=>{
+    const goConfirm = (countAmount) => {
         fileUpdatePlace.style.display = "none";
         alertConfirmPlace.style.display = "block";
         alertConfirmPlace.innerHTML = `<p>We will send $${countAmount} vouchers.</p><div>Please confirm this action</div>`;
         yesButton.innerText = "Confirm";
         yesButton.setAttribute('onclick', `startRefill()`);
     }
-    
+
     const startRefill = async () => {
-        for (let obj of fileData) {
-            await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
-                method: 'POST',
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({password, ...obj})
-            })
+        resultPlace.style.display = "block";
+        tBodyPlace.innerHTML = ""
+        tBodyPlace.innerHTML = fileData.map((data, index) => {
+            return `<tr><td>${index + 1}</td><td>${data["phone_number"]}</td><td>${data["amount"]}</td><td id="resultTr${index}status">Queue</td></tr>`;
+        }).join("")
+        buttonPlace.style.display = "none";
+        alertConfirmPlace.style.display = "none";
+        for (let i = 0; i <= fileData.length; i++) {
+            document.getElementById("resultTr" + i + "status").innerText = "In process"
+            try {
+                const query = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({password, ...fileData[i]})
+                })
+                if (query.status === 200) {
+                    document.getElementById("resultTr" + i + "status").innerText = "Done"
+                } else {
+                    document.getElementById("resultTr" + i + "status").innerText = "Error"
+                }
+            } catch (e) {
+                document.getElementById("resultTr" + i + "status").innerText = "Error"
+            }
         }
     }
 
@@ -206,7 +255,6 @@
                     });
                 }
             });
-            console.log(countAmount)
             yesButton.style.color = "white";
             yesButton.style.backgroundColor = "var(--base-green)";
             yesButton.style.border = "1px solid var(--base-green)";
