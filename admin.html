@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>donor dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="media/coda-logo.png">
+</head>
+<body>
+<div style="margin-top: 5rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">
+    <img width="96" src="media/coda-logo.png">
+    <div style="margin-top: 2rem;">Enter password to Refill vouchers for beneficiaries</div>
+    <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">
+        <input id="password" type="password"
+               style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
+        <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">
+        <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
+             src="./media/CloseEye.svg">
+    </div>
+    <a id="go-button"
+       style="margin-top: 2rem;font-size:1.2rem;font-weight:700;color:white;display: none;height: 100%;background-color: var(--base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">
+        Next
+    </a>
+    <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect
+        password, please try again
+    </div>
+</div>
+<div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
+    Getting data...
+</div>
+<div style="display: none;padding: 2rem 1.5rem;" id="body">
+    <div style="display: flex;flex-direction: column;align-items: center;">
+        <img width="96" src="media/coda-logo.png">
+        <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
+            class="display-4">Welcome!</h1>
+        <div style="font-size: 1.3rem;font-weight: 700;margin-bottom: 2rem;">
+            Refill vouchers for beneficiaries
+        </div>
+        <div id="drop_zone"
+             style="border-radius: 0.625rem;box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);padding: 1.5rem 0;border: 1px solid var(--base-green);background-color: #FBFFFB;width: 100%;text-align: center;">
+            Select file or drop here
+            <br/>
+            <br/>
+            Ony .CSV accepted
+        </div>
+        <div id="fileUpdate" style="width: 100%;display: none;justify-content: space-between;align-items: center;">
+            <img style="margin-right: 1rem;" src="media/Csv.svg">
+            <div style="flex:1;">
+                <div style="display: flex;justify-content: space-between">
+                    <div id="fileName"></div>
+                    <div id="updatePercentNumber"></div>
+                </div>
+                <div style="margin-top:0.5rem;width: 100%;border: 1px solid var(--base-green);height: 1rem;border-radius: 0.5rem;">
+                    <div id="updatePprogress"
+                         style="width:0%;background-color:var(--base-green);height: 100%;border-radius: 0.5rem;"></div>
+                </div>
+            </div>
+        </div>
+        <div id="alertConfirm"
+             style="display: none;border-radius: 0.625rem;box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);padding: 1.5rem 0;border: 1px solid var(--base-green);background-color: #FBFFFB;width: 100%;text-align: center;">
+        </div>
+        <div id="note" style="font-size: 0.7rem;margin-top: 3rem;">
+            <p>Please upload a CSV file contains clients’ phone number and amount of the voucher. See a sample here.</p>
+            <p>You can only upload one file each time.</p>
+            <p>It may take several minutes to refill the vouchers.</p>
+            <div>The transaction will continue even if the account doesn't exist. Once the client registers an account,
+                he/she will get the voucher at the same time.</div>
+        </div>
+        <div id="button" style="width:100%;margin-top: 3.5rem;display: none;justify-content: space-around;">
+            <div id="noButton" style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">Cancel</div>
+            <div id="yesButton" style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">Confirm</div>
+        </div>
+        <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0;">Powered by CODA Bridge</div>
+    </div>
+</div>
+</body>
+<script>
+    const loadingPlace = document.getElementById("loading");
+    const bodyPlace = document.getElementById("body");
+    const enterPasswordPlace = document.getElementById("enter-password");
+    let passwordInput = document.getElementById("password");
+    let eyeIcon = document.getElementById("eye");
+    let closeEyeIcon = document.getElementById("closeEye");
+    let goButton = document.getElementById("go-button");
+    let redeemedDonated = document.getElementById("redeemed-donated");
+    let warnText = document.getElementById("warn");
+    let fileUpdatePlace = document.getElementById("fileUpdate");
+    let fileName = document.getElementById("fileName");
+    let updatePercentNumber = document.getElementById("updatePercentNumber");
+    let updatePprogress = document.getElementById("updatePprogress");
+    let alertConfirmPlace = document.getElementById("alertConfirm");
+    let notePlace = document.getElementById("note");
+    let buttonPlace = document.getElementById("button");
+    let yesButton = document.getElementById("yesButton");
+    let noButton = document.getElementById("noButton");
+    let fileData = []
+    let password
+
+    let dropZone = document.getElementById('drop_zone');
+
+    dropZone.addEventListener("dragenter", (e) => {
+        e.preventDefault()
+        if (e.target.id === "drop_zone") {
+            e.target.style.border = "1px dashed #000";
+        }
+    })
+    dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault()
+        if (e.target.id === "drop_zone") {
+            e.target.style.border = "1px dashed #000";
+        }
+    })
+    dropZone.addEventListener("dragleave", (e) => {
+        e.preventDefault()
+        if (e.target.id === "drop_zone") {
+            e.target.style.border = "1px solid var(--base-green)";
+        }
+    })
+    
+    const backToDropFile = () => {
+        dropZone.style.display = "block";
+        notePlace.style.display = "block";
+        buttonPlace.style.display = "none";
+        fileUpdatePlace.style.display = "none";
+        alertConfirmPlace.style.display = "none";
+    }
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (e.target.id === "drop_zone") {
+            let files = e.dataTransfer.files;
+            const filesLength = files.length
+            if (filesLength < 1) {
+                alert("You need to upload a file!")
+            } else if (files[0].type !== "text/csv") {
+                alert("You can only upload .csv files!")
+            } else if (filesLength > 1) {
+                alert("Only one file can be uploaded at a time!")
+            } else {
+                fileName.innerText = files[0].name
+                fileUpdatePlace.style.display = "flex";
+                buttonPlace.style.display = "flex";
+                noButton.innerText = "Cancel";
+                noButton.setAttribute('onclick', "backToDropFile()");
+                yesButton.innerText = "Save";
+                fileData = []
+                yesButton.setAttribute('onclick', "");
+                yesButton.style.color = "black";
+                yesButton.style.backgroundColor = "#929292";
+                yesButton.style.border = "1px solid #929292";
+                dropZone.style.display = "none";
+                notePlace.style.display = "none";
+                uploadFiles(files[0]);
+            }
+        }
+    })
+
+    const goConfirm=(countAmount)=>{
+        fileUpdatePlace.style.display = "none";
+        alertConfirmPlace.style.display = "block";
+        alertConfirmPlace.innerHTML = `<p>We will send $${countAmount} vouchers.</p><div>Please confirm this action</div>`;
+        yesButton.innerText = "Confirm";
+        yesButton.setAttribute('onclick', `startRefill()`);
+    }
+    
+    const startRefill = async () => {
+        for (let obj of fileData) {
+            await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({password, ...obj})
+            })
+        }
+    }
+
+    function uploadFiles(file) {
+        let reader = new FileReader()
+        reader.readAsText(file)
+        reader.onload = e => {
+            const csv = e.target.result
+            const rows = csv.replace(/\r/g, '').split('\n');
+
+            const headers = rows[0].split(',');
+
+            const amountIndex = headers.indexOf('amount');
+            const phoneCountryIndex = headers.indexOf('phone_country');
+            const phoneNumberIndex = headers.indexOf('phone_number');
+
+            const data = rows.slice(1);
+            let countAmount = 0
+            data.forEach(row => {
+                if (row) {
+                    const cols = row.split(',');
+                    if (cols[amountIndex] && parseFloat(cols[amountIndex])) {
+                        countAmount += parseFloat(cols[amountIndex])
+                    }
+                    fileData.push({
+                        amount: cols[amountIndex],
+                        phone_country: cols[phoneCountryIndex],
+                        phone_number: cols[phoneNumberIndex]
+                    });
+                }
+            });
+            console.log(countAmount)
+            yesButton.style.color = "white";
+            yesButton.style.backgroundColor = "var(--base-green)";
+            yesButton.style.border = "1px solid var(--base-green)";
+            yesButton.setAttribute('onclick', `goConfirm(${countAmount})`);
+        }
+
+        reader.onerror = () => {
+
+        }
+
+        reader.onprogress = event => {
+            const percent = (event.loaded / event.total * 100) + "%"
+            updatePprogress.style.width = percent
+            updatePercentNumber.innerText = percent
+        }
+    }
+
+
+    passwordInput.addEventListener("input", () => {
+        password = passwordInput.value
+        warnText.style.display = "none";
+        if (passwordInput.value.trim().length > 0) {
+            goButton.style.display = "block";
+        } else {
+            goButton.style.display = "none";
+        }
+    })
+
+    const open = () => {
+        passwordInput.type = "text";
+        eyeIcon.style.display = "none";
+        closeEyeIcon.style.display = "block";
+    }
+    eyeIcon.addEventListener("click", open)
+
+    const close = () => {
+        passwordInput.type = "password";
+        eyeIcon.style.display = "block";
+        closeEyeIcon.style.display = "none";
+    }
+    closeEyeIcon.addEventListener("click", close)
+
+
+    const goFund = async () => {
+        enterPasswordPlace.style.display = "none";
+        bodyPlace.style.display = "block";
+    }
+
+    goButton.addEventListener("click", () => {
+        goFund()
+    })
+</script>
+</html>
