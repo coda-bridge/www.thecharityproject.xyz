@@ -225,11 +225,8 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        if (role === 0) {
-            expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
-        } else {
-            incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
-        }
+        incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
+        expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
     }
 
     timeSelector.defaultValue = formatDate()
