@@ -218,23 +218,17 @@
             comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if ((item.amount < 0) !== (role === 0)) {
-                expense += item.amount;
+                expense += Math.abs(item.amount);
             } else {
-                income += item.amount;
+                income += Math.abs(item.amount);
             }
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
         if (role === 0) {
             expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
-            if (year === "2024" && month === "Jan") {
-                incomeValue.innerText = "+$200";
-            } else {
-                incomeValue.innerText = "+$0";
-            }
         } else {
             incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
-            expenseValue.innerText = "-$0";
         }
     }
 
