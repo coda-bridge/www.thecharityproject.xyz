@@ -14,6 +14,20 @@ input:focus-visible {
     outline: 1px solid var(--base-green);
 }
 
+.clickButton{
+    user-select: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.clickButton:hover {
+    filter: contrast(1.02);
+}
+
+.clickButton:active {
+    filter: brightness(0.98);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+}
+
 @keyframes rotate {
     100% {
         transform: rotate(-360deg);
