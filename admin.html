@@ -51,6 +51,7 @@
             <br/>
             Ony .CSV accepted
         </div>
+        <input type="file" style="display: none;" id="file_input">
         <div id="fileUpdate" style="width: 100%;display: none;justify-content: space-between;align-items: center;">
             <img style="margin-right: 1rem;" src="media/Csv.svg">
             <div style="flex:1;">
@@ -131,6 +132,7 @@
     let password
 
     let dropZone = document.getElementById('drop_zone');
+    let fileInput = document.getElementById('file_input');
 
     dropZone.addEventListener("dragenter", (e) => {
         e.preventDefault()
@@ -159,33 +161,45 @@
         alertConfirmPlace.style.display = "none";
     }
 
+    dropZone.addEventListener('click',() => {
+        fileInput.value = ""
+        fileInput.click()
+    })
+
+    const checkFile = (files) => {
+        const filesLength = files.length
+        if (filesLength < 1) {
+            alert("You need to upload a file!")
+        } else if (files[0].type !== "text/csv") {
+            alert("You can only upload .csv files!")
+        } else if (filesLength > 1) {
+            alert("Only one file can be uploaded at a time!")
+        } else {
+            fileName.innerText = files[0].name
+            fileUpdatePlace.style.display = "flex";
+            buttonPlace.style.display = "flex";
+            noButton.innerText = "Cancel";
+            noButton.setAttribute('onclick', "backToDropFile()");
+            yesButton.innerText = "Save";
+            fileData = []
+            yesButton.setAttribute('onclick', "");
+            yesButton.style.color = "black";
+            yesButton.style.backgroundColor = "#929292";
+            yesButton.style.border = "1px solid #929292";
+            dropZone.style.display = "none";
+            notePlace.style.display = "none";
+            uploadFiles(files[0]);
+        }
+    }
+
+    fileInput.addEventListener("change",(e) => {
+        checkFile(e.target.files)
+    })
+
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         if (e.target.id === "drop_zone") {
-            let files = e.dataTransfer.files;
-            const filesLength = files.length
-            if (filesLength < 1) {
-                alert("You need to upload a file!")
-            } else if (files[0].type !== "text/csv") {
-                alert("You can only upload .csv files!")
-            } else if (filesLength > 1) {
-                alert("Only one file can be uploaded at a time!")
-            } else {
-                fileName.innerText = files[0].name
-                fileUpdatePlace.style.display = "flex";
-                buttonPlace.style.display = "flex";
-                noButton.innerText = "Cancel";
-                noButton.setAttribute('onclick', "backToDropFile()");
-                yesButton.innerText = "Save";
-                fileData = []
-                yesButton.setAttribute('onclick', "");
-                yesButton.style.color = "black";
-                yesButton.style.backgroundColor = "#929292";
-                yesButton.style.border = "1px solid #929292";
-                dropZone.style.display = "none";
-                notePlace.style.display = "none";
-                uploadFiles(files[0]);
-            }
+            checkFile(e.dataTransfer.files)
         }
     })
 
