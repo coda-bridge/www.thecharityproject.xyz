@@ -26,6 +26,7 @@
              src="./media/CloseEye.svg">
     </div>
     <a id="go-button"
+       class="clickButton"
        style="margin-top: 2rem;font-size:1.2rem;font-weight:700;color:white;display: none;height: 100%;background-color: var(--base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">
         Next
     </a>
@@ -234,7 +235,12 @@
                     body: JSON.stringify({password, amount: parseFloat(fileData[i]["amount"]), phone_country: fileData[i]["phone_country"].replace("+",""),phone_number:fileData[i]["phone_number"]})
             })
                 if (query.status === 200) {
-                    document.getElementById("resultTr" + i + "status").innerText = "Done"
+                    const req = query.json()
+                    if(req.status){
+                        document.getElementById("resultTr" + i + "status").innerText = "Done"
+                    }else {
+                        document.getElementById("resultTr" + i + "status").innerText = "Error"
+                    }
                 } else {
                     document.getElementById("resultTr" + i + "status").innerText = "Error"
                 }
