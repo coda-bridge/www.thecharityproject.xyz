@@ -15,40 +15,29 @@
         let domReady = false
 
         async function queryAllData() {
-            let queryList = []
-            queryList.push(fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
+            const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
                 method: 'GET',
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
-            }))
-            queryList.push(fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            })
+            const fetchTransactions = fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json"
                     },
                 }
-            ))
-            if (role !== 0) {
-                queryList.push(fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/redeem_transactions", {
-                        method: 'GET',
-                        credentials: "include",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                    }
-                ))
-            }
-            const AllResponse = await Promise.all(queryList);
+            )
+            const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             profileData = await AllResponse[0].json()
             if (domReady) {
-                processTransaction(AllResponse[1], AllResponse[2])
+                processTransaction(AllResponse[1])
                 processProfile(profileData)
             } else {
                 document.addEventListener('DOMContentLoaded', function () {
-                    processTransaction(AllResponse[1], AllResponse[2])
+                    processTransaction(AllResponse[1])
                     processProfile(profileData)
                 })
             }
@@ -126,45 +115,28 @@
         }
     }
 
-    const processTransaction = async (receiveResponse, redeemResponse) => {
-        if (receiveResponse.status === 401) {
+    const processTransaction = async (response) => {
+        if (response.status === 200) {
+            const getData = await response.json();
+            transactionData = getData.map(item => {
+                item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
+                const serverTime = Date.parse(item.timestamp);
+                const offset = new Date().getTimezoneOffset();
+                item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
+                item.timestamp = serverTime - offset * 60 * 1000;
+                if (role === 1 && item.user_name) {
+                    const nameList = item.user_name.split(' ')
+                    item.user_name = nameList[nameList.length - 1]
+                }
+                if (item.user_phone) {
+                    item.user_phone = item.user_phone.slice(-4);
+                }
+                return item;
+            })
+            filterByMonth(timeSelector.value || formatDate())
+        } else if (response.status === 401) {
             alert("Your login has expired. Please login again~");
             location.replace("index.html");
-        } else {
-            let receiveTransactionData = []
-            let redeemTransactionData = []
-            if (receiveResponse.status === 200) {
-                const getData = await receiveResponse.json();
-                receiveTransactionData = getData.map(item => {
-                    item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
-                    const serverTime = Date.parse(item.timestamp);
-                    const offset = new Date().getTimezoneOffset();
-                    item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
-                    item.timestamp = serverTime - offset * 60 * 1000;
-                    if (role === 1 && item.user_name) {
-                        const nameList = item.user_name.split(' ')
-                        item.user_name = nameList[nameList.length - 1]
-                    }
-                    if (item.user_phone) {
-                        item.user_phone = item.user_phone.slice(-4);
-                    }
-                    return item;
-                })
-            }
-            if (redeemResponse && redeemResponse.status === 200) {
-                const getData = await redeemResponse.json();
-                redeemTransactionData = getData.map(item => {
-                    item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
-                    const serverTime = Date.parse(item.timestamp);
-                    const offset = new Date().getTimezoneOffset();
-                    item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
-                    item.timestamp = serverTime - offset * 60 * 1000;
-                    item.user_name = "CODA"
-                    return item;
-                })
-            }
-            transactionData = [...receiveTransactionData, ...redeemTransactionData];
-            filterByMonth(timeSelector.value || formatDate())
         }
     }
 
@@ -243,7 +215,7 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "https://coda.codeislaw.co/media/kitchen-logo.png" : "";
             comp.role = role;
-            comp.name = item.merchant_name || (item.user_name + (item.user_phone ? " (" + item.user_phone + ")" : ""));
+            comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (role === 0) {
                 expense += item.amount;
