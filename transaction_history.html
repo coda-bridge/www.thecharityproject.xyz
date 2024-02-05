@@ -123,7 +123,9 @@
                 const serverTime = Date.parse(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
+                console.log(item.amount)
                 item.timestamp = serverTime - offset * 60 * 1000;
+                console.log(item.timestamp)
                 if (role === 1 && item.user_name) {
                     const nameList = item.user_name.split(' ')
                     item.user_name = nameList[nameList.length - 1]
@@ -207,6 +209,7 @@
         const date = new Date(`${month} 1, ${year}`);
         const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
         const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
+        console.log(transactionData)
         transactionData.filter(item => {
             const differentLength = 13 - item.timestamp.toString().length;
             const timestamp = item.timestamp * (10 ** differentLength);
