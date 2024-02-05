@@ -50,7 +50,6 @@ class Account extends HTMLElement {
         this.render()
 
         const phonePlace = this.shadowRoot.getElementById('phone');
-        const emailPlace = this.shadowRoot.getElementById('email');
         const phoneNumber = this.shadowRoot.getElementById('phone_number');
         const phoneCountry = this.shadowRoot.getElementById('phone_country');
         const countrySelector = document.createElement("select-component");
@@ -97,7 +96,6 @@ class Account extends HTMLElement {
 
         function toPhone() {
             phonePlace.style.display = "block";
-            emailPlace.style.display = "none";
             phoneNumber.style.borderColor = "var(--base-green)";
             checkValidity()
         }

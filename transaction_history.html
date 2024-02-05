@@ -209,7 +209,6 @@
         const date = new Date(`${month} 1, ${year}`);
         const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
         const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
-        console.log(transactionData)
         transactionData.filter(item => {
             const differentLength = 13 - item.timestamp.toString().length;
             const timestamp = item.timestamp * (10 ** differentLength);
@@ -218,7 +217,7 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "https://coda.codeislaw.co/media/kitchen-logo.png" : "";
             comp.role = role;
-            comp.name = item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
+            comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (role === 0) {
                 expense += item.amount;
