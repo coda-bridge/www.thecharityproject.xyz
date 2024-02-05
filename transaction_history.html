@@ -123,9 +123,7 @@
                 const serverTime = Date.parse(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
-                console.log(item.amount)
                 item.timestamp = serverTime - offset * 60 * 1000;
-                console.log(item.timestamp)
                 if (role === 1 && item.user_name) {
                     const nameList = item.user_name.split(' ')
                     item.user_name = nameList[nameList.length - 1]
@@ -219,7 +217,7 @@
             comp.role = role;
             comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
-            if (role === 0) {
+            if ((item.amount < 0) !== (role === 0)) {
                 expense += item.amount;
             } else {
                 income += item.amount;
