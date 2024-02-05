@@ -225,8 +225,10 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100;
-        expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100;
+        console.log("income",income)
+        console.log("income",expense)
+        incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100 || 0;
+        expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100 || 0;
     }
 
     timeSelector.defaultValue = formatDate()
