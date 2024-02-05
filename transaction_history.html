@@ -195,11 +195,8 @@
     }
 
     function filterByMonth(monthStr) {
-        if (role === 0) {
-            expense = 0
-        } else {
-            income = 0
-        }
+        expense = 0
+        income = 0
         historyPlace.innerHTML = ""
         const monthYear = monthStr.split(' ');
         const month = monthYear[0];
@@ -218,6 +215,8 @@
             comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if ((item.amount < 0) !== (role === 0)) {
+                console.log(item.amount)
+                console.log(Math.abs(item.amount))
                 expense += Math.abs(item.amount);
             } else {
                 income += Math.abs(item.amount);
