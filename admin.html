@@ -223,7 +223,7 @@
         }).join("")
         buttonPlace.style.display = "none";
         alertConfirmPlace.style.display = "none";
-        for (let i = 0; i <= fileData.length; i++) {
+        for (let i = 0; i < fileData.length; i++) {
             document.getElementById("resultTr" + i + "status").innerText = "In process"
             try {
                 const query = await fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
@@ -235,7 +235,7 @@
                     body: JSON.stringify({password, amount: parseFloat(fileData[i]["amount"]), phone_country: fileData[i]["phone_country"].replace("+",""),phone_number:fileData[i]["phone_number"]})
             })
                 if (query.status === 200) {
-                    const req = query.json()
+                    const req = await query.json()
                     if(req.status){
                         document.getElementById("resultTr" + i + "status").innerText = "Done"
                     }else {
