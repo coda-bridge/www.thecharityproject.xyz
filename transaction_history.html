@@ -215,8 +215,6 @@
             comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if ((item.amount < 0) !== (role === 0)) {
-                console.log(item.amount)
-                console.log(Math.abs(item.amount))
                 expense += Math.abs(item.amount);
             } else {
                 income += Math.abs(item.amount);
@@ -224,8 +222,8 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        console.log("income",income)
-        console.log("income",expense)
+        console.log("income", income)
+        console.log("income", expense)
         incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100 || 0;
         expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100 || 0;
     }
@@ -257,9 +255,12 @@
                 headers.map(header => {
                         if (header === "timestamp") {
                             return formatTimestamp(row[header])
+                        } else if (header === "user_name" && !row[header]) {
+                            return "CODA"
                         } else {
                             return `"${row[header] || ''}"`
                         }
+
                     }
                 ).join(',')
             )
