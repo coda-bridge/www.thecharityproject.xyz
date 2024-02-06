@@ -222,7 +222,7 @@
     const goConfirm = (countAmount) => {
         fileUpdatePlace.style.display = "none";
         alertConfirmPlace.style.display = "block";
-        alertConfirmPlace.innerHTML = `<p>We will send $${countAmount} vouchers.</p><div>Please confirm this action</div>`;
+        alertConfirmPlace.innerHTML = `<p>We will send $${countAmount} vouchers.</p><div>Please click Confirm to continue</div>`;
         yesButton.innerText = "Confirm";
         yesButton.setAttribute('onclick', `startRefill()`);
     }
