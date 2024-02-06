@@ -1,0 +1,2 @@
+first_name,last_name,country_code,phone_number,amount,
+test,test,65,98989898,300,Please delete this line when you use it in production

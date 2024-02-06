@@ -15,6 +15,7 @@ input:focus-visible {
 }
 
 .clickButton{
+    text-decoration: none;
     user-select: none;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -25,6 +26,7 @@ input:focus-visible {
 
 .clickButton:active {
     filter: brightness(0.98);
+    transform: scale(0.99);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 }
 
