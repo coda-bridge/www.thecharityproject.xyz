@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>donor dashboard</title>
+    <title>admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,9 +40,7 @@
 <div style="display: none;padding: 2rem 1.5rem;" id="body">
     <div style="display: flex;flex-direction: column;align-items: center;">
         <img width="96" src="media/coda-logo.png">
-        <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
-            class="display-4">Welcome!</h1>
-        <div style="font-size: 1.3rem;font-weight: 700;margin-bottom: 2rem;">
+        <div style="font-size: 1.3rem;font-weight: 700;margin: 2rem 0;">
             Refill vouchers for beneficiaries
         </div>
         <div id="drop_zone"
@@ -78,16 +76,6 @@
                 he/she will get the voucher at the same time.
             </div>
         </div>
-        <div id="button" style="width:100%;margin-top: 3.5rem;display: none;justify-content: space-around;">
-            <div id="noButton" class="clickButton" style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
-                Cancel
-            </div>
-            <div id="yesButton"
-                 class="clickButton"
-                 style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
-                Confirm
-            </div>
-        </div>
         <div id="result" style="display: none;width: 100%;">
             <div style="color: red;font-size: 0.8rem;">Please do not leave this page until all the beneficiaries are
                 finished.
@@ -96,6 +84,7 @@
                 <thead>
                 <tr style="background-color: rgba(0,0,0,0.06);font-weight: 600;">
                     <th>No.</th>
+                    <th>Country Code</th>
                     <th>Phone Number</th>
                     <th>Amount</th>
                     <th>Status</th>
@@ -104,6 +93,17 @@
                 <tbody id="resultTbody">
                 </tbody>
             </table>
+        </div>
+        <div id="button" style="width:100%;margin-top: 3.5rem;display: none;justify-content: space-around;">
+            <div id="noButton" class="clickButton"
+                 style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
+                Cancel
+            </div>
+            <div id="yesButton"
+                 class="clickButton"
+                 style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
+                Confirm
+            </div>
         </div>
         <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0;">Powered by CODA Bridge</div>
     </div>
@@ -132,6 +132,7 @@
     let tBodyPlace = document.getElementById("resultTbody");
 
     let fileData = []
+    let resultList = [];
     let password
 
     let dropZone = document.getElementById('drop_zone');
@@ -163,9 +164,10 @@
         buttonPlace.style.display = "none";
         fileUpdatePlace.style.display = "none";
         alertConfirmPlace.style.display = "none";
+        resultPlace.style.display = "none";
     }
 
-    dropZone.addEventListener('click',() => {
+    dropZone.addEventListener('click', () => {
         fileInput.value = ""
         fileInput.click()
     })
@@ -196,7 +198,7 @@
         }
     }
 
-    fileInput.addEventListener("change",(e) => {
+    fileInput.addEventListener("change", (e) => {
         checkFile(e.target.files)
     })
 
@@ -219,10 +221,18 @@
         resultPlace.style.display = "block";
         tBodyPlace.innerHTML = ""
         tBodyPlace.innerHTML = fileData.map((data, index) => {
-            return `<tr><td>${index + 1}</td><td>${data["phone_number"]}</td><td>${data["amount"]}</td><td id="resultTr${index}status">Queue</td></tr>`;
+            return `<tr><td>${index + 1}</td><td>${data["country_code"]}</td><td>${data["phone_number"]}</td><td>${data["amount"]}</td><td id="resultTr${index}status">Queue</td></tr>`;
         }).join("")
         buttonPlace.style.display = "none";
         alertConfirmPlace.style.display = "none";
+        const setDone = (i) => {
+            resultList.push({...fileData[i], status: "Done"})
+            document.getElementById("resultTr" + i + "status").innerText = "Done"
+        }
+        const setError = (i) => {
+            resultList.push({...fileData[i], status: "Error"})
+            document.getElementById("resultTr" + i + "status").innerText = "Error"
+        }
         for (let i = 0; i < fileData.length; i++) {
             document.getElementById("resultTr" + i + "status").innerText = "In process"
             try {
@@ -232,22 +242,62 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({password, amount: parseFloat(fileData[i]["amount"]), phone_country: fileData[i]["phone_country"].replace("+",""),phone_number:fileData[i]["phone_number"]})
-            })
+                    body: JSON.stringify({
+                        password,
+                        amount: parseFloat(fileData[i]["amount"]),
+                        phone_country: fileData[i]["country_code"].replace("+", ""),
+                        phone_number: fileData[i]["phone_number"]
+                    })
+                })
                 if (query.status === 200) {
                     const req = await query.json()
-                    if(req.status){
-                        document.getElementById("resultTr" + i + "status").innerText = "Done"
-                    }else {
-                        document.getElementById("resultTr" + i + "status").innerText = "Error"
+                    if (req.status) {
+                        setDone(i);
+                    } else {
+                        setError(i);
                     }
                 } else {
-                    document.getElementById("resultTr" + i + "status").innerText = "Error"
+                    setError(i);
                 }
             } catch (e) {
-                document.getElementById("resultTr" + i + "status").innerText = "Error"
+                console.log(e);
+                setError(i);
             }
         }
+        buttonPlace.style.display = "flex"
+        noButton.innerText = "Back to home";
+        noButton.setAttribute('onclick', "backToDropFile()");
+        yesButton.innerText = "Save the refill records";
+        yesButton.style.color = "white";
+        yesButton.style.backgroundColor = "var(--base-green)";
+        yesButton.style.border = "1px solid var(--base-green)";
+        yesButton.setAttribute('onclick', `exportCsv()`);
+    }
+    const exportCsv = () => {
+        const headers = Object.keys(resultList[0]);
+        const arrayToCsv = (data) => [
+            headers.join(','),
+            ...data.map(row =>
+                headers.map(header => row[header]).join(',')
+            )
+        ].join('\n')
+        const csv = arrayToCsv(resultList);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        const blob = new Blob(["\ufeff" + csv], {type: 'text/csv;charset=utf-8;'});
+        link.href = URL.createObjectURL(blob);
+        const now = new Date();
+        const filename = now.getFullYear() + '-'
+            + (now.getMonth() + 1) + '-'
+            + now.getDate() + ' '
+            + now.getHours() + '-'
+            + now.getMinutes() + '-'
+            + now.getSeconds();
+
+        link.download = filename + '.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     function uploadFiles(file) {
@@ -273,7 +323,7 @@
                     }
                     fileData.push({
                         amount: cols[amountIndex],
-                        phone_country: cols[phoneCountryIndex],
+                        country_code: cols[phoneCountryIndex],
                         phone_number: cols[phoneNumberIndex]
                     });
                 }

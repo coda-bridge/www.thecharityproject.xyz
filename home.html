@@ -49,12 +49,12 @@
                     </div>
                 </div>
             </div>
-            <div id="balance-prompt" style="margin-top: 0.6rem">
-                <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">
-                <div style="display: inline;font-size: 0.8rem">You should receive $200 vouchers. Please contact the help
-                    desk if this is wrong.
-                </div>
-            </div>
+<!--            <div id="balance-prompt" style="margin-top: 0.6rem">-->
+<!--                <img style="display: inline;width: 1.1rem;" src="./media/Info.svg">-->
+<!--                <div style="display: inline;font-size: 0.8rem">You should receive $200 vouchers. Please contact the help-->
+<!--                    desk if this is wrong.-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
         <div id="client-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
@@ -112,13 +112,13 @@
     const bodyPlace = document.getElementById("body");
     const balancePlace = document.getElementById("balance");
     const donorPlace = document.getElementById("donor-data");
-    const balancePrompt = document.getElementById("balance-prompt");
+    // const balancePrompt = document.getElementById("balance-prompt");
     const clientButton = document.getElementById("client-button");
     const socialKitchenButton = document.getElementById("social-kitchen-button");
 
     const signOut = () => {
         localStorage.removeItem("IsLogin");
-        window.location.replace("index.html");
+        location.replace("index.html")
     }
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
@@ -141,13 +141,13 @@
                 userName = data['firstname'] + " " + data['lastname'];
                 break;
             case "1":
-                balancePrompt.style.display = "none";
+                // balancePrompt.style.display = "none";
                 socialKitchenButton.style.display = "flex";
                 userName = data["merchant_name"]
                 break;
             case "2":
                 balancePlace.style.display = "none";
-                balancePrompt.style.display = "none";
+                // balancePrompt.style.display = "none";
                 donorPlace.style.display = "block";
                 userName = data["merchant_name"]
                 break;
