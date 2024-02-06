@@ -69,7 +69,7 @@
              style="display: none;border-radius: 0.625rem;box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);padding: 1.5rem 0;border: 1px solid var(--base-green);background-color: #FBFFFB;width: 100%;text-align: center;">
         </div>
         <div id="note" style="font-size: 0.7rem;margin-top: 3rem;">
-            <p>Please upload a CSV file contains clients’ phone number and amount of the voucher. See a sample here.</p>
+            <p>Please upload a CSV file contains clients’ phone number and amount of the voucher. <a href="dist/Refill_Vouchers_Template.csv">See a sample here</a>.</p>
             <p>You can only upload one file each time.</p>
             <p>It may take several minutes to refill the vouchers.</p>
             <div>The transaction will continue even if the account doesn't exist. Once the client registers an account,
@@ -137,6 +137,11 @@
 
     let dropZone = document.getElementById('drop_zone');
     let fileInput = document.getElementById('file_input');
+
+    function alert_if_uploading(event) {
+        event.preventDefault();
+        event.returnValue = true;
+    }
 
     dropZone.addEventListener("dragenter", (e) => {
         e.preventDefault()
@@ -218,6 +223,7 @@
     }
 
     const startRefill = async () => {
+        window.addEventListener("beforeunload", alert_if_uploading);
         resultPlace.style.display = "block";
         tBodyPlace.innerHTML = ""
         tBodyPlace.innerHTML = fileData.map((data, index) => {
@@ -264,6 +270,7 @@
                 setError(i);
             }
         }
+        window.removeEventListener("beforeunload", alert_if_uploading);
         buttonPlace.style.display = "flex"
         noButton.innerText = "Back to home";
         noButton.setAttribute('onclick', "backToDropFile()");
