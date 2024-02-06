@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>redeem</title>
+    <title>settle vouchers</title>
     <meta charset="UTF-8">
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,7 +22,7 @@
 <div id="redeem"
      style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        Redeem Tokens from CODA
+        Settle vouchers with CODA
     </h1>
     <div>
         <div>To</div>
@@ -181,6 +181,9 @@
             checkInput()
         })
     }
+
+    total = localStorage.getItem("balance") || 0;
+    setInput()
 
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
