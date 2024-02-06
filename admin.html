@@ -210,7 +210,8 @@
         fileUpdatePlace.style.display = "none";
         alertConfirmPlace.style.display = "block";
         alertConfirmPlace.getElementsByTagName("p")[0].innerText = `We will send $${countAmount} vouchers.`;
-        yesButton.innerText = "Confirm";
+        yesButton.style.display = "flex";
+        yesButton.innerHTML = `<img id="confirm-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>Confirm`;
         yesButton.style.color = "black";
         yesButton.style.backgroundColor = "#929292";
         yesButton.style.border = "1px solid #929292";
@@ -218,6 +219,8 @@
     }
 
     const startRefill = async () => {
+        const rolling = document.getElementById("confirm-rolling")
+        rolling.style.display = "block";
         window.addEventListener("beforeunload", alert_if_uploading);
         let fetchStatus = true
         tBodyPlace.innerHTML = fileData.map((data, index) => {
@@ -269,9 +272,13 @@
                 }
             } catch (e) {
                 console.log(e);
+                resultPlace.style.display = "block";
+                buttonPlace.style.display = "none";
+                alertConfirmPlace.style.display = "none";
                 setError(i);
             }
         }
+        rolling.style.display = "none";
         if (fetchStatus) {
             buttonPlace.style.display = "flex"
             noButton.innerText = "Back to home";
