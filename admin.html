@@ -57,8 +57,8 @@
                     <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
                          src="./media/CloseEye.svg">
                 </div>
-                <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or
-                    incorrect password, please try again
+                <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">incorrect
+                    password, please try again
                 </div>
             </div>
             <div id="note" style="font-size: 1rem;margin-top: 3rem;">
@@ -219,6 +219,7 @@
 
     const startRefill = async () => {
         window.addEventListener("beforeunload", alert_if_uploading);
+        let fetchStatus = true
         tBodyPlace.innerHTML = fileData.map((data, index) => {
             return `<tr><td>${index + 1}</td><td>${data["country_code"]}</td><td>${data["phone_number"]}</td><td>${data["amount"]}</td><td id="resultTr${index}status">Queue</td></tr>`;
         }).join("")
@@ -258,6 +259,7 @@
                     }
                 } else if (i === 0 && query.status === 401) {
                     warnText.style.display = "block";
+                    fetchStatus = false
                     break;
                 } else {
                     resultPlace.style.display = "block";
@@ -270,15 +272,17 @@
                 setError(i);
             }
         }
+        if (fetchStatus) {
+            buttonPlace.style.display = "flex"
+            noButton.innerText = "Back to home";
+            noButton.setAttribute('onclick', "backToDropFile()");
+            yesButton.innerText = "Save the refill records";
+            yesButton.style.color = "white";
+            yesButton.style.backgroundColor = "var(--base-green)";
+            yesButton.style.border = "1px solid var(--base-green)";
+            yesButton.setAttribute('onclick', `exportCsv()`);
+        }
         window.removeEventListener("beforeunload", alert_if_uploading);
-        buttonPlace.style.display = "flex"
-        noButton.innerText = "Back to home";
-        noButton.setAttribute('onclick', "backToDropFile()");
-        yesButton.innerText = "Save the refill records";
-        yesButton.style.color = "white";
-        yesButton.style.backgroundColor = "var(--base-green)";
-        yesButton.style.border = "1px solid var(--base-green)";
-        yesButton.setAttribute('onclick', `exportCsv()`);
     }
     const exportCsv = () => {
         const headers = Object.keys(resultList[0]);
