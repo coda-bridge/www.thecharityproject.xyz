@@ -214,7 +214,7 @@
             comp.role = role;
             comp.name = item.amount < 0 ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
-            if ((item.amount < 0) !== (role === 0)) {
+            if (role === 0 && item.amount < 0 || role === 1 && item.amount > 0) {
                 expense += Math.abs(item.amount);
             } else {
                 income += Math.abs(item.amount);
@@ -222,8 +222,6 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        console.log("income", income)
-        console.log("income", expense)
         incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100 || 0;
         expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100 || 0;
     }
