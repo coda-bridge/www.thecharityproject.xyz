@@ -36,7 +36,7 @@
 
 <div style="background-color: white;padding: 0 1.5rem 2rem;">
     <h1 class="display-4" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
-        Pay
+        Redeem voucher
     </h1>
     <div id="home" style="display: flex;flex-direction: column;align-items: center;">
         <img width="117" height="117" src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
@@ -50,40 +50,40 @@
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                Something wrong with your camera? Try <a id="go-manually" style="text-decoration: underline;">pay
+                SomIf unsuccessful, you can use non-camera model. Try <a id="go-manually" style="text-decoration: underline;">pay
                 manually</a>.
             </div>
         </div>
-        <div style="font-size: 0.9rem">
-            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
-            <div style="display: flex;">
-                <div style="margin-right: 0.25rem">1.</div>
-                <div>
-                    Under $10? No verification needed!
-                </div>
-            </div>
-            <div style="display: flex;">
-                <div style="margin-right: 0.25rem">2.</div>
-                <div>
-                    Above $10? Enter your verification code sent via SMS.
-                </div>
-            </div>
-            <div style="display: flex;">
-                <div style="margin-right: 0.25rem">3.</div>
-                <div>
-                    Redeem vouchers exclusively at Social Kitchen Branches.
-                </div>
-            </div>
-            <div style="display: flex;">
-                <div style="margin-right: 0.25rem">4.</div>
-                <div>
-                    Stay on this page until you receive a clear transaction result.
-                </div>
-            </div>
-        </div>
+<!--        <div style="font-size: 0.9rem">-->
+<!--            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>-->
+<!--            <div style="display: flex;">-->
+<!--                <div style="margin-right: 0.25rem">1.</div>-->
+<!--                <div>-->
+<!--                    Under $10? No verification needed!-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div style="display: flex;">-->
+<!--                <div style="margin-right: 0.25rem">2.</div>-->
+<!--                <div>-->
+<!--                    Above $10? Enter your verification code sent via SMS.-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div style="display: flex;">-->
+<!--                <div style="margin-right: 0.25rem">3.</div>-->
+<!--                <div>-->
+<!--                    Redeem vouchers exclusively at Social Kitchen Branches.-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div style="display: flex;">-->
+<!--                <div style="margin-right: 0.25rem">4.</div>-->
+<!--                <div>-->
+<!--                    Stay on this page until you receive a clear transaction result.-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
     <div id="manually" style="display: none;">
-        <div style="margin-top: 3rem;">You're going to pay</div>
+        <div id="manually-text" style="margin-top: 3rem;">Outlet :</div>
         <div id="kitchen" style="margin-top: 1.5rem;">
 
         </div>
@@ -138,7 +138,7 @@
                 Check out the transaction history
             </a>
             <a class="btn btn-lg"
-               id="go-redeem-button"
+               id="pay-again-button"
                onclick="backToScan()"
                role="button"
                style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
@@ -164,6 +164,7 @@
     const pay = document.getElementById("pay");
     const error = document.getElementById("error");
     const goButton = document.getElementById("go-manually");
+    const manuallyText = document.getElementById("manually-text");
     const kitchenPlace = document.getElementById("kitchen");
     const amountPlace = document.getElementById("amount");
     const balancePlace = document.getElementById("balance");
@@ -183,7 +184,7 @@
 
     const goHistoryButton = document.getElementById("go-history-button");
     const backHomeButton = document.getElementById("back-home-button");
-    const goRedeemButton = document.getElementById("go-redeem-button");
+    const payAgainButton = document.getElementById("pay-again-button");
 
     const QRRolling = document.getElementById("QR-rolling");
     const NextRolling = document.getElementById("next-rolling");
@@ -275,6 +276,7 @@
     }
 
     const goManually = () => {
+        manuallyText.innerText = "You are redeeming your voucher(s) at the following outlet and amount:"
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
@@ -323,7 +325,7 @@
                     manually.style.display = "none";
                     confirmText.innerHTML = "";
                     confirm.style.display = "block";
-                    confirmText.innerHTML = `<div>We've sent a one-time code to your phone.Simply enter it to complete your payment.</div>
+                    confirmText.innerHTML = `<div>A one-time code has been sent to your phone number. Simply enter the code to complete your voucher redemption.</div>
                 <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
                     <input style="border: 1px solid var(--base-green);width: 4rem;height: 4rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
@@ -361,7 +363,7 @@
             manually.style.display = "none";
             confirmText.innerHTML = "";
             confirm.style.display = "block";
-            confirmText.innerHTML = `<div>The amount you’re going to pay is under $10.</div><br/><div>Click Confirm button to confirm the payment.</div>`;
+            confirmText.innerHTML = `<div>Click Confirm button to confirm the payment.</div>`;
             confirmButton.style.backgroundColor = "var(--base-green)";
             confirmButton.style.cursor = "pointer";
             confirmButton.setAttribute('onclick', "goPay()");
@@ -375,7 +377,7 @@
         payText.innerHTML = `<div>Your transaction is in process.</div><br/><div>Please do not leave this page.</div>`
         successIcon.style.display = "none";
         errorIcon.style.display = "none";
-        goRedeemButton.style.display = "none";
+        payAgainButton.style.display = "none";
         goHistoryButton.style.display = "none";
         backHomeButton.style.display = "none";
         const payData = {"to_address": ethAddress, "amount": amount}
@@ -421,7 +423,7 @@
                 if (data['message']) {
                     payText.innerText = data['message'];
                 }
-                goRedeemButton.style.display = "block";
+                payAgainButton.style.display = "block";
             }
         }).catch(error => {
             console.log(error)
@@ -429,7 +431,7 @@
             errorIcon.style.display = "block";
             refreshIcon.style.display = "none";
             payText.innerText = "Your transaction failed!(network error)"
-            goRedeemButton.style.display = "block";
+            payAgainButton.style.display = "block";
         });
     }
 
@@ -506,7 +508,7 @@
             }
             if (QRData.amount && QRData.amount !== "0.00") {
                 amount = QRData.amount
-                amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">${QRData.amount}</div>`
+                amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">Voucher amount:<br/>$${QRData.amount}</div>`
             } else {
                 addAmountInput()
             }

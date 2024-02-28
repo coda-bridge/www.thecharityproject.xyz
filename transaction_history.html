@@ -101,12 +101,12 @@
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
         incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerText = "Income:"
+        incomeTitle.innerText = role === 0 ? "Distributed:" : "Income:"
         incomePlace.appendChild(incomeTitle)
         incomePlace.appendChild(incomeValue)
         let expenseTitle = document.createElement("div")
         expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerText = "Expense:"
+        expenseTitle.innerText = role === 0 ? "Redeemed:" : "Settled:"
         expensePlace.appendChild(expenseTitle)
         expensePlace.appendChild(expenseValue)
         if (role === 1) {

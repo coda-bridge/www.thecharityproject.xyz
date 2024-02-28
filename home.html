@@ -31,7 +31,7 @@
                 class="display-4">Welcome <span id="user_name"></span>!</h1>
             <div id="balance"
                  style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                <div style="font-size: 1.3rem">Balance Vouchers</div>
+                <div id="vouchers-text" style="font-size: 1.3rem">Vouchers available</div>
                 <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="price">0</span></div>
             </div>
             <div style="width: 100%;display: none;" id="donor-data">
@@ -61,12 +61,12 @@
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
                href="pay.html"
                class="btn btn-lg" role="button">
-                Pay
+                Use voucher
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transaction_history.html"
                class="btn btn-lg" role="button">
-                Transaction history
+                Transaction History
             </a>
         </div>
         <div id="social-kitchen-button"
@@ -79,7 +79,7 @@
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="redeem.html"
                class="btn btn-lg" role="button">
-                Settle vouchers with CODA
+                Settle vouchers
             </a>
             <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transaction_history.html"
@@ -110,6 +110,7 @@
     const bodyPlace = document.getElementById("body");
     const balancePlace = document.getElementById("balance");
     const donorPlace = document.getElementById("donor-data");
+    const vouchersText = document.getElementById("vouchers-text");
     // const balancePrompt = document.getElementById("balance-prompt");
     const clientButton = document.getElementById("client-button");
     const socialKitchenButton = document.getElementById("social-kitchen-button");
@@ -140,6 +141,7 @@
                 userName = data['firstname'] + " " + data['lastname'];
                 break;
             case "1":
+                vouchersText.innerText = "Total Vouchers Received"
                 // balancePrompt.style.display = "none";
                 socialKitchenButton.style.display = "flex";
                 userName = data["merchant_name"]
