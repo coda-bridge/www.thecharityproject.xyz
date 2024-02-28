@@ -50,40 +50,40 @@
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                SomIf unsuccessful, you can use non-camera model. Try <a id="go-manually" style="text-decoration: underline;">pay
-                manually</a>.
+                If unsuccessful, you can use <a id="go-manually" style="text-decoration: underline;">non-camera
+                model</a>.
             </div>
         </div>
-<!--        <div style="font-size: 0.9rem">-->
-<!--            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>-->
-<!--            <div style="display: flex;">-->
-<!--                <div style="margin-right: 0.25rem">1.</div>-->
-<!--                <div>-->
-<!--                    Under $10? No verification needed!-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div style="display: flex;">-->
-<!--                <div style="margin-right: 0.25rem">2.</div>-->
-<!--                <div>-->
-<!--                    Above $10? Enter your verification code sent via SMS.-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div style="display: flex;">-->
-<!--                <div style="margin-right: 0.25rem">3.</div>-->
-<!--                <div>-->
-<!--                    Redeem vouchers exclusively at Social Kitchen Branches.-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div style="display: flex;">-->
-<!--                <div style="margin-right: 0.25rem">4.</div>-->
-<!--                <div>-->
-<!--                    Stay on this page until you receive a clear transaction result.-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div style="font-size: 0.9rem">-->
+        <!--            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>-->
+        <!--            <div style="display: flex;">-->
+        <!--                <div style="margin-right: 0.25rem">1.</div>-->
+        <!--                <div>-->
+        <!--                    Under $10? No verification needed!-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div style="display: flex;">-->
+        <!--                <div style="margin-right: 0.25rem">2.</div>-->
+        <!--                <div>-->
+        <!--                    Above $10? Enter your verification code sent via SMS.-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div style="display: flex;">-->
+        <!--                <div style="margin-right: 0.25rem">3.</div>-->
+        <!--                <div>-->
+        <!--                    Redeem vouchers exclusively at Social Kitchen Branches.-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div style="display: flex;">-->
+        <!--                <div style="margin-right: 0.25rem">4.</div>-->
+        <!--                <div>-->
+        <!--                    Stay on this page until you receive a clear transaction result.-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
     <div id="manually" style="display: none;">
-        <div id="manually-text" style="margin-top: 3rem;">Outlet :</div>
+        <div id="manually-text" style="margin-top: 3rem;">Outlet:</div>
         <div id="kitchen" style="margin-top: 1.5rem;">
 
         </div>
@@ -124,8 +124,10 @@
     </div>
     <div id="pay" style="display: none;">
         <div style="display: flex;justify-content: center;">
-            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg" style="margin-top: 6.5rem;display: none;"/>
-            <img id="success-icon" src="media/Success.svg" style="margin-top: 1.5rem;width: 3rem;height: 3rem;display: none;"/>
+            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg"
+                 style="margin-top: 6.5rem;display: none;"/>
+            <img id="success-icon" src="media/Success.svg"
+                 style="margin-top: 1.5rem;width: 3rem;height: 3rem;display: none;"/>
             <img id="error-icon" src="media/Error.svg" style="margin-top: 6.5rem;display: none;"/>
         </div>
         <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
@@ -475,9 +477,13 @@
         }
     }
 
-    const addAmountInput = () => {
-        amountPlace.innerHTML = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
+    const addAmountInput = (byQR) => {
+        let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
                    style="width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
+        if (byQR) {
+            input = `<div>Voucher amount:</div>` + input
+        }
+        amountPlace.innerHTML = input
         const amountInput = document.getElementById("amount-input")
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
@@ -500,6 +506,7 @@
     }
 
     const setQRData = (QRData) => {
+        manuallyText.innerText = "Outlet:"
         if ((QRData.name && QRData.ethAddress) || (QRData.amount && QRData.amount !== "0.00")) {
             if (QRData.name && QRData.ethAddress) {
                 ethAddress = QRData.ethAddress
@@ -508,9 +515,9 @@
             }
             if (QRData.amount && QRData.amount !== "0.00") {
                 amount = QRData.amount
-                amountPlace.innerHTML = `<div style="font-weight: 700;font-size: 2rem">Voucher amount:<br/>$${QRData.amount}</div>`
+                amountPlace.innerHTML = `<div>Voucher amount:</div><div style="font-weight: 700;font-size: 2rem">$${QRData.amount}</div>`
             } else {
-                addAmountInput()
+                addAmountInput(true)
             }
             backButton.removeAttribute("href");
             backButton.setAttribute('onclick', "backToScan()");
