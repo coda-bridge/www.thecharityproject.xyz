@@ -7,6 +7,11 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <style>
+        .rotated-img {
+            transform: rotate(90deg);
+        }
+    </style>
 </head>
 <body>
 <!--<div style="margin-top: 5rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">-->
@@ -62,13 +67,24 @@
             Help Center
         </h1>
         <div style="margin-top: 3rem;">
-            <div style="display: flex;">
-                <div>How it works</div>
-                <img style="margin-left: 0.5rem" src="./media/Go.svg">
+            <div id="restaurant-info-button" style="display: flex;">
+                <div>Restaurant information</div>
+                <img style="margin-left: 0.5rem" src="media/Go.svg">
             </div>
-            <div style="display: flex;margin-top: 1.5rem">
+            <div id="restaurant-info-text" style="font-size: 0.85rem;margin: 0.5rem 0 1rem;display: none;">
+                The Social Kitchen x Gila Makan @YMCA
+                <br/><br/>
+                Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)
+                <br/><br/>
+                Opening Hours: Daily 8am - 8pm (last order 7.30pm)
+            </div>
+            <div style="display: flex;margin-top: 1.5rem;">
+                <div>How it works</div>
+                <img style="margin-left: 0.5rem" src="media/Go.svg">
+            </div>
+            <div style="display: flex;margin-top: 1.5rem;">
                 <div>Technical support</div>
-                <img style="margin-left: 0.5rem" src="./media/Go.svg">
+                <img style="margin-left: 0.5rem" src="media/Go.svg">
             </div>
         </div>
     </div>
@@ -85,6 +101,18 @@
     // let goButton = document.getElementById("go-button");
     let redeemedDonated = document.getElementById("redeemed-donated");
     let warnText = document.getElementById("warn");
+    const restaurantInfoButton = document.getElementById("restaurant-info-button");
+    const restaurantInfoText = document.getElementById("restaurant-info-text");
+
+    restaurantInfoButton.addEventListener("click", () => {
+        if(restaurantInfoText.style.display === "none") {
+            restaurantInfoText.style.display="block"
+            restaurantInfoButton.querySelector("img").className = "rotated-img"
+        }else {
+            restaurantInfoText.style.display="none"
+            restaurantInfoButton.querySelector("img").className = ""
+        }
+    })
     // let password
 
     // passwordInput.addEventListener("input", () => {
