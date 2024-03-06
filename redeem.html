@@ -13,7 +13,9 @@
     </script>
 </head>
 <body>
-<a id="back-button" class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
+<a id="back-button" class="normalButton"
+   style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
+   href="home.html">
     <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <div id="redeem"
@@ -114,6 +116,7 @@
             refreshIcon.style.display = "none";
             if (response.status === 200) {
                 total -= thisAmount;
+                localStorage.setItem('balance', total)
                 setInput()
                 successIcon.style.display = "block";
                 resultText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
