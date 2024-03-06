@@ -286,27 +286,7 @@
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
-        kitchenSelector.list = [{
-            name: "Michael Cafe",
-            value: "0xa0f104A6AeE097f8799da7C159D2AB89737d07e9"
-        }, {
-            name: "Vivian Bakery",
-            value: "0xbeb5101e88CEF7dBFBeaBCF0838dE9942e4e12A8"
-        }, {
-            name: "Yichen Noodle House",
-            value: "0x763f175da8eF1ba54B6ab84de654A1882daa9683"
-        }, {
-            name: "Louis Coffee Shop",
-            value: "0x44014F73D215565355E6AcFF00fd0e7Fe212ccb4"
-        }]
-        kitchenSelector.changeCallBack = (value) => {
-            if (value && value.name && value.value) {
-                kitchenName = value.name
-                ethAddress = value.value
-            }
-        }
-        kitchenPlace.innerHTML = ""
-        kitchenPlace.appendChild(kitchenSelector)
+        addKitchenSelector()
         addAmountInput()
     }
 
@@ -480,6 +460,30 @@
         }
     }
 
+    const addKitchenSelector = () => {
+        kitchenSelector.list = [{
+            name: "Michael Cafe",
+            value: "0xa0f104A6AeE097f8799da7C159D2AB89737d07e9"
+        }, {
+            name: "Vivian Bakery",
+            value: "0xbeb5101e88CEF7dBFBeaBCF0838dE9942e4e12A8"
+        }, {
+            name: "Yichen Noodle House",
+            value: "0x763f175da8eF1ba54B6ab84de654A1882daa9683"
+        }, {
+            name: "Louis Coffee Shop",
+            value: "0x44014F73D215565355E6AcFF00fd0e7Fe212ccb4"
+        }]
+        kitchenSelector.changeCallBack = (value) => {
+            if (value && value.name && value.value) {
+                kitchenName = value.name
+                ethAddress = value.value
+            }
+        }
+        kitchenPlace.innerHTML = ""
+        kitchenPlace.appendChild(kitchenSelector)
+    }
+
     const addAmountInput = (byQR) => {
         let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
                    style="width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
@@ -515,6 +519,8 @@
                 ethAddress = QRData.ethAddress
                 kitchenName = QRData.name
                 kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+            }else {
+                addKitchenSelector()
             }
             if (QRData.amount && QRData.amount !== "0.00") {
                 amount = QRData.amount
