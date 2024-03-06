@@ -542,6 +542,11 @@
                 if (urlList[1]) {
                     QRData = getURLParams(urlList[1])
                     setQRData(QRData)
+                } else {
+                    pay.style.display = "block";
+                    errorIcon.style.display = "block";
+                    payText.innerText = "This QR code may not for pay, please try others!";
+                    payAgainButton.style.display = "block";
                 }
             }
         }).catch((err) => {
