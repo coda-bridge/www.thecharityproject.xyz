@@ -5,34 +5,31 @@
     <meta charset="UTF-8">
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (localStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
-<a href="home.html" id="back-button">
-    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
-    </div>
+<a id="back-button" class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
+    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <div id="redeem"
-     style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
+     style="box-sizing: border-box;background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
         Settle vouchers
     </h1>
-    <div>
-        <div>To</div>
+    <div style="width: 75vw;">
+        <div style="line-height:1.5rem;">To</div>
         <input value="Ray of Hope" disabled
-               style="width: 75vw;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid var(--base-green)"/>
-        <div>Amount</div>
+               style="font-size: 1rem;line-height:1.5rem;background-color: #e1e1e1;color: black;width: 100%;box-sizing:border-box;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid var(--base-green)"/>
+        <div style="line-height:1.5rem;">Amount</div>
         <input name="amount" id="amount-input"
-               style="width: 75vw;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid #9B9C9C;"/>
+               style="font-size: 1rem;line-height:1.5rem;color: black;width: 100%;box-sizing:border-box;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid #9B9C9C;"/>
         <div style="margin-top: 0.2rem">
-            <div style="font-size: 0.8rem">Balance: <span id="total">
+            <div style="font-size: 0.8rem;line-height:1.2rem;">Balance: <span id="total">
                 <img
                         style="width: 1rem;height: 1rem;margin-right: 0.5rem"
                         src="media/Rolling.svg"/>
@@ -40,8 +37,8 @@
         </div>
     </div>
     <div id="next-button"
-         style="margin-top: 3rem;padding: 0.7rem 3.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;cursor: not-allowed;"
-         class="btn">
+         style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 3rem;padding: 0.7rem 3.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;cursor: not-allowed;"
+         class="clickButton">
         Next
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
@@ -55,18 +52,18 @@
     </div>
     <div id="result-text" style="text-align: center;margin: 2rem 0;"></div>
     <div id="redeem-Button">
-        <a class="btn btn-lg"
+        <a class="clickButton"
            id="go-redeem-button"
            onclick="backToRedeem()"
            role="button"
-           style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+           style="border-radius: 0.5rem;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
             Initiate another redeem
         </a>
-        <a class="btn btn-lg"
+        <a class="clickButton"
            href="home.html"
            id="back-home-button"
            role="button"
-           style="margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+           style="border-radius: 0.5rem;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
             Back to homepage
         </a>
     </div>
@@ -185,25 +182,25 @@
     total = localStorage.getItem("balance") || 0;
     setInput()
 
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
-            total = Math.round(parseFloat(data["balance"]) * 100) / 100;
-            setInput()
-        } else {
-            location.replace("home.html")
-        }
-    }).catch(error => {
-        console.error('Error:', error)
-        location.replace("index.html")
-    });
+    // fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    //     method: 'GET',
+    //     credentials: "include",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    // }).then(function (response) {
+    //     return response.json();
+    // }).then(function (data) {
+    //     if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
+    //         total = Math.round(parseFloat(data["balance"]) * 100) / 100;
+    //         setInput()
+    //     } else {
+    //         location.replace("home.html")
+    //     }
+    // }).catch(error => {
+    //     console.error('Error:', error)
+    //     location.replace("index.html")
+    // });
 </script>
 </body>
 </html>
