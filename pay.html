@@ -134,21 +134,21 @@
                href="transaction_history.html"
                id="go-history-button"
                role="button"
-               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+               style="color: black;padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
                 Check out the transaction history
             </a>
             <a class="clickButton"
                id="pay-again-button"
                onclick="backToScan()"
                role="button"
-               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
                 Initiate another transaction
             </a>
             <a class="clickButton"
                href="home.html"
                id="back-home-button"
                role="button"
-               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
                 Back to homepage
             </a>
         </div>
@@ -481,6 +481,7 @@
             }
         }
         kitchenPlace.innerHTML = ""
+        kitchenPlace.style.marginTop = "1.5rem";
         kitchenPlace.appendChild(kitchenSelector)
     }
 
@@ -522,13 +523,14 @@
             if (QRData.name && QRData.ethAddress) {
                 ethAddress = QRData.ethAddress
                 kitchenName = QRData.name
-                kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
+                kitchenPlace.style.marginTop = "0";
+                kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">${QRData.name}</div>`
             } else {
                 addKitchenSelector()
             }
             if (QRData.amount && QRData.amount !== "0.00") {
                 amount = QRData.amount
-                amountPlace.innerHTML = `<div>Voucher amount:</div><div style="font-weight: 700;font-size: 2rem">$${QRData.amount}</div>`
+                amountPlace.innerHTML = `<div>Voucher amount:</div><div style="font-weight: 700;font-size: 2rem;line-height: 3rem;">$${QRData.amount}</div>`
             } else {
                 addAmountInput(true)
             }
