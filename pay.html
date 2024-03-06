@@ -197,20 +197,21 @@
     // 获取URL参数
     const getURLParams = (urlParams) => {
         const paramsArray = urlParams.split('&');
-        const paramsObj = {};
+            const paramsObj = {};
 
-        paramsArray.forEach(param => {
-            const [key, value] = param.split('=');
-            paramsObj[key] = value;
-        });
+            paramsArray.forEach(param => {
+                const [key, value] = param.split('=');
+                paramsObj[key] = value;
+            });
 
-        return paramsObj;
+            return paramsObj;
     }
 
     document.addEventListener("DOMContentLoaded", function () {
         const param = getURLParams(window.location.search.substring(1));
-        setQRData(param);
-
+        if(Object.keys(param).length !== 0){
+            setQRData(param);
+        }
     });
 
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
