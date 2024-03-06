@@ -514,6 +514,10 @@
 
     const setQRData = (QRData,firstTime) => {
         manuallyText.innerText = "Outlet:"
+        backButton.removeAttribute("href");
+        backButton.setAttribute('onclick', "backToScan()");
+        home.style.display = "none";
+        manually.style.display = "block";
         if ((QRData.name && QRData.ethAddress) || (QRData.amount && QRData.amount !== "0.00")) {
             if (QRData.name && QRData.ethAddress) {
                 ethAddress = QRData.ethAddress
@@ -528,10 +532,6 @@
             } else {
                 addAmountInput(true)
             }
-            backButton.removeAttribute("href");
-            backButton.setAttribute('onclick', "backToScan()");
-            home.style.display = "none";
-            manually.style.display = "block";
             checkNext()
         }else if(!firstTime){
             bedQrCode()
