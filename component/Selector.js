@@ -23,7 +23,7 @@ class Selector extends HTMLElement {
             
             .normal-body {
                 border:1px solid var(--base-green);
-                padding: 0.5rem 0.75rem;
+                padding: 0.8rem 1rem;
             }
             
             .normal-list {
@@ -34,10 +34,10 @@ class Selector extends HTMLElement {
         </style>
         <div id="roleSelect" tabIndex="-1"
              style="cursor: pointer;display: flex;justify-content: space-between;align-items: center;border-radius: 0.6rem;">
-            <div id="roleValue" style="user-select: none;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <div id="roleValue" style="user-select: none;line-height:1.5rem;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                 ${this.placeholder || ""}
             </div>
-            <input style="display: none" name="role" id="role">
+            <input style="display: none;line-height:1.5rem;" name="role" id="role">
             <img width="20" height="20" src="https://coda.codeislaw.co/media/Selector.svg"/>
         </div>
         <div id="selectOptionList"

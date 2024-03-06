@@ -38,7 +38,7 @@ class Account extends HTMLElement {
         <div id="phone" style="margin-top: 2rem" class="form-group">
             <div style="display:flex;align-items: center;">
                 <input style="display: none" name="phone_country" id="phone_country">
-                <input style="margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem" type="tel"
+                <input style="margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;" type="tel"
                        class="form-control"
                        name="phone_number" id="phone_number" placeholder="Phone number">
             </div>

@@ -6,19 +6,18 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script src="dist/zxing.min.js" type="text/javascript"></script>
     <script src="component/Selector.js" type="module"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (localStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
 <div id="camera"
-     style="position: fixed;top:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
+     style="z-index:50;position: fixed;top:0;left:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
     <div id="video_close" onclick="closeCamera()"
          style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
         ×
@@ -28,10 +27,10 @@
          style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"/>
     <video autoplay id="video"></video>
 </div>
-<a href="home.html" id="back-button">
-    <div style="margin-top: 1.2rem;margin-left: 1.2rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
-    </div>
+<a class="normalButton" id="back-button"
+   style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
+   href="index.html">
+    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 
 <div style="background-color: white;padding: 0 1.5rem 2rem;">
@@ -40,17 +39,17 @@
     </h1>
     <div id="home" style="display: flex;flex-direction: column;align-items: center;">
         <img width="117" height="117" src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
-        <a class="btn btn-lg"
+        <a class="clickButton"
            onclick="startStreamAndDecode()"
            role="button"
-           style="display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+           style="display: flex;border-radius: 0.5rem;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;line-height:2.4rem;padding: 0.5rem 0;text-align: center;">
             <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                  src="media/Rolling.svg"/>Scan QR code
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                If unsuccessful, you can use <a id="go-manually" style="text-decoration: underline;">non-camera
+                If unsuccessful, you can use <a class="clickText" id="go-manually" style="text-decoration: underline;">non-camera
                 mode</a>.
             </div>
         </div>
@@ -83,24 +82,23 @@
         <!--        </div>-->
     </div>
     <div id="manually" style="display: none;">
-        <div id="manually-text" style="margin-top: 3rem;">Outlet:</div>
+        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;">Outlet:</div>
         <div id="kitchen" style="margin-top: 1.5rem;">
 
         </div>
         <div id="amount" style="margin-top: 0.6rem;">
 
         </div>
-        <div id="balance">
+        <div style="line-height: 1.5rem;" id="balance">
             Your balance: $
             <span id="balance-value">
                 <img style="width: 1rem;height: 1rem;margin-right: 0.5rem"
                      src="media/Rolling.svg"/>
             </span>
         </div>
-        <a class="btn btn-lg"
-           id="next-button"
+        <a id="next-button"
            role="button"
-           style="display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;padding: 0.5rem 0;text-align: center;">
+           style="border-radius: 0.5rem;display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
             <img id="next-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                  src="media/Rolling.svg"/>Next
         </a>
@@ -197,46 +195,46 @@
     // 获取URL参数
     const getURLParams = (urlParams) => {
         const paramsArray = urlParams.split('&');
-            const paramsObj = {};
+        const paramsObj = {};
 
-            paramsArray.forEach(param => {
-                const [key, value] = param.split('=');
-                if(key && value){
-                    paramsObj[key] = value;
-                }
-            });
+        paramsArray.forEach(param => {
+            const [key, value] = param.split('=');
+            if (key && value) {
+                paramsObj[key] = value;
+            }
+        });
 
-            return paramsObj;
+        return paramsObj;
     }
 
     document.addEventListener("DOMContentLoaded", function () {
         const param = getURLParams(window.location.search.substring(1));
-        if(Object.keys(param).length !== 0){
-            setQRData(param,true);
+        if (Object.keys(param).length !== 0) {
+            setQRData(param, true);
         }
     });
 
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data["role"] === 0) {
-            userName = data["lastname"]
-            totalBalance = data["balance"]
-            balanceValue.innerText = totalBalance
-            checkNext()
-        } else {
-            location.replace("home.html")
-        }
-    }).catch(error => {
-        console.error('Error:', error)
-        location.replace("index.html")
-    });
+    // fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    //     method: 'GET',
+    //     credentials: "include",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    // }).then(function (response) {
+    //     return response.json();
+    // }).then(function (data) {
+    //     if (data["role"] === 0) {
+    //         userName = data["lastname"]
+    //         totalBalance = data["balance"]
+    //         balanceValue.innerText = totalBalance
+    //         checkNext()
+    //     } else {
+    //         location.replace("home.html")
+    //     }
+    // }).catch(error => {
+    //     console.error('Error:', error)
+    //     location.replace("index.html")
+    // });
 
 
     let deviceIdList;
@@ -424,12 +422,14 @@
         if ((kitchenName || kitchenSelector.value) && amount && parseFloat(amount) <= parseFloat(totalBalance)) {
             alertPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
+            nextButton.className = "clickButton"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
             if (amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)) {
                 alertPlace.style.display = "block";
             }
+            nextButton.className = ""
             nextButton.style.backgroundColor = "#ADA9A9"
             nextButton.style.cursor = "not-allowed"
             nextButton.removeAttribute("onclick");
@@ -486,7 +486,7 @@
 
     const addAmountInput = (byQR) => {
         let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
+                   style="box-sizing: border-box;font-size: 1rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
         if (byQR) {
             input = `<div>Voucher amount:</div>` + input
         }
@@ -512,7 +512,7 @@
         })
     }
 
-    const setQRData = (QRData,firstTime) => {
+    const setQRData = (QRData, firstTime) => {
         manuallyText.innerText = "Outlet:"
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', "backToScan()");
@@ -523,7 +523,7 @@
                 ethAddress = QRData.ethAddress
                 kitchenName = QRData.name
                 kitchenPlace.innerHTML = `<div style="font-weight: 700; line-height: 2rem;">${QRData.name}</div>`
-            }else {
+            } else {
                 addKitchenSelector()
             }
             if (QRData.amount && QRData.amount !== "0.00") {
@@ -533,7 +533,7 @@
                 addAmountInput(true)
             }
             checkNext()
-        }else if(!firstTime){
+        } else if (!firstTime) {
             bedQrCode()
         }
     }
