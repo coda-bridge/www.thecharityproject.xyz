@@ -5,13 +5,7 @@
     <title>home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
-    <style>
-        .rotated-img {
-            transform: rotate(90deg);
-        }
-    </style>
     <script>
         if (localStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
@@ -35,7 +29,7 @@
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
                 class="display-4">Welcome <span id="user_name"></span>!</h1>
             <div id="balance"
-                 style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
+                 style="box-sizing:border-box;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
                 <div id="vouchers-text" style="font-size: 1.3rem">Vouchers available</div>
                 <div style="font-size: 2.8rem;font-weight: 600;margin-top: 2rem">$<span id="price">0</span></div>
             </div>
@@ -63,38 +57,38 @@
         </div>
 
         <div id="client-button" style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
-            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
+            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
                href="pay.html"
-               class="btn btn-lg" role="button">
+               class="clickButton">
                 Use voucher
             </a>
-            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transaction_history.html"
-               class="btn btn-lg" role="button">
+               class="clickButton">
                 Transaction History
             </a>
         </div>
         <div id="social-kitchen-button"
              style="margin-top: 1.5rem;display: none;flex-direction: column;align-items: center">
-            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
+            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;text-align: start"
                href="receive.html"
-               class="btn btn-lg" role="button">
+               class="clickButton">
                 Receive vouchers
             </a>
-            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="redeem.html"
-               class="btn btn-lg" role="button">
+               class="clickButton">
                 Settle vouchers
             </a>
-            <a style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
                href="transaction_history.html"
-               class="btn btn-lg" role="button">
+               class="clickButton">
                 Transaction history
             </a>
         </div>
     </div>
     <div style="border: 1px solid var(--base-green);padding: 1.8rem 1.5rem;margin: 1.75rem 1.5rem 0;border-radius: 0.4rem">
-        <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;">
+        <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;margin-top: 0;">
             Help Center
         </h1>
         <div style="margin-top: 3rem;">
@@ -135,11 +129,11 @@
     const restaurantInfoText = document.getElementById("restaurant-info-text");
 
     restaurantInfoButton.addEventListener("click", () => {
-        if(restaurantInfoText.style.display === "none") {
-            restaurantInfoText.style.display="block"
+        if (restaurantInfoText.style.display === "none") {
+            restaurantInfoText.style.display = "block"
             restaurantInfoButton.querySelector("img").className = "rotated-img"
-        }else {
-            restaurantInfoText.style.display="none"
+        } else {
+            restaurantInfoText.style.display = "none"
             restaurantInfoButton.querySelector("img").className = ""
         }
     })
@@ -167,7 +161,7 @@
         switch (role) {
             case "0":
                 clientButton.style.display = "flex";
-                userName = data['firstname'] + " " + data['lastname'];
+                userName = data['firstname'];
                 break;
             case "1":
                 vouchersText.innerText = "Total Vouchers Received"
