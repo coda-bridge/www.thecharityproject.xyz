@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register</title>
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="module" src="./component/index.js"></script>
 </head>
 <body class="container">
-<a style="width: min-content;display: block;" href="index.html">
-    <div style="margin-top: 1.2rem;margin-left: 0.5rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
-    </div>
+<a style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="index.html">
+    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem" class="display-4">Welcome to
     <br>
@@ -44,8 +41,8 @@
     </div>
 
     <div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 4rem">
-        <button disabled style="background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.2rem 2rem"
-                type="submit" id="submitBtn" class="btn">
+        <button disabled style="border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.4rem 2rem;border: 0;"
+                type="submit" id="submitBtn">
             Register
         </button>
         <div id="alertText"
@@ -66,6 +63,7 @@
 
     const open = () => {
         button.style.backgroundColor = 'var(--base-green)';
+        button.className = 'clickButton';
         alertText.style.display = "block"
         alertText.innerText = "Before you create an account, please make sure your " + (accountInputer.type === "phone" ? "phone number" : "email address") + " is correct."
         button.disabled = false
@@ -73,6 +71,7 @@
 
     const close = () => {
         button.style.backgroundColor = '#9B9C9C';
+        button.className = '';
         alertText.style.display = "none"
         button.disabled = true
     }

@@ -9,10 +9,8 @@
     <script type="module" src="component/index.js"></script>
 </head>
 <body class="container">
-<a style="width: min-content;display: block;" href="index.html">
-    <div style="margin-top: 1.2rem;margin-left: 0.5rem;padding: 0.8rem;border: 1px solid var(--base-green);width: min-content;border-radius: 50%">
-        <img width="22" height="22" src="media/Back.svg">
-    </div>
+<a style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="index.html">
+    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <h3 style="text-align: center;font-weight: 600;margin-bottom: 2rem;">Welcome back!</h3>
 <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none;">Sorry, there is a problem with your
@@ -32,8 +30,8 @@
         <account-component changeCallBack="checkValidity"></account-component>
     </div>
     <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
-        <button disabled style="background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.2rem 3.5rem;"
-                type="submit" id="submitBtn" class="btn">Log in
+        <button disabled style="border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.4rem 3.5rem;border: 0;"
+                type="submit" id="submitBtn">Log in
         </button>
     </div>
 </form>
@@ -51,12 +49,14 @@
 
     const open = () => {
         button.style.backgroundColor = 'var(--base-green)';
+        button.className = 'clickButton';
         button.style.cursor = 'pointer';
         button.disabled = false;
     }
 
     const close = () => {
         button.style.backgroundColor = '#9B9C9C';
+        button.className = '';
         button.style.cursor = 'not-allowed';
         button.disabled = true;
     }
