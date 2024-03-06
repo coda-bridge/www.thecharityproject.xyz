@@ -210,7 +210,7 @@
             }).filter(item => {
                 const differentLength = 13 - item.timestamp.toString().length;
                 const timestamp = item.timestamp * Math.pow(10, differentLength);
-                return timestamp >= startOfToday && timestamp < endOfToday;
+                return timestamp >= startOfToday && timestamp < endOfToday && item.amount > 0;
             })
             if (transactionData) {
                 const oldSet = new Set(transactionData.map(item => `${item.timestamp}_${item.user_phone}_${item.amount}`));
@@ -218,7 +218,7 @@
 
                 if (newSet.size > oldSet.size && !isMute) {
                     moneyAudio.play();
-                    const newItems = new Set([...newSet].filter(x => !oldSet.has(x) && x.amount >= 0));
+                    const newItems = new Set([...newSet].filter(x => !oldSet.has(x)));
                     newItems.forEach((item) => {
                         let amount = item.split("_")[2]
                         amount = Math.round(parseFloat(amount) * 100) / 100;
