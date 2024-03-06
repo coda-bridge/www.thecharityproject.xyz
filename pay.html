@@ -201,7 +201,9 @@
 
             paramsArray.forEach(param => {
                 const [key, value] = param.split('=');
-                paramsObj[key] = value;
+                if(key && value){
+                    paramsObj[key] = value;
+                }
             });
 
             return paramsObj;
@@ -210,7 +212,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const param = getURLParams(window.location.search.substring(1));
         if(Object.keys(param).length !== 0){
-            setQRData(param);
+            setQRData(param,true);
         }
     });
 
@@ -313,7 +315,7 @@
     const goConfirm = () => {
         code = "";
         NextRolling.style.display = "block";
-        if (parseFloat(amount) > 10) {
+        if (parseFloat(amount) > 50) {
             fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
                 method: 'POST',
                 credentials: "include",
@@ -384,7 +386,7 @@
         goHistoryButton.style.display = "none";
         backHomeButton.style.display = "none";
         const payData = {"to_address": ethAddress, "amount": amount}
-        if (parseFloat(amount) > 10 && code) {
+        if (parseFloat(amount) > 50 && code) {
             payData["pin"] = code
         } else {
             payData["pin"] = "0000"
@@ -506,7 +508,7 @@
         })
     }
 
-    const setQRData = (QRData) => {
+    const setQRData = (QRData,firstTime) => {
         manuallyText.innerText = "Outlet:"
         if ((QRData.name && QRData.ethAddress) || (QRData.amount && QRData.amount !== "0.00")) {
             if (QRData.name && QRData.ethAddress) {
@@ -525,7 +527,7 @@
             home.style.display = "none";
             manually.style.display = "block";
             checkNext()
-        }else {
+        }else if(!firstTime){
             bedQrCode()
         }
     }
