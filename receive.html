@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
     <script type="module" src="component/TransactionTab.js"></script>
@@ -30,10 +29,10 @@
     </h1>
     <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Input the amount you want to receive</div>
     <input name="amount" id="amount-input" type="text" inputmode="decimal"
-           style="width: 75vw;padding: 0.8rem 1rem;border: 1px solid var(--base-green);font-size: 2.5rem"/>
+           style="width: 75vw;padding: 0.8rem 1rem;border: 1px solid var(--base-green);font-size: 2.5rem;line-height: 3.75rem;"/>
     <div id="confirm-button"
-         style="margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
-         class="btn">
+         style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
+         class="clickButton">
         Confirm
     </div>
 </div>
@@ -47,12 +46,12 @@
         <img src="media/loading.gif">
     </div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
-        <div style="cursor: pointer;" id="open-edit">Edit the amount</div>
-        <div style="cursor: pointer;" onclick="downloadQRCode()" id="download">Download the QR code</div>
+        <div style="cursor: pointer;" class="clickText" id="open-edit">Edit the amount</div>
+        <div style="cursor: pointer;" class="clickText" onclick="downloadQRCode()" id="download">Download the QR code</div>
     </div>
     <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
         <div>Voucher(s) received today</div>
-        <a href="transaction_history.html" style="margin-right: 1rem;text-decoration-line:none;color: black;">More ></a>
+        <a class="clickText" href="transaction_history.html" style="margin-right: 1rem;text-decoration-line:none;">More ></a>
     </div>
     <div style="background-color: black;height: 1px;width: 100%"></div>
     <div style="width: 100%;margin-top: 0.5rem" id="history-place">
