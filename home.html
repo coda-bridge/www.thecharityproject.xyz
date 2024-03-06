@@ -140,6 +140,9 @@
 
     const signOut = () => {
         localStorage.removeItem("IsLogin");
+        localStorage.removeItem('balance')
+        localStorage.removeItem('codaRole')
+        localStorage.removeItem('codaName')
         location.replace("index.html")
     }
     const oldBalance = localStorage.getItem('balance')
