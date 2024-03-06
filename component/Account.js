@@ -55,7 +55,7 @@ class Account extends HTMLElement {
         const countrySelector = document.createElement("select-component");
 
         const setCountry = (countryCode) => {
-            phoneCountry.value = parseInt(countryCode.replace("+",""));
+            phoneCountry.value = parseInt(countryCode.replace("+", ""));
             let value = phoneNumber.value;
             if (this.phoneReg[phoneCountry.value].test(value)) {
                 phoneNumber.style.borderColor = "var(--base-green)"
@@ -65,12 +65,12 @@ class Account extends HTMLElement {
             checkValidity()
         }
 
-        countrySelector.list = ["+1","+65","+86"];
+        countrySelector.list = ["+1", "+65", "+86"];
         countrySelector.placeholder = ""
         phoneCountry.value = 65
         countrySelector.defaultValue = "+65"
         countrySelector.changeCallBack = setCountry
-        phoneNumber.parentNode.insertBefore(countrySelector,phoneNumber);
+        phoneNumber.parentNode.insertBefore(countrySelector, phoneNumber);
 
         phoneNumber.addEventListener("input", () => {
             let value = phoneNumber.value;
@@ -101,8 +101,6 @@ class Account extends HTMLElement {
         }
 
         toPhone()
-
-        toPhoneTab.addEventListener("click", toPhone)
     }
 
     checkInputType() {
