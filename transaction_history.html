@@ -206,11 +206,13 @@
             const differentLength = 13 - item.timestamp.toString().length;
             const timestamp = item.timestamp * (10 ** differentLength);
             return timestamp >= firstDay && timestamp < lastDay;
+        }).sort(function(a, b) {
+            return b.timestamp - a.timestamp;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "https://coda.codeislaw.co/media/kitchen-logo.png" : "";
             comp.role = role;
-            comp.name = (role === 0 && item.amount > 0 || role === 1 && item.amount < 0) ? "CODA" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
+            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "Ray of Hope" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (item.amount < 0) {
                 expense += Math.abs(item.amount);
