@@ -13,7 +13,7 @@
     <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <h3 style="text-align: center;font-weight: 600;margin-bottom: 2rem;">Welcome back!</h3>
-<div id="errorMsg" class="alert alert-danger" role="alert" style="display:none;">Sorry, there is a problem with your
+<div id="errorMsg" style="display:none;text-align: center;color: red">Sorry, there is a problem with your
     login attempt.
 </div>
 <div id="successMsg" class="alert" role="alert" style="display:none;text-align: center;border: 1px solid var(--base-green);background-color: #FEFEFE;padding: 3rem;">
@@ -30,13 +30,14 @@
         <account-component changeCallBack="checkValidity"></account-component>
     </div>
     <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
-        <button disabled style="border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
-                type="submit" id="submitBtn">Log in
+        <button disabled style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;" type="submit" id="submitBtn">
+            <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>Log in
         </button>
     </div>
 </form>
 <script>
     const button = document.getElementById('submitBtn');
+    const loginRolling = document.getElementById('login-rolling');
     const roleSelector = document.createElement('select-component');
     const accountInputer = document.querySelector('account-component');
     const em = document.getElementById("errorMsg");
@@ -78,6 +79,7 @@
 
     function login() {
         close();
+        loginRolling.style.display = "block"
         let form_json = {}
         form_json.role = roleSelector.value.value
         let typeUrl = "login_phone"
@@ -103,11 +105,13 @@
                 document.getElementById("form").style.display = "none";
                 document.getElementById("successMsg").style.display = "block";
             } else {
+                loginRolling.style.display = "none";
                 em.innerText = data['message'];
                 em.style.display = "block";
                 open();
             }
         }).catch(error => {
+            loginRolling.style.display = "none";
             console.error('Error:', error);
             em.innerText = "Sorry, there is a problem with your login attempt."
             em.style.display = "block";
