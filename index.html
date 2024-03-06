@@ -6,11 +6,7 @@
     <title>CODA</title>
     <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
-    <style>
-        .rotated-img {
-            transform: rotate(90deg);
-        }
-    </style>
+    <script type="module" src="component/CollapseLabel.js"></script>
 </head>
 <body style="background-color: #F9F8F8" class="container">
 <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;border-radius: 0.4rem">
@@ -54,42 +50,26 @@
         Help Center
     </h1>
     <div style="margin-top: 3rem;">
-        <div id="restaurant-info-button" style="display: flex;">
-            <div>Restaurant information</div>
-            <img style="margin-left: 0.5rem" src="media/Go.svg">
-        </div>
-        <div id="restaurant-info-text" style="font-size: 0.85rem;margin: 0.5rem 0 1rem;display: none;">
-            The Social Kitchen x Gila Makan @YMCA
-            <br/><br/>
-            Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)
-            <br/><br/>
-            Opening Hours: Daily 8am - 8pm (last order 7.30pm)
-        </div>
-        <div style="display: flex;margin-top: 1.5rem;">
-            <div>How it works</div>
-            <img style="margin-left: 0.5rem" src="media/Go.svg">
-        </div>
-        <div style="display: flex;margin-top: 1.5rem;">
-            <div>Technical support</div>
-            <img style="margin-left: 0.5rem" src="media/Go.svg">
-        </div>
+        <collapse-component style="margin-top: 1.5rem;" name="Restaurant information">
+            <div>The Social Kitchen x Gila Makan @YMCA</div>
+            <br/>
+            <div>Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)</div>
+            <br/>
+            <div>Opening Hours: Daily 8am - 8pm (last order 7.30pm)</div>
+        </collapse-component>
+        <collapse-component style="margin-top: 1.5rem;line-height: 1rem;" name="How it works">
+            <div>The Charity project is a PBM (Purpose Bond Money) application.</div>
+            <br/>
+            <div>Based on blockchain, the voucher claimed by the project can only be used for consuming meals at the specific Social Kitchen branch.</div>
+            <br/>
+            <div>Learn more here.</div>
+        </collapse-component>
+        <collapse-component style="margin-top: 1.5rem;" name="Technical support">
+            <div>Please add What's app account: xyxd for more help.</div>
+        </collapse-component>
     </div>
 </div>
 
 <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">Powered by CODA Bridge</div>
-<script>
-    const restaurantInfoButton = document.getElementById("restaurant-info-button");
-    const restaurantInfoText = document.getElementById("restaurant-info-text");
-
-    restaurantInfoButton.addEventListener("click", () => {
-        if(restaurantInfoText.style.display === "none") {
-            restaurantInfoText.style.display="block"
-            restaurantInfoButton.querySelector("img").className = "rotated-img"
-        }else {
-            restaurantInfoText.style.display="none"
-            restaurantInfoButton.querySelector("img").className = ""
-        }
-    })
-</script>
 </body>
 </html>
