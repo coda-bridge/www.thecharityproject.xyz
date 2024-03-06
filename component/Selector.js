@@ -59,9 +59,9 @@ class Selector extends HTMLElement {
                 const valueItem = document.createElement('div');
                 valueItem.style.cursor = "pointer";
                 if (!this.type || this.type === "normal") {
-                    valueItem.style.padding = "0.8rem 1rem";
+                    valueItem.style.padding = "0.7rem 1rem";
                 } else {
-                    valueItem.style.padding = "0.8rem 0";
+                    valueItem.style.padding = "0.7rem 0";
                 }
                 if (typeof value === "object") {
                     valueItem.id = value.value.toString();
