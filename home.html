@@ -142,6 +142,31 @@
         localStorage.removeItem("IsLogin");
         location.replace("index.html")
     }
+    const oldBalance = localStorage.getItem('balance')
+    const oldRole = localStorage.getItem('codaRole')
+    const oldName = localStorage.getItem('codaName')
+    if(oldBalance && oldRole && oldName){
+        loadingPlace.style.display = "none";
+        bodyPlace.style.display = "block";
+        document.getElementById("price").innerText = oldBalance;
+        document.getElementById("user_name").innerText = oldName;
+        switch (oldRole) {
+            case "0":
+                clientButton.style.display = "flex";
+                break;
+            case "1":
+                vouchersText.innerText = "Total Vouchers Received"
+                socialKitchenButton.style.display = "flex";
+                break;
+            case "2":
+                balancePlace.style.display = "none";
+                donorPlace.style.display = "block";
+                break;
+            default:
+                console.log("error access——", role)
+        }
+    }
+
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
@@ -178,6 +203,7 @@
             default:
                 console.log("error access——", role)
         }
+        localStorage.setItem("codaName", userName)
         document.getElementById("user_name").innerText = userName
     }).catch(error => {
         console.error('Error:', error)
