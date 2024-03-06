@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
-        // if (localStorage.getItem("IsLogin") !== "true") {
-        //     location.replace("index.html")
-        // }
+        if (localStorage.getItem("IsLogin") !== "true") {
+            location.replace("index.html")
+        }
     </script>
 </head>
 <body>
@@ -182,25 +182,25 @@
     total = localStorage.getItem("balance") || 0;
     setInput()
 
-    // fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-    //     method: 'GET',
-    //     credentials: "include",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    // }).then(function (response) {
-    //     return response.json();
-    // }).then(function (data) {
-    //     if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
-    //         total = Math.round(parseFloat(data["balance"]) * 100) / 100;
-    //         setInput()
-    //     } else {
-    //         location.replace("home.html")
-    //     }
-    // }).catch(error => {
-    //     console.error('Error:', error)
-    //     location.replace("index.html")
-    // });
+    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
+            total = Math.round(parseFloat(data["balance"]) * 100) / 100;
+            setInput()
+        } else {
+            location.replace("home.html")
+        }
+    }).catch(error => {
+        console.error('Error:', error)
+        location.replace("index.html")
+    });
 </script>
 </body>
 </html>
