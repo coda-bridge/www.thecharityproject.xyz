@@ -39,8 +39,7 @@
         </div>
     </div>
     <div id="next-button"
-         style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 3rem;padding: 0.7rem 3.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;cursor: not-allowed;"
-         class="clickButton">
+         style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 3rem;padding: 0.7rem 3.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;cursor: not-allowed;">
         Next
     </div>
     <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
@@ -147,11 +146,13 @@
             amountInput.style.borderColor = "var(--base-green)";
             NextButton.style.backgroundColor = "var(--base-green)";
             NextButton.style.cursor = "pointer";
+            NextButton.className = "clickButton";
             NextButton.onclick = submit
         } else {
             amountInput.style.borderColor = "#9B9C9C";
             NextButton.style.backgroundColor = "#9B9C9C";
             NextButton.style.cursor = "not-allowed";
+            NextButton.className = "";
             NextButton.onclick = undefined
         }
     }
