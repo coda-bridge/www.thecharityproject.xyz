@@ -84,7 +84,6 @@
     const backButton = document.getElementById("back-button");
 
     let total = 0
-    let hasSet = false
 
     function backToRedeem() {
         redeemPlace.style.display = "flex";
@@ -96,7 +95,6 @@
     }
 
     function submit() {
-        hasSet = false;
         redeemPlace.style.display = "none";
         resultPlace.style.display = "block";
         refreshIcon.style.display = "block";
@@ -105,6 +103,7 @@
         goRedeemButton.style.display = "none";
         backHomeButton.style.display = "none";
         resultText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
+        const thisAmount = parseFloat(amountInput.value)
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
             credentials: "include",
@@ -160,11 +159,9 @@
     }
 
     function setInput() {
-        if (!hasSet) {
-            amountInput.value = total.toString();
-            hasSet = true;
-        }
         totalVerification.innerText = total.toString();
+        amountInput.value = total.toString();
+        checkInput()
         amountInput.addEventListener("input", () => {
             let value = amountInput.value;
             let prevCursorPos = amountInput.selectionStart || 0;
@@ -185,11 +182,7 @@
             amountInput.setSelectionRange(prevCursorPos, prevCursorPos);
             checkInput()
         })
-        checkInput()
     }
-
-    total = localStorage.getItem("balance") || 0;
-    setInput()
 
     fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
