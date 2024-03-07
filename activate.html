@@ -1,66 +1,65 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Activate</title>
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
-document.addEventListener("DOMContentLoaded", function(event) {
-  let code = "NA";
-  let queryString = new URLSearchParams(window.location.href.split('?')[1]);
-  for (let pair of queryString.entries()) {
-   if (pair[0] == "code") {
-     code = pair[1];
-   }
-  }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            let code = "NA";
+            let queryString = new URLSearchParams(window.location.href.split('?')[1]);
+            for (let pair of queryString.entries()) {
+                if (pair[0] === "code") {
+                    code = pair[1];
+                }
+            }
 
-  fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code, {
-      method: 'GET',
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-  }).then(function(response) {
-    return response.json();
-  }).then(function(data) {
-    if (data['status']) {
-      window.location.replace("home.html");
-      localStorage.setItem("IsLogin","true");
-    } else {
-      document.getElementById("wait").style.display = "none";
-      document.getElementById("error").style.display = "block";
-    }
+            fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code, {
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data['status']) {
+                    window.location.replace("home.html");
+                    localStorage.setItem("IsLogin", "true");
+                } else {
+                    document.getElementById("wait").style.display = "none";
+                    document.getElementById("error").style.display = "block";
+                }
 
-  }).catch(error => {
-    console.error('Error:', error);
-    document.getElementById("wait").style.display = "none";
-    document.getElementById("error").style.display = "block";
-  });
-});
+            }).catch(error => {
+                console.error('Error:', error);
+                document.getElementById("wait").style.display = "none";
+                document.getElementById("error").style.display = "block";
+            });
+        });
     </script>
-  </head>
-  <body style="padding: 0 1.5rem 2rem;" class="container">
-    <div id="wait">
-      <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+</head>
+<body style="padding: 0 1.5rem 2rem;" class="container">
+<div id="wait">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
         <img id="refresh-icon" loading="lazy" class="loading-icon" src="media/Refresh.svg"/>
-      </div>
-      <div style="text-align: center;margin: 2rem 0;">Loading...</div>
     </div>
+    <div style="text-align: center;margin: 2rem 0;">Loading...</div>
+</div>
 
-    <div id="error" style="display:none">
-      <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+<div id="error" style="display:none;">
+    <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
         <img id="error-icon" loading="lazy" src="media/Error.svg"/>
-      </div>
-      <div style="text-align: center;margin: 2rem 0;">Sorry, there is a problem with your activation attempt. Try again?</div>
-      <a class="btn btn-lg"
-         href="login_form.html"
-         role="button"
-         style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;">
-        Login with phone
-      </a>
     </div>
-  </body>
+    <div style="text-align: center;margin: 2rem 0;">Sorry, there is a problem with your activation attempt. Try again?
+    </div>
+    <a class="clickButton"
+       href="login_form.html"
+       style="display:block;padding:0.5rem 0;border-radius:0.5rem;color: black;width: 100%;border: 2px solid var(--base-green);font-size: 1rem;text-align: center;">
+        Login with phone
+    </a>
+</div>
+</body>
 </html>

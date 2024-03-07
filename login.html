@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -13,10 +12,10 @@
             let role = "0";
             let queryString = new URLSearchParams(window.location.href.split('?')[1]);
             for (let pair of queryString.entries()) {
-                if (pair[0] == "code") {
+                if (pair[0] === "code") {
                     code = pair[1];
                 }
-                if (pair[0] == "role") {
+                if (pair[0] === "role") {
                     role = pair[1];
                 }
             }
@@ -33,7 +32,7 @@
             }).then(function (data) {
                 if (data['status']) {
                     window.location.replace("home.html");
-                    localStorage.setItem("IsLogin","true");
+                    localStorage.setItem("IsLogin", "true");
                 } else {
                     document.getElementById("wait").style.display = "none";
                     document.getElementById("error").style.display = "block";
@@ -60,10 +59,9 @@
         <img id="error-icon" loading="lazy" src="media/Error.svg"/>
     </div>
     <div style="text-align: center;margin: 2rem 0;">Sorry, there is a problem with your login attempt. Try again?</div>
-    <a class="btn btn-lg"
+    <a class="clickButton"
        href="login_form.html"
-       role="button"
-       style="width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;">
+       style="display:block;padding:0.5rem 0;border-radius:0.5rem;color: black;width: 100%;border: 2px solid var(--base-green);font-size: 1rem;text-align: center;">
         Login with phone
     </a>
 </div>
