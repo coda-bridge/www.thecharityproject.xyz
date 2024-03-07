@@ -249,7 +249,9 @@
         const headers = Object.keys(data[0]);
         const arrayToCsv = (data) => [
             headers.join(','),
-            ...data.map(row =>
+            ...data.sort(function(a, b) {
+                return b.timestamp - a.timestamp;
+            }).map(row =>
                 headers.map(header => {
                         if (header === "timestamp") {
                             return formatTimestamp(row[header])
