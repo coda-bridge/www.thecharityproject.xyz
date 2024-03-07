@@ -10,9 +10,9 @@
     <script src="dist/zxing.min.js" type="text/javascript"></script>
     <script src="component/Selector.js" type="module"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (localStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
@@ -558,6 +558,7 @@
                 if (urlList[1]) {
                     QRData = getURLParams(urlList[1])
                     setQRData(QRData)
+                    setTimeout(()=>setZoom(2),2000)
                 } else {
                     bedQrCode()
                 }
@@ -566,6 +567,28 @@
             console.error(err)
             document.getElementById('result').textContent = err
         })
+    }
+
+    // 变焦函数
+    function setZoom(zoomValue) {
+        const video = document.getElementById('video');
+        const track = video.srcObject.getVideoTracks()[0];
+        const constraints = track.getConstraints();
+
+        if ('zoom' in constraints) {
+            constraints.zoom = zoomValue;
+        } else {
+            console.warn('Zoom is not supported');
+            return;
+        }
+
+        track.applyConstraints(constraints)
+            .then(() => {
+                console.log('Zoom applied successfully');
+            })
+            .catch((err) => {
+                console.error('Error applying zoom:', err);
+            });
     }
 
     function startStreamAndDecode() {
