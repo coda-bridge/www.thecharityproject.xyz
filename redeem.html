@@ -104,7 +104,6 @@
         goRedeemButton.style.display = "none";
         backHomeButton.style.display = "none";
         resultText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
-        const thisAmount = parseFloat(amountInput.value)
         fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
             credentials: "include",
@@ -143,7 +142,8 @@
     }
 
     function checkInput() {
-        if (amountInput.value && amountInput.value <= total) {
+        const inputValue = parseFloat(amountInput.value)
+        if (inputValue && inputValue <= total) {
             amountInput.style.borderColor = "var(--base-green)";
             NextButton.style.backgroundColor = "var(--base-green)";
             NextButton.style.cursor = "pointer";
