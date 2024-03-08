@@ -253,7 +253,12 @@
             "Content-Type": "application/json"
         },
     }).then(function (response) {
-        return response.json();
+        try {
+            return response.json();
+        }catch (e) {
+            console.error('Error:', e)
+            location.replace("index.html")
+        }
     }).then(function (data) {
         if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
             kitchenName = data["merchant_name"]
@@ -265,7 +270,6 @@
         }
     }).catch(error => {
         console.error('Error:', error)
-        location.replace("index.html")
     });
 </script>
 </body>

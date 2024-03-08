@@ -189,7 +189,12 @@
             "Content-Type": "application/json"
         },
     }).then(function (response) {
-        return response.json();
+        try {
+            return response.json();
+        }catch (e) {
+            console.error('Error:', e)
+            location.replace("index.html")
+        }
     }).then(function (data) {
         if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
             total = Math.round(parseFloat(data["balance"]) * 100) / 100;
@@ -199,7 +204,6 @@
         }
     }).catch(error => {
         console.error('Error:', error)
-        location.replace("index.html")
     });
 </script>
 </body>

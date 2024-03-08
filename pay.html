@@ -208,27 +208,27 @@
         }
     });
 
-    fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
-        method: 'GET',
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        if (data["role"] === 0) {
-            userName = data["lastname"]
-            totalBalance = data["balance"]
-            balanceValue.innerText = totalBalance
-            checkNext()
-        } else {
-            location.replace("home.html")
-        }
-    }).catch(error => {
-        console.error('Error:', error)
-        location.replace("index.html")
-    });
+    // fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    //     method: 'GET',
+    //     credentials: "include",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    // }).then(function (response) {
+    //     return response.json();
+    // }).then(function (data) {
+    //     if (data["role"] === 0) {
+    //         userName = data["lastname"]
+    //         totalBalance = data["balance"]
+    //         balanceValue.innerText = totalBalance
+    //         checkNext()
+    //     } else {
+    //         location.replace("home.html")
+    //     }
+    // }).catch(error => {
+    //     console.error('Error:', error)
+    //     location.replace("index.html")
+    // });
 
 
     let deviceIdList;
@@ -603,6 +603,7 @@
                 } else {
                     selectedIndex = 0
                 }
+                setTimeout(()=>setZoom(2),2000)
                 document.getElementById("video").addEventListener('loadedmetadata', () => {
                     videoPlace.style.display = "flex"
                     QRRolling.style.display = "none"

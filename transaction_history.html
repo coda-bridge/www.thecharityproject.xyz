@@ -31,7 +31,12 @@
                 }
             )
             const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
-            profileData = await AllResponse[0].json()
+            try {
+                profileData = await AllResponse[0].json();
+            }catch (e) {
+                console.error('Error:', e)
+                location.replace("index.html")
+            }
             if (domReady) {
                 processTransaction(AllResponse[1])
                 processProfile(profileData)
