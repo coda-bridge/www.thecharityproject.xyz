@@ -8,9 +8,9 @@
     <script type="module" src="component/CollapseLabel.js"></script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script>
-        // if (localStorage.getItem("IsLogin") !== "true") {
-        //     location.replace("index.html")
-        // }
+        if (localStorage.getItem("IsLogin") !== "true") {
+            location.replace("index.html")
+        }
     </script>
 </head>
 <body>
@@ -156,12 +156,12 @@
         }
     }
 
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
-        },
+        }
     }).then(function (response) {
         return response.json();
     }).then(function (data) {

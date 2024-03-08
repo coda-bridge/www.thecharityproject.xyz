@@ -208,7 +208,7 @@
         }
     });
 
-    fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -288,7 +288,7 @@
         code = "";
         NextRolling.style.display = "block";
         if (parseFloat(amount) > 50) {
-            fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
+            fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/create_payment_pin', {
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -363,7 +363,7 @@
         } else {
             payData["pin"] = "0000"
         }
-        fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
+        fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/pay', {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -558,14 +558,12 @@
                 if (urlList[1]) {
                     QRData = getURLParams(urlList[1])
                     setQRData(QRData)
-                    setTimeout(()=>setZoom(2),2000)
                 } else {
                     bedQrCode()
                 }
             }
         }).catch((err) => {
             console.error(err)
-            document.getElementById('result').textContent = err
         })
     }
 

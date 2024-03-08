@@ -12,15 +12,15 @@
             let role = "0";
             let queryString = new URLSearchParams(window.location.href.split('?')[1]);
             for (let pair of queryString.entries()) {
-                if (pair[0] === "code") {
+                if (pair[0] == "code") {
                     code = pair[1];
                 }
-                if (pair[0] === "role") {
+                if (pair[0] == "role") {
                     role = pair[1];
                 }
             }
 
-            fetch('https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code + "/" + role, {
+            fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code + "/" + role, {
                 method: 'GET',
                 credentials: "include",
                 headers: {
@@ -32,7 +32,7 @@
             }).then(function (data) {
                 if (data['status']) {
                     window.location.replace("home.html");
-                    localStorage.setItem("IsLogin", "true");
+                    localStorage.setItem("IsLogin","true");
                 } else {
                     document.getElementById("wait").style.display = "none";
                     document.getElementById("error").style.display = "block";

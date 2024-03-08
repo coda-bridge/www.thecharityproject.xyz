@@ -15,14 +15,14 @@
         let domReady = false
 
         async function queryAllData() {
-            const fetchProfile = fetch("https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
+            const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile_simple", {
                 method: 'GET',
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
             })
-            const fetchTransactions = fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
@@ -55,7 +55,7 @@
             domReady = true;
         })
     </script>
-    <link rel="icon" type="image/png" href="https://coda.codeislaw.co/media/coda-logo.png">
+    <link rel="icon" type="image/png" href="https://www.thecharityproject.xyz/media/coda-logo.png">
 </head>
 <body>
 <a class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
@@ -64,7 +64,7 @@
 <div style="text-align: center">
     Transaction History
     <img id="export-icon" onclick="exportCsv()" style="margin-left: 2rem;position: absolute;width: 2rem;display: none;"
-         src="https://coda.codeislaw.co/media/Export.svg">
+         src="https://www.thecharityproject.xyz/media/Export.svg">
 </div>
 <div style="padding: 1.2rem;">
     <div id="title" style="display: flex;justify-content: space-between;align-items: center;">
@@ -76,13 +76,13 @@
     <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
     <div id="history-place">
         <div style="display: flex;justify-content: center;margin-top: 2rem;">
-            <img width="100" src="https://coda.codeislaw.co/media/loading.gif"/>
+            <img width="100" src="https://www.thecharityproject.xyz/media/loading.gif"/>
         </div>
     </div>
 </div>
-<link href="https://coda.codeislaw.co/dist/css/index.css" rel="stylesheet">
-<script type="module" src="https://coda.codeislaw.co/component/TransactionTab.js"></script>
-<script type="module" src="https://coda.codeislaw.co/component/Selector.js"></script>
+<link href="https://www.thecharityproject.xyz/dist/css/index.css" rel="stylesheet">
+<script type="module" src="https://www.thecharityproject.xyz/component/TransactionTab.js"></script>
+<script type="module" src="https://www.thecharityproject.xyz/component/Selector.js"></script>
 <script>
     const historyPlace = document.getElementById("history-place")
     const incomePlace = document.getElementById("income")
@@ -140,7 +140,7 @@
 
     const getTransaction = async (reQuery) => {
         try {
-            const response = await fetch(`https://flows.codeislaw.co/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const response = await fetch(`https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
@@ -210,7 +210,7 @@
             return b.timestamp - a.timestamp;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? "https://coda.codeislaw.co/media/kitchen-logo.png" : "";
+            comp.img = role === 0 ? "https://www.thecharityproject.xyz/media/kitchen-logo.png" : "";
             comp.role = role;
             comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "Ray of Hope" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
