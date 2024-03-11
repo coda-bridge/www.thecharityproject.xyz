@@ -214,25 +214,23 @@
         headers: {
             "Content-Type": "application/json"
         },
-    }).then(function (response) {
+    }).then(async function (response) {
         try {
-            const data = response.json();
-            return data;
-        }catch (e) {
+            const data = await response.json();
+            if (data["role"] === 0) {
+                userName = data["firstname"] + data["lastname"]
+                totalBalance = data["balance"]
+                balanceValue.innerText = totalBalance
+                checkNext()
+            } else {
+                location.replace("home.html")
+            }
+        } catch (e) {
             location.replace("index.html");
-            console.error('firstError:', e);
-        }
-    }).then(function (data) {
-        if (data["role"] === 0) {
-            userName = data["firstname"] + data["lastname"]
-            totalBalance = data["balance"]
-            balanceValue.innerText = totalBalance
-            checkNext()
-        } else {
-            location.replace("home.html")
+            console.error('profileError:', e);
         }
     }).catch(error => {
-        console.error('secondError:', error)
+        console.error('networkError:', error)
     });
 
 
