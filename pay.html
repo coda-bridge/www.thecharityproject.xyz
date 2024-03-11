@@ -216,14 +216,15 @@
         },
     }).then(function (response) {
         try {
-            return response.json();
+            const data = response.json();
+            return data;
         }catch (e) {
-            console.error('Error:', e)
-            location.replace("index.html")
+            location.replace("index.html");
+            console.error('firstError:', e);
         }
     }).then(function (data) {
         if (data["role"] === 0) {
-            userName = data["lastname"]
+            userName = data["firstname"] + data["lastname"]
             totalBalance = data["balance"]
             balanceValue.innerText = totalBalance
             checkNext()
@@ -231,7 +232,7 @@
             location.replace("home.html")
         }
     }).catch(error => {
-        console.error('Error:', error)
+        console.error('secondError:', error)
     });
 
 
