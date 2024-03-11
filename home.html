@@ -184,18 +184,24 @@
             localStorage.setItem("codaRole", role)
             switch (role) {
                 case "0":
+                    balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
+                    socialKitchenButton.style.display = "none";
+                    donorPlace.style.display = "none";
                     userName = data['firstname'];
                     break;
                 case "1":
                     vouchersText.innerText = "Total Vouchers Received"
-                    // balancePrompt.style.display = "none";
+                    balancePlace.style.display = "block";
+                    clientButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";
+                    donorPlace.style.display = "none";
                     userName = data["merchant_name"]
                     break;
                 case "2":
                     balancePlace.style.display = "none";
-                    // balancePrompt.style.display = "none";
+                    clientButton.style.display = "none";
+                    socialKitchenButton.style.display = "none";
                     donorPlace.style.display = "block";
                     userName = data["merchant_name"]
                     break;
