@@ -188,22 +188,21 @@
         headers: {
             "Content-Type": "application/json"
         },
-    }).then(function (response) {
+    }).then(async function (response) {
         try {
-            return response.json();
-        }catch (e) {
-            console.error('Error:', e)
+            const data = await response.json();
+            if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
+                total = Math.round(parseFloat(data["balance"]) * 100) / 100;
+                setInput()
+            } else {
+                location.replace("home.html")
+            }
+        } catch (e) {
+            console.error('profileError:', e)
             location.replace("index.html")
         }
-    }).then(function (data) {
-        if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
-            total = Math.round(parseFloat(data["balance"]) * 100) / 100;
-            setInput()
-        } else {
-            location.replace("home.html")
-        }
     }).catch(error => {
-        console.error('Error:', error)
+        console.error('networkError:', error)
     });
 </script>
 </body>

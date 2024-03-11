@@ -127,10 +127,6 @@
                 const offset = new Date().getTimezoneOffset();
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
                 item.timestamp = serverTime - offset * 60 * 1000;
-                if (role === 1 && item.user_name) {
-                    const nameList = item.user_name.split(' ')
-                    item.user_name = nameList[nameList.length - 1]
-                }
                 if (item.user_phone) {
                     item.user_phone = item.user_phone.slice(-4);
                 }

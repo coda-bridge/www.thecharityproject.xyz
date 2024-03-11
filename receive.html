@@ -199,8 +199,7 @@
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
-                const nameList = item.user_name.split(' ')
-                item.name = nameList[nameList.length - 1] + " (" + item.user_phone.slice(-4) + ")"
+                item.name = item.user_name + " (" + item.user_phone.slice(-4) + ")"
                 delete item.user_name
                 if (item.user_phone) {
                     delete item.user_phone;
@@ -252,24 +251,23 @@
         headers: {
             "Content-Type": "application/json"
         },
-    }).then(function (response) {
+    }).then(async function (response) {
         try {
-            return response.json();
-        }catch (e) {
-            console.error('Error:', e)
+            const data = await response.json();
+            if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+                kitchenName = data["merchant_name"]
+                ethAddress = data["eth_address"]
+                generateQRCode()
+                getTransaction()
+            } else {
+                location.replace("home.html")
+            }
+        } catch (e) {
+            console.error('profileError:', e)
             location.replace("index.html")
         }
-    }).then(function (data) {
-        if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
-            kitchenName = data["merchant_name"]
-            ethAddress = data["eth_address"]
-            generateQRCode()
-            getTransaction()
-        } else {
-            location.replace("home.html")
-        }
     }).catch(error => {
-        console.error('Error:', error)
+        console.error('networkError:', error)
     });
 </script>
 </body>

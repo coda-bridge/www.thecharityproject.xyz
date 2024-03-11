@@ -99,6 +99,8 @@
                 <div>Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)</div>
                 <br/>
                 <div>Opening Hours: Daily 8am - 8pm (last order 7.30pm)</div>
+                <br/>
+                <div>For reservations, please call 6261 1686.</div>
             </collapse-component>
             <collapse-component style="margin-top: 1.5rem;line-height: 1rem;" name="How it works">
                 <div>The Charity project is a PBM (Purpose Bound Money) application.</div>
@@ -141,14 +143,22 @@
         document.getElementById("user_name").innerText = oldName;
         switch (oldRole) {
             case "0":
+                balancePlace.style.display = "block";
                 clientButton.style.display = "flex";
+                socialKitchenButton.style.display = "none";
+                donorPlace.style.display = "none";
                 break;
             case "1":
                 vouchersText.innerText = "Total Vouchers Received"
+                balancePlace.style.display = "block";
+                clientButton.style.display = "none";
                 socialKitchenButton.style.display = "flex";
+                donorPlace.style.display = "none";
                 break;
             case "2":
                 balancePlace.style.display = "none";
+                clientButton.style.display = "none";
+                socialKitchenButton.style.display = "none";
                 donorPlace.style.display = "block";
                 break;
             default:
@@ -162,45 +172,44 @@
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(function (response) {
+    }).then(async function (response) {
         try {
-            return response.json();
-        }catch (e) {
+            const data = await response.json();
+            loadingPlace.style.display = "none";
+            bodyPlace.style.display = "block"
+            let userName = ""
+            document.getElementById("price").innerText = data['balance'] || "0";
+            const role = data['role'].toString()
+            localStorage.setItem("balance", data['balance'] || "0")
+            localStorage.setItem("codaRole", role)
+            switch (role) {
+                case "0":
+                    clientButton.style.display = "flex";
+                    userName = data['firstname'];
+                    break;
+                case "1":
+                    vouchersText.innerText = "Total Vouchers Received"
+                    // balancePrompt.style.display = "none";
+                    socialKitchenButton.style.display = "flex";
+                    userName = data["merchant_name"]
+                    break;
+                case "2":
+                    balancePlace.style.display = "none";
+                    // balancePrompt.style.display = "none";
+                    donorPlace.style.display = "block";
+                    userName = data["merchant_name"]
+                    break;
+                default:
+                    console.log("error access——", role)
+            }
+            localStorage.setItem("codaName", userName)
+            document.getElementById("user_name").innerText = userName
+        } catch (e) {
             console.error('Error:', e);
             location.replace("index.html");
             loadingPlace.style.display = "none";
             bodyPlace.style.display = "block";
         }
-    }).then(function (data) {
-        loadingPlace.style.display = "none";
-        bodyPlace.style.display = "block"
-        let userName = ""
-        document.getElementById("price").innerText = data['balance'] || "0";
-        const role = data['role'].toString()
-        localStorage.setItem("balance", data['balance'] || "0")
-        localStorage.setItem("codaRole", role)
-        switch (role) {
-            case "0":
-                clientButton.style.display = "flex";
-                userName = data['firstname'];
-                break;
-            case "1":
-                vouchersText.innerText = "Total Vouchers Received"
-                // balancePrompt.style.display = "none";
-                socialKitchenButton.style.display = "flex";
-                userName = data["merchant_name"]
-                break;
-            case "2":
-                balancePlace.style.display = "none";
-                // balancePrompt.style.display = "none";
-                donorPlace.style.display = "block";
-                userName = data["merchant_name"]
-                break;
-            default:
-                console.log("error access——", role)
-        }
-        localStorage.setItem("codaName", userName)
-        document.getElementById("user_name").innerText = userName
     }).catch(error => {
             console.error('Error:', error);
     });

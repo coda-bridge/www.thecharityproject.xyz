@@ -117,7 +117,7 @@
         close()
         loginRolling.style.display = "block"
         const form_json = Object.fromEntries(formData);
-        const nameArray = form_json.name.trim().split(" ");
+        const nameArray = form_json.name.trim().split(/\s/);
         if (nameArray.length > 1) {
             form_json.lastname = nameArray.pop();
             form_json.firstname = nameArray.join(" ");
