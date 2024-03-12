@@ -119,7 +119,7 @@
         }).catch(error => {
             loginRolling.style.display = "none";
             console.error('Error:', error);
-            em.innerText = "Sorry, there is a problem with your login attempt.(error type: " + error.name + ")"
+            em.innerText = "Sorry, there is a problem with your login attempt.(error type: " + error + ")"
             em.style.display = "block";
             open();
         });
