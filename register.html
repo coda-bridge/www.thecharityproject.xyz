@@ -20,12 +20,29 @@
 <div id="errorMsg" style="display:none;text-align: center;color: red;">Sorry, there is a problem with your
     registration.
 </div>
-<div id="successMsg"
-     style="margin:0 1rem;border-radius: 0.5rem;display:none;text-align: center;border: 1px solid var(--base-green);background-color: #FEFEFE;padding: 3rem;">
-    <h4 class="alert-heading">Well done!</h4>
-    <p>A link has been sent via SMS to your phone number.</p>
-    <br/>
-    <p>Please click on the link to complete your registration.</p>
+<div style="display:none;" id="successMsg">
+    <div style="margin:0 1rem;border-radius: 0.5rem;text-align: center;border: 1px solid var(--base-green);background-color: #FEFEFE;padding: 3rem;">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>A link has been sent via SMS to your phone number.</p>
+        <br/>
+        <p>Please click on the link to complete your registration.</p>
+    </div>
+    <div style="display: flex;flex-direction: column;align-items: center;">
+        <div style="display: flex;align-items: center;margin-top:3rem;">
+            <img style="width: 1rem;height: 1rem;margin-right: 0.2rem;"
+                 src="media/Info.svg"/>
+            <div>
+                Didn't receive thisSMS message?
+            </div>
+        </div>
+        <button disabled
+                style="margin-top:1.5rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 1rem;border: 0;"
+                onclick="sendQuery()" id="resendBtn">
+            <img id="resend-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>Resend
+        </button>
+        <div id="second" style="margin-top:1.5rem;"></div>
+    </div>
 </div>
 
 <form style="padding: 0 2rem" id="form">
@@ -65,7 +82,14 @@
     const nameInputer = document.getElementById('name');
     const em = document.getElementById("errorMsg");
 
+    const resend = document.getElementById('resendBtn');
+    const resendRolling = document.getElementById('resend-rolling');
+    const second = document.getElementById('second');
+
     const form = document.getElementById('form');
+
+    let form_json = {}
+    let count = 60;
 
     const open = () => {
         button.style.backgroundColor = 'var(--base-green)';
@@ -82,7 +106,6 @@
         button.disabled = true
     }
 
-    //form表单输入校验
     function checkValidity() {
         const firstNameValue = nameInputer.value
         if (accountInputer.check && firstNameValue) {
@@ -90,6 +113,35 @@
         } else {
             close()
         }
+    }
+
+    function moha() {
+        if (count > 0) {
+            setTimeout(() => {
+                count -= 1;
+                if (count) {
+                    second.innerText = "After " + count + "second" + (count > 1 ? "s" : "")
+                } else {
+                    second.innerText = ""
+                    resend.style.backgroundColor = 'var(--base-green)';
+                    resend.className = 'clickButton';
+                    resend.style.cursor = 'pointer';
+                    resend.disabled = false;
+                }
+                console.log(count)
+                moha(count)
+            }, 1000)
+        }
+    }
+
+    function countdown() {
+        count = 60;
+        second.innerText = "After 60 seconds";
+        resend.style.backgroundColor = '#9B9C9C';
+        resend.className = '';
+        resend.style.cursor = 'not-allowed';
+        resend.disabled = true;
+        moha()
     }
 
     accountInputer.addEventListener("changeCallBack", checkValidity)
@@ -116,7 +168,7 @@
     function register(formData) {
         close()
         loginRolling.style.display = "block"
-        const form_json = Object.fromEntries(formData);
+        form_json = Object.fromEntries(formData);
         const nameArray = form_json.name.trim().split(/\s/);
         if (nameArray.length > 1) {
             form_json.lastname = nameArray.pop();
@@ -125,10 +177,14 @@
             form_json.lastname = "";
             form_json.firstname = form_json.name;
         }
-        delete form_json.name
+        delete form_json.name;
         form_json.user_id = 0;
-        Object.assign(form_json, accountInputer.value)
+        Object.assign(form_json, accountInputer.value);
+        sendQuery();
+    }
 
+    function sendQuery() {
+        resendRolling.style.display = "block";
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',
             credentials: "include",
@@ -140,20 +196,23 @@
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
+            loginRolling.style.display = "none";
+            resendRolling.style.display = "none";
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
                 document.getElementById("form").style.display = "none";
                 document.getElementById("successMsg").style.display = "block";
+                countdown();
             } else {
-                loginRolling.style.display = "none"
                 em.innerText = data['message'];
                 em.style.display = "block";
                 open();
             }
 
         }).catch(error => {
-            loginRolling.style.display = "none"
+            loginRolling.style.display = "none";
+            resendRolling.style.display = "none";
             console.error('Error:', error);
             em.innerText = "Sorry, there is a problem with your registration."
             em.style.display = "block";
