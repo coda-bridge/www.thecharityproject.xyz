@@ -32,7 +32,7 @@
             <img style="width: 1rem;height: 1rem;margin-right: 0.2rem;"
                  src="media/Info.svg"/>
             <div>
-                Didn't receive this SMS message?
+                Didn't receive the SMS message?
             </div>
         </div>
         <button disabled
@@ -120,7 +120,7 @@
             setTimeout(() => {
                 count -= 1;
                 if (count) {
-                    second.innerText = "After " + count + "second" + (count > 1 ? "s" : "")
+                    second.innerText = "After " + count + " second" + (count > 1 ? "s" : "")
                 } else {
                     second.innerText = ""
                     resend.style.backgroundColor = 'var(--base-green)';
