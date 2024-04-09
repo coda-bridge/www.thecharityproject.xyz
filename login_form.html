@@ -39,58 +39,100 @@
             <img id="resend-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                  src="media/Rolling.svg"/>Resend
         </button>
-        <div id="second" style="margin-top:1.5rem;">
-            After 60 seconds
-        </div>
+
     </div>
 </div>
 
-<form style="padding: 0 2rem" id="form">
-    <div id="select" style="margin-top: 2rem;" class="form-group">
-    </div>
-    <div class="form-group">
-        <account-component changeCallBack="checkValidity"></account-component>
-    </div>
-    <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
-        <button disabled
-                style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
-                type="submit" id="submitBtn">
-            <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                 src="media/Rolling.svg"/>Log in
-        </button>
-    </div>
-</form>
+<div id="select" style="margin-top: 2rem;" class="form-group">
+</div>
+<div class="form-group">
+    <account-component></account-component>
+</div>
+<div style="display: flex;margin-top: 2rem;">
+    <input id="code"
+           style="min-width: 0;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;"/>
+    <button disabled
+            style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
+            id="getCode">
+        <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+             src="media/Rolling.svg"/>Get the code
+    </button>
+</div>
+<div id="second" style="margin-top:1.5rem;text-align: center;display: none;">
+    Resend the code in 60 seconds
+</div>
+<div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
+    <button disabled
+            style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
+            id="submitBtn">
+        <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+             src="media/Rolling.svg"/>Log in
+    </button>
+</div>
 <script>
     let form_json = {};
     let count = 0;
-    const button = document.getElementById('submitBtn');
+    let code = "";
+    const submitBtn = document.getElementById('submitBtn');
+    const getCode = document.getElementById('getCode');
     const loginRolling = document.getElementById('login-rolling');
     const roleSelector = document.createElement('select-component');
     const accountInputer = document.querySelector('account-component');
+    const codeInputer = document.getElementById('code');
     const em = document.getElementById("errorMsg");
 
-    const resend = document.getElementById('resendBtn');
-    const resendRolling = document.getElementById('resend-rolling');
-    const second = document.getElementById('second');
+    codeInputer.oninput = (e)=>{
+        code = e.target.value;
+        checkValidity();
+    };
+    accountInputer.changeCallBack = checkValidity;
 
-    const form = document.getElementById('form');
+    const codeRolling = document.getElementById('code-rolling');
+    const second = document.getElementById('second');
 
     roleSelector.list = [{value: "0", name: "Beneficiary"}, {value: "1", name: "Merchant"}]
     roleSelector.defaultValue = {value: "0", name: "Beneficiary"}
     document.getElementById("select").appendChild(roleSelector);
 
-    const open = () => {
-        button.style.backgroundColor = 'var(--base-green)';
-        button.className = 'clickButton';
-        button.style.cursor = 'pointer';
-        button.disabled = false;
+    function openGetCode() {
+        getCode.style.backgroundColor = 'var(--base-green)';
+        getCode.className = 'clickButton';
+        getCode.style.cursor = 'pointer';
+        getCode.addEventListener('click', getCodeFunc);
+        getCode.disabled = false;
     }
 
-    const close = () => {
-        button.style.backgroundColor = '#9B9C9C';
-        button.className = '';
-        button.style.cursor = 'not-allowed';
-        button.disabled = true;
+    function closeGetCode() {
+        getCode.style.backgroundColor = '#9B9C9C';
+        getCode.className = '';
+        getCode.style.cursor = 'not-allowed';
+        getCode.removeEventListener('click', getCodeFunc);
+        getCode.disabled = true;
+    }
+
+    function openLogin() {
+        submitBtn.style.backgroundColor = 'var(--base-green)';
+        submitBtn.className = 'clickButton';
+        submitBtn.style.cursor = 'pointer';
+        submitBtn.addEventListener('click', login);
+        submitBtn.disabled = false;
+    }
+
+    function closeLogin() {
+        submitBtn.style.backgroundColor = '#9B9C9C';
+        submitBtn.className = '';
+        submitBtn.style.cursor = 'not-allowed';
+        submitBtn.removeEventListener('click', login);
+        submitBtn.disabled = true;
+    }
+
+    const closeAll = (withWho) => {
+        if (withWho === "code") {
+            closeGetCode()
+        } else if (withWho === "login") {
+            closeGetCode()
+            closeLogin()
+        }
     }
 
     function moha() {
@@ -98,13 +140,10 @@
             setTimeout(() => {
                 count -= 1;
                 if (count) {
-                    second.innerText = "After " + count + " second" + (count > 1 ? "s" : "")
+                    second.innerText = "Resend the code in " + count + " second" + (count > 1 ? "s" : "")
                 } else {
                     second.innerText = ""
-                    resend.style.backgroundColor = 'var(--base-green)';
-                    resend.className = 'clickButton';
-                    resend.style.cursor = 'pointer';
-                    resend.disabled = false;
+                    openGetCode()
                 }
                 console.log(count)
                 moha(count)
@@ -114,35 +153,66 @@
 
     function countdown() {
         count = 60;
-        second.innerText = "After 60 seconds";
-        resend.style.backgroundColor = '#9B9C9C';
-        resend.className = '';
-        resend.style.cursor = 'not-allowed';
-        resend.disabled = true;
-        moha()
+        second.innerText = "Resend the code in 60 seconds";
+        closeGetCode()
+        moha();
     }
 
     function checkValidity() {
         if (roleSelector.value && accountInputer.check) {
-            open()
+            if (count === 0) {
+                openGetCode();
+            }
+            if (codeInputer.value) {
+                openLogin();
+            } else {
+                closeLogin();
+            }
         } else {
-            close()
+            closeGetCode();
+            closeLogin();
         }
     }
 
-    roleSelector.addEventListener("changeCallBack", checkValidity)
-    accountInputer.addEventListener("changeCallBack", checkValidity)
-
     function login() {
-        close();
-        loginRolling.style.display = "block"
-        form_json.role = roleSelector.value.value
-        Object.assign(form_json, accountInputer.value)
-        sendQuery()
+        loginRolling.style.display = "block";
+        closeLogin();
+        fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/login/' + code, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (response) {
+            loginRolling.style.display = "none";
+            return response.json();
+        }).then(function (data) {
+            if (data['status']) {
+                window.location.replace("home.html");
+                localStorage.setItem("IsLogin", "true");
+            } else {
+                console.error('Error:', error);
+                em.innerText = data['message'];
+                em.style.display = "block";
+                openLogin();
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            em.innerText = "Sorry, there is a problem with your login attempt.(error type: " + error + ")";
+            em.style.display = "block";
+            openLogin();
+        });
+    }
+
+    function getCodeFunc() {
+        closeGetCode();
+        codeRolling.style.display = "block";
+        form_json.role = roleSelector.value.value;
+        Object.assign(form_json, accountInputer.value);
+        sendQuery();
     }
 
     function sendQuery() {
-        resendRolling.style.display = "block";
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/login_phone', {
             method: 'POST',
             credentials: "include",
@@ -153,33 +223,25 @@
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
-            loginRolling.style.display = "none";
-            resendRolling.style.display = "none";
+            codeRolling.style.display = "none";
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                document.getElementById("form").style.display = "none";
-                document.getElementById("successMsg").style.display = "block";
+                second.style.display = "block";
                 countdown();
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";
-                open();
+                openGetCode();
             }
         }).catch(error => {
-            loginRolling.style.display = "none";
-            resendRolling.style.display = "none";
+            codeRolling.style.display = "none";
             console.error('Error:', error);
             em.innerText = "Sorry, there is a problem with your login attempt.(error type: " + error + ")"
             em.style.display = "block";
-            open();
+            openGetCode();
         });
     }
-
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        login();
-    });
 </script>
 </body>
 </html>
