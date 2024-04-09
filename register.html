@@ -68,7 +68,6 @@
     const em = document.getElementById("errorMsg");
 
     const resend = document.getElementById('resendBtn');
-    const resendRolling = document.getElementById('resend-rolling');
     const buttonText = document.getElementById('buttonText');
 
     const form = document.getElementById('form');
@@ -221,7 +220,7 @@
 
 
     function sendQuery() {
-        resendRolling.style.display = "block";
+        codeRolling.style.display = "block";
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',
             credentials: "include",
@@ -234,7 +233,6 @@
             return response.json();
         }).then(function (data) {
             codeRolling.style.display = "none";
-            resendRolling.style.display = "none";
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
@@ -249,7 +247,6 @@
 
         }).catch(error => {
             codeRolling.style.display = "none";
-            resendRolling.style.display = "none";
             console.error('Error:', error);
             em.innerText = "Sorry, there is a problem with your registration."
             em.style.display = "block";
