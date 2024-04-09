@@ -37,8 +37,8 @@ class Account extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <div id="phone" style="margin-top: 2rem" class="form-group">
             <div style="display:flex;align-items: center;">
-                <input style="display: none" name="phone_country" id="phone_country">
-                <input style="margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;" type="tel"
+                <input style="display: none;" name="phone_country" id="phone_country">
+                <input style="min-width: 0;margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;" type="tel"
                        class="form-control"
                        name="phone_number" id="phone_number" placeholder="Phone number">
             </div>
@@ -47,6 +47,9 @@ class Account extends HTMLElement {
     }
 
     connectedCallback() {
+
+        const that = this;
+
         this.render()
 
         const phonePlace = this.shadowRoot.getElementById('phone');
@@ -62,7 +65,9 @@ class Account extends HTMLElement {
             } else {
                 phoneNumber.style.borderColor = "red"
             }
-            checkValidity()
+            if (this.changeCallBack) {
+                this.changeCallBack()
+            }
         }
 
         countrySelector.list = ["+1", "+65", "+86"];
@@ -71,6 +76,10 @@ class Account extends HTMLElement {
         countrySelector.defaultValue = "+65"
         countrySelector.changeCallBack = setCountry
         phoneNumber.parentNode.insertBefore(countrySelector, phoneNumber);
+
+        this.dispatchEvent(new CustomEvent('changeCallBack', {
+            composed: true
+        }));
 
         phoneNumber.addEventListener("input", () => {
             let value = phoneNumber.value;
@@ -81,9 +90,9 @@ class Account extends HTMLElement {
             }
             phoneNumber.value = value;
             phoneNumber.setSelectionRange(prevCursorPos, prevCursorPos);
-            this.dispatchEvent(new CustomEvent('changeCallBack', {
-                composed: true
-            }));
+            if (this.changeCallBack) {
+                this.changeCallBack();
+            }
         })
         phoneNumber.addEventListener("blur", () => {
             let value = phoneNumber.value;
@@ -97,18 +106,18 @@ class Account extends HTMLElement {
         function toPhone() {
             phonePlace.style.display = "block";
             phoneNumber.style.borderColor = "var(--base-green)";
-            checkValidity()
         }
 
         toPhone()
     }
 
     checkInputType() {
-        if (this.shadowRoot.getElementById('phone').style.display === "block") {
-            return "phone"
-        } else {
-            return "email"
-        }
+        return "phone"
+    }
+
+    setDisabled(boolean) {
+        this.shadowRoot.getElementById('phone_number').disabled = boolean;
+        this.shadowRoot.querySelector('select-component').setDisabled(boolean);
     }
 }
 
