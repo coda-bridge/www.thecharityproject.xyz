@@ -55,11 +55,8 @@
             style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
             id="getCode">
         <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-             src="media/Rolling.svg"/>Get the code
+             src="media/Rolling.svg"/><span id="buttonText">Get the code</span>
     </button>
-</div>
-<div id="second" style="margin-top:1.5rem;text-align: center;display: none;">
-    Resend the code in 60 seconds
 </div>
 <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
     <button disabled
@@ -88,7 +85,7 @@
     accountInputer.changeCallBack = checkValidity;
 
     const codeRolling = document.getElementById('code-rolling');
-    const second = document.getElementById('second');
+    const buttonText = document.getElementById('buttonText');
 
     roleSelector.list = [{value: "0", name: "Beneficiary"}, {value: "1", name: "Merchant"}]
     roleSelector.defaultValue = {value: "0", name: "Beneficiary"}
@@ -140,9 +137,9 @@
             setTimeout(() => {
                 count -= 1;
                 if (count) {
-                    second.innerText = "Resend the code in " + count + " second" + (count > 1 ? "s" : "")
+                    buttonText.innerText = count + " second" + (count > 1 ? "s" : "")
                 } else {
-                    second.innerText = ""
+                    buttonText.innerText = "Get the code"
                     openGetCode()
                 }
                 console.log(count)
@@ -153,7 +150,7 @@
 
     function countdown() {
         count = 60;
-        second.innerText = "Resend the code in 60 seconds";
+        buttonText.innerText = "in 60 seconds";
         closeGetCode()
         moha();
     }
@@ -227,7 +224,6 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                second.style.display = "block";
                 countdown();
             } else {
                 em.innerText = data['message'];
