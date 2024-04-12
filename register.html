@@ -211,7 +211,7 @@
             form_json.firstname = nameArray.join(" ");
         } else {
             form_json.lastname = "";
-            form_json.firstname = nameArray;
+            form_json.firstname = nameInputer.value.trim();
         }
         form_json.user_id = 0;
         Object.assign(form_json, accountInputer.value);
