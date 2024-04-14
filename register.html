@@ -82,6 +82,7 @@
     };
 
     const openGetCode = () => {
+        count = 0;
         getCode.style.backgroundColor = 'var(--base-green)';
         getCode.className = 'clickButton';
         getCode.style.cursor = 'pointer';
@@ -117,7 +118,9 @@
 
     function checkValidity() {
         if (accountInputer.check && nameInputer.value) {
-            openGetCode()
+            if(count===0){
+                openGetCode();
+            }
             if (codeInputer.value) {
                 openRegister();
             } else {
@@ -196,7 +199,7 @@
             }
         }).catch(error => {
             console.error('Error:', error);
-            em.innerText = "Sorry, there is a problem with your login attempt.(error type: " + error + ")";
+            em.innerText = "Sorry, there is a problem with your registration.(error type: " + error + ")";
             em.style.display = "block";
             openRegister();
         });
@@ -221,6 +224,7 @@
 
     function sendQuery() {
         codeRolling.style.display = "block";
+        countdown();
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',
             credentials: "include",
@@ -228,7 +232,6 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(form_json),
-
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -238,17 +241,15 @@
                 em.style.display = "none";
                 document.getElementById("form").style.display = "none";
                 document.getElementById("successMsg").style.display = "block";
-                countdown();
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";
                 openGetCode();
             }
-
         }).catch(error => {
             codeRolling.style.display = "none";
             console.error('Error:', error);
-            em.innerText = "Sorry, there is a problem with your registration."
+            em.innerText = "Sorry, there is a problem with your registration.(error type: " + error + ")"
             em.style.display = "block";
             openGetCode();
         });
