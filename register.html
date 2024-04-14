@@ -67,7 +67,6 @@
     const codeInputer = document.getElementById('code');
     const em = document.getElementById("errorMsg");
 
-    const resend = document.getElementById('resendBtn');
     const buttonText = document.getElementById('buttonText');
 
     const form = document.getElementById('form');
@@ -139,13 +138,9 @@
                     buttonText.innerText = count + " second" + (count > 1 ? "s" : "")
                 } else {
                     buttonText.innerText = "Get the code"
-                    resend.style.backgroundColor = 'var(--base-green)';
-                    resend.className = 'clickButton';
-                    resend.style.cursor = 'pointer';
-                    resend.disabled = false;
+                    openGetCode();
                 }
-                console.log(count)
-                moha(count)
+                moha(count);
             }, 1000)
         }
     }
@@ -153,10 +148,7 @@
     function countdown() {
         count = 60;
         buttonText.innerText = "60 seconds";
-        resend.style.backgroundColor = '#9B9C9C';
-        resend.className = '';
-        resend.style.cursor = 'not-allowed';
-        resend.disabled = true;
+        closeGetCode();
         moha()
     }
 
@@ -239,8 +231,7 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                document.getElementById("form").style.display = "none";
-                document.getElementById("successMsg").style.display = "block";
+                countdown();
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";
