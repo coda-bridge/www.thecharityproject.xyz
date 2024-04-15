@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <style>
         #result table td, th {
             padding: 0.8rem 0.6rem;
@@ -14,23 +17,21 @@
     </style>
 </head>
 <body>
-<div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
-    Getting data...
-</div>
+<change-language-component></change-language-component>
 <div style="display: block;" id="body">
     <div style="display: flex;flex-direction: column;align-items: center;justify-content:space-between;padding: 0 2rem;min-height: 100vh;">
         <div style="margin-top: 5rem;display: flex;flex-direction: column;align-items: center;width:50rem;">
             <img width="96" src="media/coda-logo.png">
             <div style="font-size: 1.3rem;font-weight: 700;margin: 2rem 0;">
-                Refill vouchers for beneficiaries
+                <trans-component text="Refill vouchers for beneficiaries"></trans-component>
             </div>
             <div id="drop_zone"
                  class="clickButton"
                  style="cursor: pointer;user-select: none;border-radius: 0.625rem;padding: 1.5rem 0;border: 1px solid var(--base-green);background-color: #FBFFFB;width: 100%;text-align: center;">
-                Select file or drop here
+                <trans-component text="Select file or drop here"></trans-component>
                 <br/>
                 <br/>
-                Ony .CSV accepted
+                <trans-component text="Only .CSV accepted"></trans-component>
             </div>
             <input type="file" style="display: none;" id="file_input">
             <div id="fileUpdate" style="width: 100%;display: none;justify-content: space-between;align-items: center;">
@@ -49,7 +50,10 @@
             <div id="alertConfirm"
                  style="display: none;border-radius: 0.625rem;box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);padding: 1.5rem 2rem;border: 1px solid var(--base-green);background-color: #FBFFFB;width: 100%;text-align: center;">
                 <p id="alertText"></p>
-                <div>Please enter the passwords and then confirm this operation</div>
+                <div>
+                    <trans-component
+                            text="Please enter the passwords and then confirm this operation"></trans-component>
+                </div>
                 <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">
                     <input id="password" type="password"
                            style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>
@@ -57,33 +61,55 @@
                     <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"
                          src="./media/CloseEye.svg">
                 </div>
-                <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">incorrect
-                    password, please try again
+                <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">
+                    <trans-component text="incorrect password, please try again"></trans-component>
                 </div>
             </div>
             <div id="note" style="font-size: 1rem;margin-top: 3rem;">
-                <p style="font-weight: 600;">Notes:</p>
-                <p>1. Please upload a CSV file contains clients’ phone number and amount of the voucher. <a
-                        href="dist/Refill_Vouchers_Template.csv">See a sample here</a>.</p>
-                <p>2. You can only upload one file each time.</p>
-                <p>3. It may take several minutes to refill the vouchers.</p>
-                <div>4. The transaction will continue even if the account doesn't exist. Once the client registers an
-                    account,
-                    he/she will get the voucher at the same time.
+                <p style="font-weight: 600;">
+                    <trans-component text="Notes:"></trans-component>
+                </p>
+                <p>1.
+                    <trans-component
+                            text="Please upload a CSV file contains client's phone number and amount of the voucher."></trans-component>
+                    <a href="dist/Refill_Vouchers_Template.csv">
+                        <trans-component text="See a sample here"></trans-component>
+                    </a>.
+                </p>
+                <p>2.
+                    <trans-component text="You can only upload one file each time."></trans-component>
+                </p>
+                <p>3.
+                    <trans-component text="It may take several minutes to refill the vouchers."></trans-component>
+                </p>
+                <div>4.
+                    <trans-component
+                            text="The transaction will continue even if the account doesn't exist. Once the client registers an account, he/she will get the voucher at the same time."></trans-component>
                 </div>
             </div>
             <div id="result" style="display: none;width: 100%;">
-                <div style="color: red;font-size: 0.8rem;">Please do not leave this page until all the beneficiaries are
-                    finished.
+                <div style="color: red;font-size: 0.8rem;">
+                    <trans-component
+                            text="Please do not leave this page until all the beneficiaries are finished."></trans-component>
                 </div>
                 <table style="width: 100%;border-collapse: collapse;margin-top: 2rem;">
                     <thead>
                     <tr style="background-color: rgba(0,0,0,0.06);font-weight: 600;">
-                        <th>No.</th>
-                        <th>Country Code</th>
-                        <th>Phone Number</th>
-                        <th>Amount</th>
-                        <th>Status</th>
+                        <th>
+                            <trans-component text="No."></trans-component>
+                        </th>
+                        <th>
+                            <trans-component text="Country Code"></trans-component>
+                        </th>
+                        <th>
+                            <trans-component text="Phone Number"></trans-component>
+                        </th>
+                        <th>
+                            <trans-component text="Amount"></trans-component>
+                        </th>
+                        <th>
+                            <trans-component text="Status"></trans-component>
+                        </th>
                     </tr>
                     </thead>
                     <tbody id="resultTbody">
@@ -93,26 +119,25 @@
             <div id="button" style="width:100%;margin-top: 3.5rem;display: none;justify-content: space-around;">
                 <div id="noButton" class="clickButton"
                      style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
-                    Cancel
+                    <trans-component text="Cancel"></trans-component>
                 </div>
-                <div id="yesButton"
+                <div id=" yesButton
+                    "
                      class="clickButton"
-                     style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
-                    Confirm
+                     style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid
+                    var(--base-green);padding: 0.65rem 2rem;">
+                    <trans-component text="Confirm"></trans-component>
                 </div>
             </div>
         </div>
-        <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0;">Powered by CODA Bridge</div>
+        <div style=" text-align: center;font-size: 0.6rem;margin: 2rem 0;"><trans-component text="Powered by CODA Bridge"></trans-component></div>
     </div>
 </div>
 </body>
 <script>
-    const loadingPlace = document.getElementById("loading");
-    const bodyPlace = document.getElementById("body");
     let passwordInput = document.getElementById("password");
     let eyeIcon = document.getElementById("eye");
     let closeEyeIcon = document.getElementById("closeEye");
-    let redeemedDonated = document.getElementById("redeemed-donated");
     let warnText = document.getElementById("warn");
     let fileUpdatePlace = document.getElementById("fileUpdate");
     let fileName = document.getElementById("fileName");
@@ -211,7 +236,9 @@
         alertConfirmPlace.style.display = "block";
         alertConfirmPlace.getElementsByTagName("p")[0].innerText = `We will send $${countAmount} vouchers.`;
         yesButton.style.display = "flex";
-        yesButton.innerHTML = `<img id="confirm-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>Confirm`;
+        yesButton.innerHTML = `<img id="confirm-rolling"
+                                                style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                                                src="media/Rolling.svg"/>Confirm`;
         yesButton.style.color = "black";
         yesButton.style.backgroundColor = "#929292";
         yesButton.style.border = "1px solid #929292";
@@ -224,7 +251,15 @@
         window.addEventListener("beforeunload", alert_if_uploading);
         let fetchStatus = true
         tBodyPlace.innerHTML = fileData.map((data, index) => {
-            return `<tr><td>${index + 1}</td><td>${data["country_code"]}</td><td>${data["phone_number"]}</td><td>${data["amount"]}</td><td id="resultTr${index}status">Queue</td></tr>`;
+            return `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${data["country_code"]}</td>
+                        <td>${data["phone_number"]}</td>
+                        <td>${data["amount"]}</td>
+                        <td id="resultTr${index}status">Queue</td>
+                    </tr>
+                    `;
         }).join("")
         const setDone = (i) => {
             resultList.push({...fileData[i], status: "Done"})
@@ -237,19 +272,20 @@
         for (let i = 0; i < fileData.length; i++) {
             document.getElementById("resultTr" + i + "status").innerText = "In process"
             try {
-                const query = await fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
-                    method: 'POST',
-                    credentials: "include",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        password,
-                        amount: parseFloat(fileData[i]["amount"]),
-                        phone_country: fileData[i]["country_code"].replace("+", ""),
-                        phone_number: fileData[i]["phone_number"]
+                const query = await
+                    fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
+                        method: 'POST',
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            password,
+                            amount: parseFloat(fileData[i]["amount"]),
+                            phone_country: fileData[i]["country_code"].replace("+", ""),
+                            phone_number: fileData[i]["phone_number"]
+                        })
                     })
-                })
                 if (query.status === 200) {
                     resultPlace.style.display = "block";
                     buttonPlace.style.display = "none";

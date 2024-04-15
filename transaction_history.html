@@ -60,14 +60,18 @@
             domReady = true;
         })
     </script>
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <link rel="icon" type="image/png" href="https://www.thecharityproject.xyz/media/coda-logo.png">
 </head>
 <body>
+<change-language-component></change-language-component>
 <a class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
     <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
-<div style="text-align: center">
-    Transaction History
+<div style="text-align: center;">
+    <trans-component text="Transaction History"></trans-component>
     <img id="export-icon" onclick="exportCsv()" style="margin-left: 2rem;position: absolute;width: 2rem;display: none;"
          src="https://www.thecharityproject.xyz/media/Export.svg">
 </div>
@@ -85,9 +89,9 @@
         </div>
     </div>
 </div>
-<link href="https://www.thecharityproject.xyz/dist/css/index.css" rel="stylesheet">
-<script type="module" src="https://www.thecharityproject.xyz/component/TransactionTab.js"></script>
-<script type="module" src="https://www.thecharityproject.xyz/component/Selector.js"></script>
+<link href="dist/css/index.css" rel="stylesheet">
+<script type="module" src="component/TransactionTab.js"></script>
+<script type="module" src="component/Selector.js"></script>
 <script>
     const historyPlace = document.getElementById("history-place")
     const incomePlace = document.getElementById("income")
@@ -104,12 +108,12 @@
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
         incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerText = role === 0 ? "Distributed:" : "Income:"
+        incomeTitle.innerHTML = role === 0 ? `<trans-component text="Distributed:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
         incomePlace.appendChild(incomeTitle)
         incomePlace.appendChild(incomeValue)
         let expenseTitle = document.createElement("div")
         expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerText = role === 0 ? "Redeemed:" : "Settled:"
+        expenseTitle.innerHTML = role === 0 ? `<trans-component text="Redeemed:"></trans-component>` : `<trans-component text="Settled:"></trans-component>`
         expensePlace.appendChild(expenseTitle)
         expensePlace.appendChild(expenseValue)
         if (role === 1) {
@@ -180,24 +184,29 @@
     let startYear = 2023;
     let currentYear = current.getFullYear();
 
-    timeSelector.list = []
-    for (let year = startYear; year <= currentYear; year++) {
-        for (let month = startMonth; month <= 12; month++) {
-            if (year === currentYear && month > currentMonth) {
-                break;
+    function updateTimerList() {
+        let newList = []
+        for (let year = startYear; year <= currentYear; year++) {
+            for (let month = startMonth; month <= 12; month++) {
+                if (year === currentYear && month > currentMonth) {
+                    break;
+                }
+                let displayMonth = new Date(year, month - 1).toLocaleString('en-US', {month: 'short'});
+                let date = `${displayMonth} ${year}`;
+                newList.push(date)
             }
-            let displayMonth = new Date(year, month - 1).toLocaleString('en', {month: 'short'});
-            let date = `${displayMonth} ${year}`;
-            timeSelector.list.push(date)
+            startMonth = 1
         }
-        startMonth = 1
+        timeSelector.list = newList;
     }
+
+    updateTimerList();
 
     function filterByMonth(monthStr) {
         expense = 0
         income = 0
         historyPlace.innerHTML = ""
-        const monthYear = monthStr.split(' ');
+        const monthYear = typeof monthStr === "string" ? monthStr.split(' ') : monthStr.value.split(' ');
         const month = monthYear[0];
         const year = monthYear[1];
         const date = new Date(`${month} 1, ${year}`);

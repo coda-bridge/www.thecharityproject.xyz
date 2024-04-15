@@ -8,6 +8,9 @@
     <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="module" src="component/CollapseLabel.js"></script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <style>
         .rotated-img {
             transform: rotate(90deg);
@@ -15,48 +18,43 @@
     </style>
 </head>
 <body>
-<!--<div style="margin-top: 5rem;padding: 0 2rem;height: 100%;text-align: center;" id="enter-password">-->
-<!--    <img width="96" src="media/coda-logo.png">-->
-<!--    <div style="margin-top: 2rem;">Enter password to view the report</div>-->
-<!--    <div style="position: relative;width: 100%;margin-top: 1rem;align-items: center;display: flex;">-->
-<!--        <input id="password" type="password"-->
-<!--               style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(&#45;&#45;base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem"/>-->
-<!--        <img id="eye" style="width: 1.2rem;position: absolute;right:1rem;" src="./media/Eye.svg">-->
-<!--        <img id="closeEye" style="width: 1.2rem;position: absolute;right:1rem;display: none;"-->
-<!--             src="./media/CloseEye.svg">-->
-<!--    </div>-->
-<!--    <a id="go-button"-->
-<!--       style="margin-top: 2rem;font-size:1.2rem;font-weight:700;color:white;display: none;height: 100%;background-color: var(&#45;&#45;base-green);border-radius: 0.6rem;padding: 0.7rem 3.5rem;">-->
-<!--        Submit-->
-<!--    </a>-->
-<!--    <div id="warn" style="color: red;font-size: 0.8rem;margin-top: 0.5rem;display: none;">Network failure or incorrect-->
-<!--        password, please try again-->
-<!--    </div>-->
-<!--</div>-->
+<change-language-component></change-language-component>
 <div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
-    Getting data...
+    <trans-component text="Getting data"></trans-component>
+    ...
 </div>
 <div style="display: none;" id="body">
     <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
         <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
             <img width="96" src="media/coda-logo.png">
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
-                class="display-4">Welcome!</h1>
-            <div>Last updated <span id="now"></span></div>
+                class="display-4">
+                <trans-component text="Welcome"></trans-component>
+                !
+            </h1>
+            <div>
+                <trans-component text="Last updated"></trans-component>
+                <span id="now"></span></div>
             <div style="width: 100%;">
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">Redeemed / Donated</div>
+                    <div style="font-size: 1.3rem">
+                        <trans-component text="Redeemed / Donated"></trans-component>
+                    </div>
                     <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem">$<span
                             id="redeemed-donated">0</span> / $50k
                     </div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;border:1px solid var(--base-green);color:var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">Families Helped</div>
+                    <div style="font-size: 1.3rem">
+                        <trans-component text="Families Helped"></trans-component>
+                    </div>
                     <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="families-helped">0</span>
                     </div>
                 </div>
                 <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">Meal served</div>
+                    <div style="font-size: 1.3rem">
+                        <trans-component text="Meal served"></trans-component>
+                    </div>
                     <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="meal-served">0</span>
                     </div>
                 </div>
@@ -66,33 +64,32 @@
 
     <div style="border: 1px solid var(--base-green);padding: 1.8rem 1.5rem;margin: 1.75rem 1.5rem 0;border-radius: 0.4rem">
         <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;">
-            Help Center
+            <trans-component text="Help Center"></trans-component>
         </h1>
         <div style="margin-top: 3rem;">
-            <collapse-component style="margin-top: 1.5rem;" name="Restaurant information">
-                <div>The Social Kitchen x Gila Makan @YMCA</div>
+            <collapse-component style="margin-top: 1.5rem;" name="Restaurant Information">
+                <div>Dignity Kitchen HK</div>
                 <br/>
-                <div>Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)</div>
+                <trans-component text="Address: 2/F, 618 Shanghai Street, Mongkok, Kowloon, HK."></trans-component>
                 <br/>
-                <div>Opening Hours: Daily 8am - 8pm (last order 7.30pm)</div>
+                <trans-component
+                        text="Opening Hours: Monday - Saturday, Public Holidays & Public Holiday Eve: 11:00am - 8:00pm (Last order: 7:30pm)"></trans-component>
                 <br/>
-                <div>For reservations, please call 6261 1686.</div>
+                <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
             </collapse-component>
             <collapse-component style="margin-top: 1.5rem;line-height: 1rem;" name="How it works">
-                <div>The Charity project is a PBM (Purpose Bound Money) application.</div>
-                <br/>
-                <div>Based on blockchain, the voucher claimed by the project can only be used for consuming meals at the
-                    specific Social Kitchen branch.
-                </div>
-                <br/>
-                <div>Learn more here.</div>
+                <!--            <div>The Charity project is a PBM (Purpose Bound Money) application.</div>-->
+                <!--            <br/>-->
+                <!--            <div>Based on blockchain, the voucher claimed by the project can only be used for consuming meals at the specific Social Kitchen branch.</div>-->
+                <!--            <br/>-->
+                <!--            <div>Learn more here.</div>-->
             </collapse-component>
             <collapse-component style="margin-top: 1.5rem;" name="Technical support">
-                <div>Please add What's app account: xyxd for more help.</div>
+                <!--            <div>Please add What's app account: xyxd for more help.</div>-->
             </collapse-component>
         </div>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">Powered by CODA Bridge</div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
 </div>
 </body>
 <script>
@@ -116,6 +113,9 @@
         }
         return text;
     }
+
+    // for dev
+    // bodyPlace.style.display = "block";
 
     const getDonorData = async (next) => {
         try {

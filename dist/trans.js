@@ -98,7 +98,25 @@ const transData = {
     "Privacy Policy:": "隱私政策：",
     "Voucher holders agree that their personal data will be used for the legal purposes of Ronald McDonald House, Coda Bridge Limited and related systems, and that these data will be destroyed within three months after the completion of the project.": "持券人同意其個人資料將用於麥當勞叔叔之家、Coda Bridge Limited以及相關系統的合法使用，并且這些數據將在項目完成後三個月內銷毀。",
     "Please read the above terms carefully and using the coupon indicates that you have accepted these terms.": "請仔細閱讀以上條款，使用消費券表明您已接受這些條款。",
-    "I understand": "我了解"
+    "I understand": "我了解",
+    "Sorry, there is a problem with your registration.(error type:":"唔好意思,你注册出现问题.(错误类型：",
+    "Sorry, there is a problem with your login attempt.(error type:":"对唔住,你登录尝试出现问题.(错误类型：",
+    "The email or phone number is already taken!":"电子邮件或者电话号码已经畀攞咗！",
+    "The database insert operation has failed":"数据库插入用失败咗",
+    "You must provide a validate email address or a mobile phone number.":"你一定要讲吓嘢喇！验证电子邮件地址或者手机号码.",
+    "Cannot send email message.":"唔发送电子邮件消息.",
+    "Cannot send SMS message to your phone number.":"唔将SMS发送到你嘅电话号码.",
+    "The activation code is wrong!":"开通代码错误！",
+    "Failed to generate a valid ETH address.":"未能建置有效嘅ETH地址.",
+    "Failed to add user to the PBM contract.":"未能将用户添加到PBM合同中.",
+    "Failed to send CMT for gas fee.":"唔发送gas fee CMT.",
+    "Failed to approve ERC20 for funding.":"未能批准ERC20供资.",
+    "Failed to fund user.":"未能资助用户.",
+    "Failed to update database.":"更新数据库失败.",
+    "The mode is neither phone or email.":"模式既唔系电话都唔系电子邮件.",
+    "Cannot create session for the user":"唔为用户创建会话",
+    "Failed to send login link! Please try again later.":"发送登录连结失败！ 唔该等阵再试.",
+    "The phone number is not activated. Please sign up first.":"电话号码冇开通. 唔该先注册."
 };
 
 function t(text) {

@@ -7,24 +7,27 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="module" src="component/CollapseLabel.js"></script>
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
 </head>
-<body style="background-color: #F9F8F8" class="container">
+<body style="background-color: #F9F8F8;" class="container">
+<change-language-component></change-language-component>
 <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;border-radius: 0.4rem">
     <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
         <img width="96" src="media/coda-logo.png">
         <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
-            Welcome to
+            <trans-component text="Welcome to"></trans-component>
             <br>
-            The Charity Project
+            <trans-component text="The Charity Project"></trans-component>
             <br>
-            powered by Coda Bridge
+            <trans-component text="powered by Coda Bridge"></trans-component>
         </h1>
-        <p style="font-size: 1rem;text-align: center;margin-top: 1.2rem;margin-bottom: 1.2rem;">We are here to help our
-            charitable partners to provide support for people in need.</p>
+        <p style="font-size: 1rem;text-align: center;margin-top: 1.2rem;margin-bottom: 1.2rem;"><trans-component text="We are here to help our charitable partners to provide support for people in need."></trans-component></p>
         <div style="display: flex;justify-content: center;">
-            <img height="60" src="media/kitchen-logo.png">
+            <img height="100" src="media/Project-Dignity.png">
             <div style="width: 2.75rem"></div>
-            <img height="60" src="media/roh.svg">
+            <img height="100" src="media/RMHC.png">
         </div>
     </div>
 
@@ -32,46 +35,46 @@
         <a href="login_form.html"
            class="clickButton"
            style="color: black;border-radius:0.5rem;padding:0.5rem 1rem;border: 1px solid var(--base-green);font-size: 1.2rem;">
-            Log in
+            <trans-component text="Log in"></trans-component>
         </a>
         <a href="register.html"
            class="clickButton"
            style="color:white;border-radius:0.5rem;padding:0.5rem 1rem;border: 1px solid var(--base-green);background-color: var(--base-green);font-size: 1.2rem;">
-            Register
+            <trans-component text="Register"></trans-component>
         </a>
     </div>
-    <div style="margin-top: 1.5rem;font-size: 1rem;text-align: center">Log-in or register to claim fund(s) you are
-        eligible for.
+    <div style="margin-top: 1.5rem;font-size: 1rem;text-align: center">
+        <trans-component text="Log-in or register to claim fund(s) you are eligible for."></trans-component>
     </div>
 </div>
 
 <div style="background-color: white;margin-top: 1.75rem;padding: 1.8rem 1.5rem;border-radius: 0.4rem">
     <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;margin-top: 0;">
-        Help Center
+        <trans-component text="Help Center"></trans-component>
     </h1>
     <div style="margin-top: 3rem;">
-        <collapse-component style="margin-top: 1.5rem;" name="Restaurant information">
-            <div>The Social Kitchen x Gila Makan @YMCA</div>
+        <collapse-component style="margin-top: 1.5rem;" name="Restaurant Information">
+            <div>Dignity Kitchen HK</div>
             <br/>
-            <div>Address: YMCA of Singapore, 1 Orchard Road, Singapore 238824 (Level 4)</div>
+            <trans-component text="Address: 2/F, 618 Shanghai Street, Mongkok, Kowloon, HK."></trans-component>
             <br/>
-            <div>Opening Hours: Daily 8am - 8pm (last order 7.30pm)</div>
+            <trans-component text="Opening Hours: Monday - Saturday, Public Holidays & Public Holiday Eve: 11:00am - 8:00pm (Last order: 7:30pm)"></trans-component>
             <br/>
-            <div>For reservations, please call 6261 1686.</div>
+            <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
         </collapse-component>
         <collapse-component style="margin-top: 1.5rem;line-height: 1rem;" name="How it works">
-            <div>The Charity project is a PBM (Purpose Bound Money) application.</div>
-            <br/>
-            <div>Based on blockchain, the voucher claimed by the project can only be used for consuming meals at the specific Social Kitchen branch.</div>
-            <br/>
-            <div>Learn more here.</div>
+<!--            <div>The Charity project is a PBM (Purpose Bound Money) application.</div>-->
+<!--            <br/>-->
+<!--            <div>Based on blockchain, the voucher claimed by the project can only be used for consuming meals at the specific Social Kitchen branch.</div>-->
+<!--            <br/>-->
+<!--            <div>Learn more here.</div>-->
         </collapse-component>
         <collapse-component style="margin-top: 1.5rem;" name="Technical support">
-            <div>Please add What's app account: xyxd for more help.</div>
+<!--            <div>Please add What's app account: xyxd for more help.</div>-->
         </collapse-component>
     </div>
 </div>
 
-<div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">Powered by CODA Bridge</div>
+<div style="text-align: center;font-size: 0.6rem;margin: 2rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
 </body>
 </html>

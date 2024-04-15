@@ -9,6 +9,9 @@
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script src="dist/zxing.min.js" type="text/javascript"></script>
     <script src="component/Selector.js" type="module"></script>
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
         if (localStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
@@ -16,6 +19,7 @@
     </script>
 </head>
 <body>
+<change-language-component></change-language-component>
 <div id="camera"
      style="z-index:50;position: fixed;top:0;left:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
     <div id="video_close" onclick="closeCamera()"
@@ -35,7 +39,7 @@
 
 <div style="background-color: white;padding: 0 1.5rem 2rem;">
     <h1 class="display-4" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
-        Redeem voucher
+        <trans-component text="Redeem voucher"></trans-component>
     </h1>
     <div id="home" style="display: flex;flex-direction: column;align-items: center;">
         <img width="117" height="117" src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
@@ -43,13 +47,13 @@
            onclick="startStreamAndDecode()"
            style="display: flex;border-radius: 0.5rem;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;line-height:2.4rem;padding: 0.5rem 0;text-align: center;">
             <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                 src="media/Rolling.svg"/>Scan QR code
+                 src="media/Rolling.svg"/>
+            <trans-component text="Scan QR Code"></trans-component>
         </a>
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                If unsuccessful, you can use <a class="clickText" id="go-manually" style="text-decoration: underline;">non-camera
-                mode</a>.
+                <trans-component text="If unsuccessful, you can use"></trans-component> <a class="clickText" id="go-manually" style="text-decoration: underline;"><trans-component text="non-camera mode"></trans-component></a>.
             </div>
         </div>
         <!--        <div style="font-size: 0.9rem">-->
@@ -89,7 +93,7 @@
 
         </div>
         <div style="line-height: 1.5rem;" id="balance">
-            Your balance: $
+            <trans-component text="Your balance"></trans-component>: $
             <span id="balance-value">
                 <img style="width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                      src="media/Rolling.svg"/>
@@ -98,11 +102,12 @@
         <a id="next-button"
            style="border-radius: 0.5rem;display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
             <img id="next-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                 src="media/Rolling.svg"/>Next
+                 src="media/Rolling.svg"/>
+            <trans-component text="Next"></trans-component>
         </a>
         <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
              id="alert">
-            Your balance is not enough.
+            <trans-component text="Your balance is not enough."></trans-component>
         </div>
     </div>
     <div id="confirm" style="display: none;margin-top: 2.5rem;">
@@ -113,7 +118,7 @@
             <a class="clickButton"
                id="confirm-button"
                style="border-radius: 0.5rem;display: block;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
-                Confirm
+                <trans-component text="Confirm"></trans-component>
             </a>
         </div>
     </div>
@@ -131,23 +136,23 @@
                href="transaction_history.html"
                id="go-history-button"
                style="color: black;padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
-                Check out the transaction history
+                <trans-component text="Check out the transaction history"></trans-component>
             </a>
             <a class="clickButton"
                id="pay-again-button"
                onclick="backToScan()"
                style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
-                Initiate another transaction
+                <trans-component text="Initiate another transaction"></trans-component>
             </a>
             <a class="clickButton"
                href="home.html"
                id="back-home-button"
                style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
-                Back to homepage
+                <trans-component text="Back to homepage"></trans-component>
             </a>
         </div>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
 </div>
 <script>
     const codeReader = new ZXing.BrowserQRCodeReader();
@@ -276,7 +281,7 @@
     }
 
     const goManually = () => {
-        manuallyText.innerText = "You are redeeming your voucher(s) at the following outlet and amount:"
+        manuallyText.innerHTML = `<trans-component text="You are redeeming your voucher(s) at the following outlet and amount:"></trans-component>`
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
@@ -305,7 +310,7 @@
                     manually.style.display = "none";
                     confirmText.innerHTML = "";
                     confirm.style.display = "block";
-                    confirmText.innerHTML = `<div>A one-time code has been sent to your phone number. Simply enter the code to complete your voucher redemption.</div>
+                    confirmText.innerHTML = `<div><trans-component text="A one-time code has been sent to your phone number. Simply enter the code to complete your voucher redemption."></trans-component></div>
                 <div style="display: flex;justify-content: space-around;margin-top: 1rem;font-size: 1.8rem">
                     <input style="box-sizing:border-box;border: 1px solid var(--base-green);width: 4rem;height: 4rem;font-size: 1.9rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input1">
                     <input style="box-sizing:border-box;border: 1px solid var(--base-green);width: 4rem;height: 4rem;font-size: 1.9rem;border-radius: 0.625rem;text-align: center;" type="text" inputmode="numeric" maxlength="1" id="input2">
@@ -343,7 +348,7 @@
             manually.style.display = "none";
             confirmText.innerHTML = "";
             confirm.style.display = "block";
-            confirmText.innerHTML = `<div>Click Confirm button to confirm the payment.</div>`;
+            confirmText.innerHTML = `<div><trans-component text="Click Confirm button to confirm the payment."></trans-component></div>`;
             confirmButton.style.backgroundColor = "var(--base-green)";
             confirmButton.style.cursor = "pointer";
             confirmButton.setAttribute('onclick', "goPay()");
@@ -354,7 +359,7 @@
         confirm.style.display = "none";
         pay.style.display = "block";
         refreshIcon.style.display = "block";
-        payText.innerHTML = `<div>Your transaction is in process.</div><br/><div>Please do not leave this page.</div>`
+        payText.innerHTML = `<div><trans-component text="Your transaction is in process."></trans-component></div><br/><div><trans-component text="Please do not leave this page."></trans-component></div>`
         successIcon.style.display = "none";
         errorIcon.style.display = "none";
         payAgainButton.style.display = "none";
@@ -389,13 +394,13 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 },);
-                payText.innerHTML = `<div style="text-align: left;margin: 0 10vw;"><div style="margin-top: 1.5rem">From:</div>
-            <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">You (${userName})</div>
-            <div style="margin-top: 1.5rem">To:</div>
+                payText.innerHTML = `<div style="text-align: left;margin: 0 10vw;"><div style="margin-top: 1.5rem"><trans-component text="From:"></trans-component></div>
+            <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;"><trans-component text="You"></trans-component> (${userName})</div>
+            <div style="margin-top: 1.5rem"><trans-component text="To:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${kitchenName}</div>
-            <div style="margin-top: 1.5rem">Amount:</div>
+            <div style="margin-top: 1.5rem"><trans-component text="Amount:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 3.5rem;">$${amount}</div>
-            <div style="margin-top: 1.5rem">When:</div>
+            <div style="margin-top: 1.5rem"><trans-component text="When:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${formatted}</div></div>`
                 goHistoryButton.style.display = "block";
                 backHomeButton.style.display = "block";
@@ -487,7 +492,7 @@
         let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
                    style="box-sizing: border-box;font-size: 1rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
         if (byQR) {
-            input = `<div>Voucher amount:</div>` + input
+            input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
         }
         amountPlace.innerHTML = input
         const amountInput = document.getElementById("amount-input")
@@ -528,7 +533,7 @@
             }
             if (QRData.amount && QRData.amount !== "0.00") {
                 amount = QRData.amount
-                amountPlace.innerHTML = `<div>Voucher amount:</div><div style="font-weight: 700;font-size: 2rem;line-height: 3rem;">$${QRData.amount}</div>`
+                amountPlace.innerHTML = `<div><trans-component text="Voucher amount:"></trans-component></div><div style="font-weight: 700;font-size: 2rem;line-height: 3rem;">$${QRData.amount}</div>`
             } else {
                 addAmountInput(true)
             }

@@ -6,6 +6,9 @@
     <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
         if (localStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
@@ -21,17 +24,17 @@
 <div id="redeem"
      style="box-sizing: border-box;background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        Settle vouchers
+        <trans-component text="Settle vouchers"></trans-component>
     </h1>
     <div style="width: 75vw;">
-        <div style="line-height:1.5rem;">To</div>
+        <div style="line-height:1.5rem;"><trans-component text="To:"></trans-component></div>
         <input value="Ray of Hope" disabled
                style="font-size: 1rem;line-height:1.5rem;background-color: #e1e1e1;color: black;width: 100%;box-sizing:border-box;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid var(--base-green)"/>
-        <div style="line-height:1.5rem;">Amount</div>
+        <div style="line-height:1.5rem;margin-top: 0.3rem;"><trans-component text="Amount"></trans-component></div>
         <input name="amount" id="amount-input"
                style="font-size: 1rem;line-height:1.5rem;color: black;width: 100%;box-sizing:border-box;padding: 0.8rem 1rem;border-radius: 0.4rem;border: 2px solid #9B9C9C;"/>
         <div style="margin-top: 0.2rem">
-            <div style="font-size: 0.8rem;line-height:1.2rem;">Balance: <span id="total">
+            <div style="font-size: 0.8rem;line-height:1.2rem;"><trans-component text="Balance:"></trans-component><span id="total">
                 <img
                         style="width: 1rem;height: 1rem;margin-right: 0.5rem"
                         src="media/Rolling.svg"/>
@@ -40,9 +43,9 @@
     </div>
     <div id="next-button"
          style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 3rem;padding: 0.7rem 3.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;cursor: not-allowed;">
-        Next
+        <trans-component text="Next"></trans-component>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
 </div>
 <div id="result" style="padding: 0 1.5rem 2rem;display: none;">
     <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
@@ -57,13 +60,13 @@
            id="go-redeem-button"
            onclick="backToRedeem()"
            style="border-radius: 0.5rem;padding: 0.5rem 0;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
-            Initiate another redeem
+            <trans-component text="Initiate another redeem"></trans-component>
         </a>
         <a class="clickButton"
            href="home.html"
            id="back-home-button"
            style="border-radius: 0.5rem;padding: 0.5rem 0;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
-            Back to homepage
+            <trans-component text="Back to homepage"></trans-component>
         </a>
     </div>
 </div>
@@ -100,7 +103,7 @@
         errorIcon.style.display = "none";
         goRedeemButton.style.display = "none";
         backHomeButton.style.display = "none";
-        resultText.innerHTML = `<div>Your redeem is in process.</div><br/><div>Please do not leave this page.</div>`
+        resultText.innerHTML = `<div><trans-component text="Your redeem is in process."></trans-component></div><br/><div><trans-component text="Please do not leave this page."></trans-component></div>`
         const thisAmount = parseFloat(amountInput.value)
         fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
             method: 'POST',
@@ -116,7 +119,7 @@
                 localStorage.setItem('balance', total)
                 setInput()
                 successIcon.style.display = "block";
-                resultText.innerHTML = `<div>Your redeem is successful!</div><br/><div>Next, you can</div>`;
+                resultText.innerHTML = `<div><trans-component text="Your redeem is successful!"></trans-component></div><br/><div><trans-component text="Next, you can"></trans-component></div>`;
                 backHomeButton.style.display = "block";
             } else {
                 showFalse()

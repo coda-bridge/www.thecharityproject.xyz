@@ -8,50 +8,68 @@
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
     <script type="module" src="component/TransactionTab.js"></script>
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
+        if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
     </script>
 </head>
 <body>
+<change-language-component></change-language-component>
+<img onclick="setUnMute()" id="mute-icon" style="position: absolute;cursor: pointer;top:1.35rem;right: 6rem;" width="22" height="22"
+     src="media/Mute.svg">
+<img onclick="setMute()" id="unmute-icon" style="position: absolute;cursor: pointer;top:1.35rem;right: 6rem;display: none;" width="22"
+     height="22" src="media/Unmute.svg">
 <div style="display: flex;justify-content: space-between;align-items: center;">
-    <a id="back-button" class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
+    <a id="back-button" class="normalButton"
+       style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
+       href="home.html">
         <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
     </a>
-    <img onclick="setUnMute()" id="mute-icon" style="cursor: pointer;margin-right: 1.2rem;" width="22" height="22" src="media/Mute.svg">
-    <img onclick="setMute()" id="unmute-icon" style="cursor: pointer;margin-right: 1.2rem;display: none;" width="22" height="22" src="media/Unmute.svg">
 </div>
 <div id="edit-amount"
      style="background-color: white;padding: 0 1.5rem 2rem;display: none;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        Edit the amount
+        <trans-component text="Edit the amount"></trans-component>
     </h1>
-    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">Input the amount you want to receive</div>
+    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">
+        <trans-component text="Input the amount you want to receive"></trans-component>
+    </div>
     <input name="amount" id="amount-input" type="text" inputmode="decimal"
            style="width: 75vw;padding: 0.8rem 1rem;border: 1px solid var(--base-green);font-size: 2.5rem;line-height: 3.75rem;"/>
     <div id="confirm-button"
          style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
          class="clickButton">
-        Confirm
+        <trans-component text="Confirm"></trans-component>
     </div>
 </div>
 <div id="receive"
      style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
     <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        Receive vouchers
+        <trans-component text="Receive vouchers"></trans-component>
     </h1>
     <div id="result"
          style="display: flex;justify-content:center;align-items: center;flex-direction: column;width:300px;min-height: 300px">
         <img src="media/loading.gif">
     </div>
     <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
-        <div style="cursor: pointer;" class="clickText" id="open-edit">Edit the amount</div>
-        <div style="cursor: pointer;" class="clickText" onclick="downloadQRCode()" id="download">Download the QR code</div>
+        <div style="cursor: pointer;" class="clickText" id="open-edit">
+            <trans-component text="Edit the amount"></trans-component>
+        </div>
+        <div style="cursor: pointer;" class="clickText" onclick="downloadQRCode()" id="download">
+            <trans-component text="Download the QR code"></trans-component>
+        </div>
     </div>
     <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
-        <div>Voucher(s) received today</div>
-        <a class="clickText" href="transaction_history.html" style="margin-right: 1rem;text-decoration-line:none;">More ></a>
+        <div>
+            <trans-component text="Voucher(s) received today"></trans-component>
+        </div>
+        <a class="clickText" href="transaction_history.html" style="margin-right: 1rem;text-decoration-line:none;">
+            <trans-component text="More"></trans-component>
+            ></a>
     </div>
     <div style="background-color: black;height: 1px;width: 100%"></div>
     <div style="width: 100%;margin-top: 0.5rem" id="history-place">
@@ -60,12 +78,15 @@
         </div>
     </div>
     <div style="font-size: 0.9rem">
-        <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>
+        <div style="font-size: 1rem;margin: 4rem 0 1rem">
+            <trans-component text="Notes:"></trans-component>
+        </div>
         <div>
-            To be used only for vouchers for The Social Kitchen at its designated outlets only.
+            <trans-component
+                    text="To be used only for vouchers for The Social Kitchen at its designated outlets only."></trans-component>
         </div>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">Powered by CODA Bridge</div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
 </div>
 <audio id="money-audio"></audio>
 <script>
@@ -94,14 +115,14 @@
         utterance.volume = 0;
         speechSynthesis.speak(utterance);
         isMute = false;
-        muteIcon.style.display="none";
-        unmuteIcon.style.display="block";
+        muteIcon.style.display = "none";
+        unmuteIcon.style.display = "block";
     }
 
     const setMute = () => {
         isMute = true;
-        muteIcon.style.display="block";
-        unmuteIcon.style.display="none";
+        muteIcon.style.display = "block";
+        unmuteIcon.style.display = "none";
     }
 
     function downloadQRCode() {
@@ -195,7 +216,6 @@
             const endOfToday = startOfToday + 24 * 60 * 60 * 1000 - 1;
 
             let newTransactionData = getData.map(item => {
-                item.timestamp = item.timestamp.replace(/\.\d+/, "").replace(/-/g, "/");
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
