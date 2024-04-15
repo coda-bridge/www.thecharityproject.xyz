@@ -121,8 +121,7 @@
                      style="border-radius: 10px;border:1px solid var(--base-green);padding: 0.65rem 2rem;">
                     <trans-component text="Cancel"></trans-component>
                 </div>
-                <div id=" yesButton
-                    "
+                <div id="yesButton"
                      class="clickButton"
                      style="background-color: var(--base-green);color: white;border-radius: 10px;border:1px solid
                     var(--base-green);padding: 0.65rem 2rem;">
@@ -217,9 +216,9 @@
             fileName.innerText = files[0].name
             fileUpdatePlace.style.display = "flex";
             buttonPlace.style.display = "flex";
-            noButton.innerText = "Cancel";
+            noButton.innerText = t("Cancel");
             noButton.setAttribute('onclick', "backToDropFile()");
-            yesButton.innerText = "Save";
+            yesButton.innerText = t("Save");
             fileData = []
             yesButton.setAttribute('onclick', "");
             yesButton.style.color = "black";
@@ -238,7 +237,7 @@
         yesButton.style.display = "flex";
         yesButton.innerHTML = `<img id="confirm-rolling"
                                                 style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                                                src="media/Rolling.svg"/>Confirm`;
+                                                src="media/Rolling.svg"/>` + t("Confirm");
         yesButton.style.color = "black";
         yesButton.style.backgroundColor = "#929292";
         yesButton.style.border = "1px solid #929292";
@@ -257,20 +256,20 @@
                         <td>${data["country_code"]}</td>
                         <td>${data["phone_number"]}</td>
                         <td>${data["amount"]}</td>
-                        <td id="resultTr${index}status">Queue</td>
+                        <td id="resultTr${index}status">${t("Queue")}</td>
                     </tr>
                     `;
         }).join("")
         const setDone = (i) => {
             resultList.push({...fileData[i], status: "Done"})
-            document.getElementById("resultTr" + i + "status").innerText = "Done"
+            document.getElementById("resultTr" + i + "status").innerText = t("Done")
         }
         const setError = (i) => {
             resultList.push({...fileData[i], status: "Error"})
-            document.getElementById("resultTr" + i + "status").innerText = "Error"
+            document.getElementById("resultTr" + i + "status").innerText = t("Error")
         }
         for (let i = 0; i < fileData.length; i++) {
-            document.getElementById("resultTr" + i + "status").innerText = "In process"
+            document.getElementById("resultTr" + i + "status").innerText = t("In process")
             try {
                 const query = await
                     fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/add_fund", {
@@ -318,9 +317,9 @@
         passwordInput.value = ""
         if (fetchStatus) {
             buttonPlace.style.display = "flex"
-            noButton.innerText = "Back to home";
+            noButton.innerText = t("Back to home");
             noButton.setAttribute('onclick', "backToDropFile()");
-            yesButton.innerText = "Save the refill records";
+            yesButton.innerText = t("Save the refill records");
             yesButton.style.color = "white";
             yesButton.style.backgroundColor = "var(--base-green)";
             yesButton.style.border = "1px solid var(--base-green)";
