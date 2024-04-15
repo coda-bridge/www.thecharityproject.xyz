@@ -15,7 +15,7 @@ class CollapseLabel extends HTMLElement {
             </style>
             <div>
                 <div id="restaurant-info-button" style="display: flex;${style}">
-                    <div>${name}</div>
+                    <trans-component text="${name}"></trans-component>
                     <img style="margin-left: 0.5rem" src="media/Go.svg">
                 </div>
                 <div id="restaurant-info-text" style="font-size: 0.85rem;margin: 0.5rem 0 1rem;display: none;"></div>

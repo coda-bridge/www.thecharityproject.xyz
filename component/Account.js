@@ -32,7 +32,7 @@ class Account extends HTMLElement {
     }
 
     render() {
-        this.phoneReg = {1: /^\d{10}$/, 65: /^([8|9])\d{7}$/,852: /^([6|9])\d{7}$/, 86: /^1\d{10}$/}
+        this.phoneReg = {1: /^\d{10}$/, 852: /^([6|9])\d{7}$/, 86: /^1\d{10}$/}
         this.emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
         this.shadowRoot.innerHTML = `
         <div id="phone" style="margin-top: 2rem" class="form-group">
@@ -40,7 +40,7 @@ class Account extends HTMLElement {
                 <input style="display: none;" name="phone_country" id="phone_country">
                 <input style="min-width: 0;margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;" type="tel"
                        class="form-control"
-                       name="phone_number" id="phone_number" placeholder="Phone number">
+                       name="phone_number" id="phone_number">
             </div>
         </div>
     `
@@ -57,6 +57,12 @@ class Account extends HTMLElement {
         const phoneCountry = this.shadowRoot.getElementById('phone_country');
         const countrySelector = document.createElement("select-component");
 
+        window.addEventListener('setLanguage', function (e) {
+            phoneNumber.placeholder = t("Phone number");
+        });
+
+        phoneNumber.placeholder = t("Phone number");
+
         const setCountry = (countryCode) => {
             phoneCountry.value = parseInt(countryCode.replace("+", ""));
             let value = phoneNumber.value;
@@ -70,10 +76,10 @@ class Account extends HTMLElement {
             }
         }
 
-        countrySelector.list = ["+1", "+65", "+852", "+86"];
+        countrySelector.list = ["+1", "+852", "+86"];
         countrySelector.placeholder = ""
-        phoneCountry.value = 65
-        countrySelector.defaultValue = "+65"
+        phoneCountry.value = 852
+        countrySelector.defaultValue = "+852"
         countrySelector.changeCallBack = setCountry
         phoneNumber.parentNode.insertBefore(countrySelector, phoneNumber);
 
