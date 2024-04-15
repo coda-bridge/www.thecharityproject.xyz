@@ -72,7 +72,7 @@
     const form = document.getElementById('form');
 
     let form_json = {}
-    let count = 60;
+    let count = 0;
     let code = "";
 
     codeInputer.oninput = (e)=>{
@@ -82,6 +82,8 @@
 
     const openGetCode = () => {
         count = 0;
+        clearTimeout(timerId);
+        buttonText.innerText = "Get the code";
         getCode.style.backgroundColor = 'var(--base-green)';
         getCode.className = 'clickButton';
         getCode.style.cursor = 'pointer';
@@ -96,7 +98,7 @@
         getCode.removeEventListener('click', getCodeFunc);
         getCode.disabled = true
     }
-    
+
     const openRegister = () => {
         submitBtn.style.backgroundColor = 'var(--base-green)';
         submitBtn.className = 'clickButton';
@@ -130,17 +132,23 @@
         }
     }
 
+    let timerId;
+
     function moha() {
         if (count > 0) {
-            setTimeout(() => {
+            timerId = setTimeout(() => {
                 count -= 1;
                 if (count) {
                     buttonText.innerText = count + " second" + (count > 1 ? "s" : "")
                 } else {
                     buttonText.innerText = "Get the code"
-                    openGetCode();
+                    submitBtn.style.backgroundColor = 'var(--base-green)';
+                    submitBtn.className = 'clickButton';
+                    submitBtn.style.cursor = 'pointer';
+                    submitBtn.disabled = false;
                 }
-                moha(count);
+                console.log(count)
+                moha(count)
             }, 1000)
         }
     }
@@ -148,7 +156,10 @@
     function countdown() {
         count = 60;
         buttonText.innerText = "60 seconds";
-        closeGetCode();
+        submitBtn.style.backgroundColor = '#9B9C9C';
+        submitBtn.className = '';
+        submitBtn.style.cursor = 'not-allowed';
+        submitBtn.disabled = true;
         moha()
     }
 
@@ -167,7 +178,7 @@
             nameInputer.style.borderColor = "red";
         }
     })
-    
+
     function register() {
         loginRolling.style.display = "block";
         closeRegister();
@@ -180,11 +191,11 @@
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
+            loginRolling.style.display = "none";
             if (data['status']) {
                 window.location.replace("home.html");
                 localStorage.setItem("IsLogin", "true");
             } else {
-                console.error('Error:', error);
                 em.innerText = data['message'];
                 em.style.display = "block";
                 openRegister();
@@ -206,7 +217,7 @@
             form_json.firstname = nameArray.join(" ");
         } else {
             form_json.lastname = "";
-            form_json.firstname = nameInputer.value.trim();
+            form_json.firstname = form_json.name;
         }
         form_json.user_id = 0;
         Object.assign(form_json, accountInputer.value);
@@ -231,7 +242,8 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                countdown();
+                document.getElementById("form").style.display = "none";
+                document.getElementById("successMsg").style.display = "block";
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";

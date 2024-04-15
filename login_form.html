@@ -100,6 +100,9 @@
     }
 
     function closeGetCode() {
+        count = 0;
+        clearTimeout(timerId);
+        buttonText.innerText = "Get the code";
         getCode.style.backgroundColor = '#9B9C9C';
         getCode.className = '';
         getCode.style.cursor = 'not-allowed';
@@ -132,9 +135,11 @@
         }
     }
 
+    let timerId;
+
     function moha() {
         if (count > 0) {
-            setTimeout(() => {
+            timerId = setTimeout(() => {
                 count -= 1;
                 if (count) {
                     buttonText.innerText = count + " second" + (count > 1 ? "s" : "")
@@ -188,7 +193,6 @@
                 window.location.replace("home.html");
                 localStorage.setItem("IsLogin", "true");
             } else {
-                console.error('Error:', error);
                 em.innerText = data['message'];
                 em.style.display = "block";
                 openLogin();
@@ -210,6 +214,7 @@
     }
 
     function sendQuery() {
+        countdown();
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/login_phone', {
             method: 'POST',
             credentials: "include",
@@ -224,7 +229,6 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                countdown();
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";
