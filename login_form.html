@@ -92,6 +92,9 @@
     document.getElementById("select").appendChild(roleSelector);
 
     function openGetCode() {
+        count = 0;
+        clearTimeout(timerId);
+        buttonText.innerText = "Get the code";
         getCode.style.backgroundColor = 'var(--base-green)';
         getCode.className = 'clickButton';
         getCode.style.cursor = 'pointer';
@@ -100,9 +103,6 @@
     }
 
     function closeGetCode() {
-        count = 0;
-        clearTimeout(timerId);
-        buttonText.innerText = "Get the code";
         getCode.style.backgroundColor = '#9B9C9C';
         getCode.className = '';
         getCode.style.cursor = 'not-allowed';
@@ -156,7 +156,7 @@
     function countdown() {
         count = 60;
         buttonText.innerText = "60 seconds";
-        closeGetCode()
+        closeGetCode();
         moha();
     }
 

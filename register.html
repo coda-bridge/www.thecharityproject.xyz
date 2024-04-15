@@ -98,7 +98,7 @@
         getCode.removeEventListener('click', getCodeFunc);
         getCode.disabled = true
     }
-
+    
     const openRegister = () => {
         submitBtn.style.backgroundColor = 'var(--base-green)';
         submitBtn.className = 'clickButton';
@@ -147,7 +147,6 @@
                     submitBtn.style.cursor = 'pointer';
                     submitBtn.disabled = false;
                 }
-                console.log(count)
                 moha(count)
             }, 1000)
         }
@@ -178,7 +177,7 @@
             nameInputer.style.borderColor = "red";
         }
     })
-
+    
     function register() {
         loginRolling.style.display = "block";
         closeRegister();
@@ -217,7 +216,7 @@
             form_json.firstname = nameArray.join(" ");
         } else {
             form_json.lastname = "";
-            form_json.firstname = form_json.name;
+            form_json.firstname = nameInputer.value.trim();
         }
         form_json.user_id = 0;
         Object.assign(form_json, accountInputer.value);
@@ -242,8 +241,6 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
-                document.getElementById("form").style.display = "none";
-                document.getElementById("successMsg").style.display = "block";
             } else {
                 em.innerText = data['message'];
                 em.style.display = "block";
