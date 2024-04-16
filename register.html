@@ -29,14 +29,15 @@
 
 <div id="select" style="margin-top: 2rem;" class="form-group">
 </div>
-<div class="form-group">
-    <account-component></account-component>
-</div>
+
 <div class="form-group">
     <div style="display: flex;margin-top: 1.6rem;justify-content: space-between;">
         <input style="width: 100%;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;"
                type="text" name="name" id="name">
     </div>
+</div>
+<div class="form-group">
+    <account-component></account-component>
 </div>
 
 <div style="display: flex;margin-top: 2rem;">
@@ -51,7 +52,9 @@
     </span>
     </button>
 </div>
-
+<div id="getCodeNote" style="display: none;margin-top: 1rem;">We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code.
+    <br/>
+    Didn't receive the code? You can request to resend it after one minute.</div>
 <div style="display: flex;align-items: center;margin-top: 0.5rem;">
     <input id="termsOfUseCheck" style="width: 1.2rem; height: 1.2rem;margin-right: 0.4rem;" type="checkbox"/>
     <div>
@@ -83,6 +86,7 @@
     const nameInputer = document.getElementById('name');
     const codeInputer = document.getElementById('code');
     const termsOfUseCheck = document.getElementById('termsOfUseCheck');
+    const getCodeNote = document.getElementById("getCodeNote");
     const em = document.getElementById("errorMsg");
 
     const buttonText = document.getElementById('buttonText');
@@ -251,7 +255,8 @@
 
     function sendQuery() {
         codeRolling.style.display = "block";
-        countdown();
+        getCodeNote.style.display = "block";
+        buttonText.innerText = t("Sending");
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',
             credentials: "include",
@@ -266,6 +271,7 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
+                countdown();
             } else {
                 em.innerText = t(data['message']);
                 em.style.display = "block";

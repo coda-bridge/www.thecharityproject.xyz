@@ -43,6 +43,9 @@
         </span>
     </button>
 </div>
+<div id="getCodeNote" style="display: none;margin-top: 1rem;">We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code.
+    <br/>
+    Didn't receive the code? You can request to resend it after one minute.</div>
 <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
     <button disabled
             style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
@@ -62,6 +65,7 @@
     const roleSelector = document.createElement('select-component');
     const accountInputer = document.querySelector('account-component');
     const codeInputer = document.getElementById('code');
+    const getCodeNote = document.getElementById("getCodeNote");
     const em = document.getElementById("errorMsg");
 
     codeInputer.oninput = (e) => {
@@ -199,7 +203,8 @@
     }
 
     function sendQuery() {
-        countdown();
+        getCodeNote.style.display = "block";
+        buttonText.innerText = t("Sending");
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/login_phone', {
             method: 'POST',
             credentials: "include",
@@ -214,6 +219,7 @@
             if (data['status']) {
                 em.innerText = "";
                 em.style.display = "none";
+                countdown();
             } else {
                 em.innerText = t(data['message']);
                 em.style.display = "block";

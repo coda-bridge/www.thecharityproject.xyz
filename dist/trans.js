@@ -1,4 +1,6 @@
 const transData = {
+    "Sending": "發送中",
+    "Resend": "重發",
     "Welcome to": "歡迎來到",
     "The Charity Project": "慈善項目",
     "powered by CODA Bridge": "由 Coda Bridge 提供支援",
