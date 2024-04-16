@@ -114,6 +114,7 @@ const transData = {
     "The database insert operation has failed": "數據庫插入操作失敗",
     "You must provide a validate email address or a mobile phone number.": "您必須提供一個有效的電子郵件地址或手機號碼。",
     "Cannot send email message.": "無法發送電子郵件。",
+    "Cannot send SMS message to your phone number.": "無法向您的手機號碼發送短信。",
     "You have reached our daily limits. Please try again tomorrow.": "您已達到我們的每日限額。請明天再試一次。",
     "The activation code is wrong!": "激活碼錯誤！",
     "Failed to generate a valid ETH address.": "無法生成有效的 ETH 地址。",
