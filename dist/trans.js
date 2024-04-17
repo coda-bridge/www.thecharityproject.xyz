@@ -16,7 +16,7 @@ const transData = {
     "Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)": "星期日：11:00 AM - 5:00 PM（最後落單時間：4:30 PM）",
     "How it works": "操作簡介",
     "Technical support": "技術支援",
-    "Welcome back!": "歡迎回來！",
+    "Welcome back!": "歡迎再次回來！",
     "Beneficiary": "受益人",
     "Merchant": "商店",
     "Get the code": "取得驗證碼",
