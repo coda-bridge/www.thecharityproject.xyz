@@ -62,21 +62,22 @@
     </div>
 </div>
 
-<div id="alart"
-     style="display:none;position: absolute;left: 50%;transform: translate(-50%, 10%);background-color: white;border: 1px solid black;border-radius:0.5rem;">
-    <div style="text-align: center;padding: 0.6rem 1rem;white-space: nowrap;">
-        <trans-component text="please read and agree to the "></trans-component>
-        <a target="_blank" href="terms_of_use.html">
-            <trans-component text="Terms of Use"></trans-component>
-        </a>
+<div id="alart" style="display: none;top: 50%;left: 50%;transform: translate(-50%, -50%);position: absolute;background-color: rgba(0,0,0,0.2);width: 100%;height: 100%;">
+    <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: white;border: 1px solid rgba(0,0,0,0.2);border-radius:0.5rem;">
+        <div style="text-align: center;padding: 0.6rem 1rem;white-space: nowrap;">
+            <trans-component text="Please read and agree to the "></trans-component>
+            <a target="_blank" href="terms_of_use.html">
+                <trans-component text="Terms of Use"></trans-component>
+            </a>
+        </div>
+        <button style="font-size: 1rem;cursor: pointer;width: 100%;text-align: center;border:0;border-top: 1px solid rgba(0,0,0,0.2);border-radius:0 0 0.5rem 0.5rem;padding: 0.6rem 0;background-color: white;color: var(--base-green);font-weight: 699;"
+                class="clickButton" id="understandBtn">
+            <trans-component text="I agree"></trans-component>
+        </button>
     </div>
-    <button style="font-size: 1rem;cursor: pointer;width: 100%;text-align: center;border:0;border-top: 1px solid black;border-radius:0 0 0.5rem 0.5rem;padding: 0.6rem 0;background-color: white;color: var(--base-green);font-weight: 699;"
-            class="clickButton" id="understandBtn">
-        <trans-component text="I agree"></trans-component>
-    </button>
 </div>
 
-<div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 6rem;">
+<div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 3rem;">
     <button disabled
             style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
             type="submit" id="submitBtn">
@@ -286,8 +287,10 @@
             });
         } else {
             alart.style.display = "block";
-            understandBtn.addEventListener("click", () => {
+            alart.addEventListener("click", ()=>{
                 alart.style.display = "none";
+            })
+            understandBtn.addEventListener("click", () => {
                 termsOfUseCheck.checked = true;
             })
         }

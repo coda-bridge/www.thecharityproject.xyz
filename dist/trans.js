@@ -24,7 +24,7 @@ const transData = {
     "Phone number": "電話號碼",
     "seconds": "秒",
     "second": "秒",
-    "please read and agree to the ": "請閱讀並同意",
+    "Please read and agree to the ": "請閱讀並同意",
     "Sorry, there is a problem with your login attempt.": "對不起，您的登入過程出現問題。",
     "Sorry, there is a problem with your registration.": "對不起，您的註冊過程出現問題。",
     "Before you create an account, please make sure your phone number is correct.": "在您建立帳戶之前，請確保您的電話號碼正確無誤。",
