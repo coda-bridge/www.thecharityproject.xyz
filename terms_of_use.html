@@ -25,12 +25,20 @@
     <div style="margin-top: 0.3rem;"><trans-component text="Please read the above terms carefully and using the coupon indicates that you have accepted these terms."></trans-component></div>
 </div>
 <div style="display: flex;justify-content: center;margin-top: 2rem;margin-bottom: 1rem;">
-    <button onclick="window.close();" style="cursor: pointer;display: flex;align-items: center;border-radius:0.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
+    <button style="cursor: pointer;display: flex;align-items: center;border-radius:0.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
             class="clickButton" id="submitBtn">
         <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
              src="media/Rolling.svg"/>
         <trans-component text="I understand"></trans-component>
     </button>
 </div>
+<script>
+    const broadcastChannel = new BroadcastChannel('understand_channel');
+    const understandButton = document.getElementById('submitBtn');
+    understandButton.addEventListener("click",()=>{
+        broadcastChannel.postMessage('clicked I understand');
+        window.close();
+    })
+</script>
 </body>
 </html>

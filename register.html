@@ -60,14 +60,7 @@
         <trans-component text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
     </div>
 </div>
-<div style="display: flex;align-items: center;margin-top: 0.5rem;">
-    <input id="termsOfUseCheck" style="width: 1.2rem; height: 1.2rem;margin-right: 0.4rem;" type="checkbox"/>
-    <div>
-        <trans-component text="I have read and agree to the"></trans-component>
-        <a target="_blank" href="terms_of_use.html">
-            <trans-component text="Terms of Use"></trans-component>
-        </a></div>
-</div>
+
 
 <div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 3rem;">
     <button disabled
@@ -77,14 +70,20 @@
              src="media/Rolling.svg"/>
         <trans-component text="Register"></trans-component>
     </button>
-    <div id="alertText"
-         style="display: none;text-align: center;margin-top: 2.5rem;font-size: 0.8rem;font-weight: 700">
+    <div style="display: flex;align-items: center;margin-top: 0.5rem;">
+        <input id="termsOfUseCheck" style="width: 1.2rem; height: 1.2rem;margin-right: 0.4rem;" type="checkbox"/>
+        <div>
+            <trans-component text="I have read and agree to the"></trans-component>
+            <a target="_blank" href="terms_of_use.html">
+                <trans-component text="Terms of Use"></trans-component>
+            </a></div>
     </div>
 </div>
 <script>
+    const broadcastChannel = new BroadcastChannel('understand_channel');
+
     const submitBtn = document.getElementById('submitBtn');
     const getCode = document.getElementById('getCode');
-    const alertText = document.getElementById('alertText');
     const codeRolling = document.getElementById('code-rolling');
     const loginRolling = document.getElementById('login-rolling');
     const accountInputer = document.querySelector('account-component');
@@ -103,6 +102,10 @@
     });
 
     nameInputer.placeholder = t("Your name");
+
+    broadcastChannel.onmessage = function() {
+        termsOfUseCheck.checked = true;
+    };
 
     let form_json = {}
     let count = 0;
@@ -141,8 +144,6 @@
         submitBtn.style.cursor = 'pointer';
         submitBtn.addEventListener('click', register);
         submitBtn.disabled = false;
-        alertText.style.display = "block";
-        alertText.innerHTML = `<trans-component text="Before you create an account, please make sure your phone number is correct."></trans-component>`;
     }
     const closeRegister = () => {
         submitBtn.style.backgroundColor = '#9B9C9C';
@@ -150,7 +151,6 @@
         submitBtn.style.cursor = 'not-allowed';
         submitBtn.removeEventListener('click', register);
         submitBtn.disabled = true;
-        alertText.style.display = "none";
     }
 
     function checkValidity() {
