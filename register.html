@@ -24,7 +24,6 @@
     <trans-component text="The Charity Project"></trans-component>
 </h1>
 <div id="errorMsg" style="display:none;text-align: center;color: red;">
-    <trans-component text="Sorry, there is a problem with your registration."></trans-component>
 </div>
 
 <div id="select" style="margin-top: 2rem;" class="form-group">
@@ -47,17 +46,19 @@
             style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
             id="getCode">
         <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-             src="media/Rolling.svg"/><span id="buttonText">
+             src="media/Rolling.svg"/><span name="Get the code" id="buttonText">
         <trans-component text="Get the code"></trans-component>
     </span>
     </button>
 </div>
 <div id="getCodeNote" style="display: none;margin-top: 1rem;font-size: 0.8rem;line-height: 1rem;">
     <div>
-        <trans-component text="We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code."></trans-component>
+        <trans-component
+                text="We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code."></trans-component>
     </div>
     <div style="margin-top: 0.5rem;">
-        <trans-component text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
+        <trans-component
+                text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
     </div>
 </div>
 
@@ -79,6 +80,19 @@
             </a></div>
     </div>
 </div>
+<div id="alart"
+     style="display: none;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: white;border: 1px solid black;border-radius:0.5rem;">
+    <div style="text-align: center;padding: 0.6rem 1rem;white-space: nowrap;">
+        <trans-component text="please read and agree to the "></trans-component>
+        <a target="_blank" href="terms_of_use.html">
+            <trans-component text="Terms of Use"></trans-component>
+        </a>
+    </div>
+    <button style="cursor: pointer;width: 100%;text-align: center;border:0;border-top: 1px solid black;border-radius:0 0 0.5rem 0.5rem;padding: 0.6rem 0;background-color: white;color: black;"
+            class="clickButton" id="understandBtn">
+        <trans-component text="I understand"></trans-component>
+    </button>
+</div>
 <script>
     const broadcastChannel = new BroadcastChannel('understand_channel');
 
@@ -89,6 +103,8 @@
     const accountInputer = document.querySelector('account-component');
     const nameInputer = document.getElementById('name');
     const codeInputer = document.getElementById('code');
+    const alart = document.getElementById('alart');
+    const understandBtn = document.getElementById('understandBtn');
     const termsOfUseCheck = document.getElementById('termsOfUseCheck');
     const getCodeNote = document.getElementById("getCodeNote");
     const em = document.getElementById("errorMsg");
@@ -99,16 +115,40 @@
 
     window.addEventListener('setLanguage', function (e) {
         nameInputer.placeholder = t("Your name");
+        if (count > 0) {
+            buttonText.innerText = count + " " + t("second" + (count > 1 ? "s" : ""))
+        } else {
+            setButtonText(buttonText.name)
+        }
+        if(em.type && em.style.display === "block") {
+            switch (em.type) {
+                case "fetch":
+                    em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + em.name + ")"
+                    break;
+                case "status":
+                    em.innerText = t(em.name)
+                    break;
+                default:
+                    em.innerText = t("Sorry, there is a problem with your registration.")
+                    break;
+            }
+        }
     });
+
+    function setButtonText(name) {
+        buttonText.name = name;
+        buttonText.innerText = t(name);
+    }
 
     nameInputer.placeholder = t("Your name");
 
-    broadcastChannel.onmessage = function() {
+    broadcastChannel.onmessage = function () {
         termsOfUseCheck.checked = true;
     };
 
     let form_json = {}
     let count = 0;
+    let isSend = false;
     let code = "";
 
     codeInputer.oninput = (e) => {
@@ -158,7 +198,7 @@
             if (count === 0) {
                 openGetCode();
             }
-            if (codeInputer.value && termsOfUseCheck.checked) {
+            if (codeInputer.value) {
                 openRegister();
             } else {
                 closeRegister();
@@ -175,9 +215,9 @@
             timerId = setTimeout(() => {
                 count -= 1;
                 if (count) {
-                    buttonText.innerText = count + " " + t("second" + (count > 1 ? "s" : ""))
+                    buttonText.innerText = count + " " + t("second" + (count > 1 ? "s" : ""));
                 } else {
-                    buttonText.innerText = t("Resend")
+                    setButtonText("Resend")
                     openGetCode()
                 }
                 moha(count)
@@ -212,33 +252,45 @@
     })
 
     function register() {
-        loginRolling.style.display = "block";
-        closeRegister();
-        fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code, {
-            method: 'GET',
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            loginRolling.style.display = "none";
-            if (data['status']) {
-                window.location.replace("home.html");
-                localStorage.setItem("IsLogin", "true");
-            } else {
-                em.innerText = t(data['message']);
+        if (termsOfUseCheck.checked) {
+            loginRolling.style.display = "block";
+            closeRegister();
+            fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/activate/' + code, {
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                loginRolling.style.display = "none";
+                if (data['status']) {
+                    window.location.replace("home.html");
+                    localStorage.setItem("IsLogin", "true");
+                } else {
+                    em.type = "status";
+                    em.name = data['message'];
+                    em.innerText = t(data['message']);
+                    em.style.display = "block";
+                    openRegister();
+                }
+            }).catch(error => {
+                loginRolling.style.display = "none";
+                console.error('Error:', error);
+                em.type = "fetch";
+                em.name = error;
+                em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + error + ")";
                 em.style.display = "block";
                 openRegister();
-            }
-        }).catch(error => {
-            loginRolling.style.display = "none";
-            console.error('Error:', error);
-            em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + error + ")";
-            em.style.display = "block";
-            openRegister();
-        });
+            });
+        } else {
+            alart.style.display = "block";
+            understandBtn.addEventListener("click", () => {
+                alart.style.display = "none";
+                termsOfUseCheck.checked = true;
+            })
+        }
     }
 
     function getCodeFunc() {
@@ -259,9 +311,10 @@
 
 
     function sendQuery() {
+        isSend = true;
         codeRolling.style.display = "block";
         getCodeNote.style.display = "block";
-        buttonText.innerText = t("Sending");
+        setButtonText("Sending");
         fetch('https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/register', {
             method: 'POST',
             credentials: "include",
@@ -278,15 +331,19 @@
                 em.style.display = "none";
                 countdown();
             } else {
+                em.type = "status";
+                em.name = data['message'];
                 em.innerText = t(data['message']);
                 em.style.display = "block";
-                buttonText.innerText = t("Resend");
+                setButtonText("Resend");
                 openGetCode();
             }
         }).catch(error => {
             codeRolling.style.display = "none";
-            buttonText.innerText = t("Resend");
+            setButtonText("Resend");
             console.error('Error:', error);
+            em.type = "fetch";
+            em.name = error;
             em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + error + ")"
             em.style.display = "block";
             openGetCode();
