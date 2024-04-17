@@ -4,6 +4,7 @@ const transData = {
     "Welcome to": "歡迎來到",
     "The Charity Project": "愛心計劃",
     "powered by CODA Bridge": "由 Coda Bridge 提供支援",
+    "Powered by CODA Bridge": "由 Coda Bridge 提供支援",
     "We are here to help our charitable partners to provide support for people in need.": "協助慈善夥伴幫助社會上有需要的人",
     "Log in": "登入",
     "Register": "註冊",
