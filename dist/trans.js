@@ -110,6 +110,7 @@ const transData = {
     "Voucher holders agree that their personal data will be used for the legal purposes of Ronald McDonald House, Coda Bridge Limited and related systems, and that these data will be destroyed within three months after the completion of the project.": "持券人同意其個人資料將用於麥當勞叔叔之家、Coda Bridge Limited以及相關系統的合法使用，并且這些數據將在項目完結後三個月內銷毀。",
     "Please read the above terms carefully and using the coupon indicates that you have accepted these terms.": "請仔細閱讀以上條款，使用愛心券表明您已接受這些條款。",
     "I understand": "本人明白",
+    "I agree": "本人同意",
     "Sorry, there is a problem with your registration.(error type:": "對不起，您的註冊過程出現問題。（錯誤類型：",
     "Sorry, there is a problem with your login attempt.(error type:": "對不起，您的登入過程出現問題。（錯誤類型：",
     "The email or phone number is already taken!": "電子郵件或電話號碼已被使用！",

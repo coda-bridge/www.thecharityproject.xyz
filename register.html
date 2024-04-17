@@ -62,8 +62,21 @@
     </div>
 </div>
 
+<div id="alart"
+     style="display:none;position: absolute;left: 50%;transform: translate(-50%, 10%);background-color: white;border: 1px solid black;border-radius:0.5rem;">
+    <div style="text-align: center;padding: 0.6rem 1rem;white-space: nowrap;">
+        <trans-component text="please read and agree to the "></trans-component>
+        <a target="_blank" href="terms_of_use.html">
+            <trans-component text="Terms of Use"></trans-component>
+        </a>
+    </div>
+    <button style="font-size: 1rem;cursor: pointer;width: 100%;text-align: center;border:0;border-top: 1px solid black;border-radius:0 0 0.5rem 0.5rem;padding: 0.6rem 0;background-color: white;color: var(--base-green);font-weight: 699;"
+            class="clickButton" id="understandBtn">
+        <trans-component text="I agree"></trans-component>
+    </button>
+</div>
 
-<div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 3rem;">
+<div style="width: 100%;display: flex;justify-content: space-between;flex-direction: column;align-items: center;margin-top: 6rem;">
     <button disabled
             style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
             type="submit" id="submitBtn">
@@ -79,19 +92,6 @@
                 <trans-component text="Terms of Use"></trans-component>
             </a></div>
     </div>
-</div>
-<div id="alart"
-     style="display: none;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background-color: white;border: 1px solid black;border-radius:0.5rem;">
-    <div style="text-align: center;padding: 0.6rem 1rem;white-space: nowrap;">
-        <trans-component text="please read and agree to the "></trans-component>
-        <a target="_blank" href="terms_of_use.html">
-            <trans-component text="Terms of Use"></trans-component>
-        </a>
-    </div>
-    <button style="cursor: pointer;width: 100%;text-align: center;border:0;border-top: 1px solid black;border-radius:0 0 0.5rem 0.5rem;padding: 0.6rem 0;background-color: white;color: black;"
-            class="clickButton" id="understandBtn">
-        <trans-component text="I understand"></trans-component>
-    </button>
 </div>
 <script>
     const broadcastChannel = new BroadcastChannel('understand_channel');
@@ -120,7 +120,7 @@
         } else {
             setButtonText(buttonText.name)
         }
-        if(em.type && em.style.display === "block") {
+        if (em.type && em.style.display === "block") {
             switch (em.type) {
                 case "fetch":
                     em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + em.name + ")"
