@@ -6,7 +6,7 @@ class ChangeLanguage extends HTMLElement {
     }
 
     render () {
-        this.shadowRoot.innerHTML = `<div id="body" style="display: flex;align-items: center;position: absolute;right: 1rem;top:1rem;border-radius: 1.05rem;border: 1px solid black;padding:0.3rem;line-height: 1.5rem;height: 1.5rem;">
+        this.shadowRoot.innerHTML = `<div id="body" style="z-index: 50;background-color: white;display: flex;align-items: center;position: absolute;right: 1rem;top:1rem;border-radius: 1.05rem;border: 1px solid black;padding:0.3rem;line-height: 1.5rem;height: 1.5rem;">
             <div id="ball" style="position: absolute;background-color: white;${this.language === "en"? 'right:0.3rem' : ''};border: 1px solid black;height: 1.5rem;width: 1.5rem;border-radius: 0.75rem;"></div>
             <div style="user-select: none;width: 1.7rem;text-align: center;">en</div>
             <div style="user-select: none;width: 1.7rem;text-align: center;">hk</div>
