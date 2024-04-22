@@ -32,7 +32,7 @@ class Account extends HTMLElement {
     }
 
     render() {
-        this.phoneReg = {1: /^\d{10}$/, 65: /^([8|9])\d{7}$/, 852: /^([6|9])\d{7}$/}
+        this.phoneReg = {1: /^\d{10}$/, 65: /^([8|9])\d{7}$/, 852: /^([6|9])\d{7}$/, 86: /^1\d{10}$/}
         this.emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
         this.shadowRoot.innerHTML = `
         <div id="phone" style="margin-top: 2rem" class="form-group">
@@ -76,7 +76,7 @@ class Account extends HTMLElement {
             }
         }
 
-        countrySelector.list = ["+1", "+65", "+852"];
+        countrySelector.list = ["+1", "+65","+86", "+852"];
         countrySelector.placeholder = ""
         phoneCountry.value = 852
         countrySelector.defaultValue = "+852"
