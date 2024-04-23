@@ -8,8 +8,8 @@ class ChangeLanguage extends HTMLElement {
     render () {
         this.shadowRoot.innerHTML = `<div id="body" style="z-index: 50;background-color: white;display: flex;align-items: center;position: absolute;right: 1rem;top:1rem;border-radius: 1.05rem;border: 1px solid black;padding:0.3rem;line-height: 1.5rem;height: 1.5rem;">
             <div id="ball" style="position: absolute;background-color: white;${this.language === "en"? 'right:0.3rem' : ''};border: 1px solid black;height: 1.5rem;width: 1.5rem;border-radius: 0.75rem;"></div>
-            <div style="user-select: none;width: 1.7rem;text-align: center;">en</div>
-            <div style="user-select: none;width: 1.7rem;text-align: center;">hk</div>
+            <div id="en" style="white-space: nowrap;user-select: none;width: 1.7rem;text-align: center;">en</div>
+            <div id="hk" style="white-space: nowrap;user-select: none;width: 1.7rem;text-align: center;">hk</div>
         </div>`
     }
 
@@ -18,6 +18,8 @@ class ChangeLanguage extends HTMLElement {
         const that = this;
         const clBody = this.shadowRoot.getElementById("body");
         const ball = this.shadowRoot.getElementById("ball");
+        const en = this.shadowRoot.getElementById("en");
+        const hk = this.shadowRoot.getElementById("hk");
 
         function setSessionStorage (key,value) {
             sessionStorage.setItem(key,value);
@@ -30,11 +32,15 @@ class ChangeLanguage extends HTMLElement {
                 ball.style.removeProperty('right');
                 ball.style.left = "0.3rem";
                 setSessionStorage("codaLanguage","hk");
+                en.style.visibility = "hidden";
+                hk.style.visibility = "visible";
                 that.language = "hk";
             } else {
                 ball.style.removeProperty('left');
                 ball.style.right = "0.3rem";
                 setSessionStorage("codaLanguage","en");
+                en.style.visibility = "visible";
+                hk.style.visibility = "hidden";
                 that.language = "en";
             }
         }
