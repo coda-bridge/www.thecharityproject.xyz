@@ -163,6 +163,7 @@
             sessionStorage.setItem("codaRole", role)
             switch (role) {
                 case "0":
+                    vouchersText.innerHTML = `<trans-component text="Vouchers available"></trans-component>`
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
                     socialKitchenButton.style.display = "none";
