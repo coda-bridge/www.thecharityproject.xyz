@@ -30,7 +30,7 @@ const transData = {
     "Before you create an account, please make sure your phone number is correct.": "在您建立帳戶之前，請確保您的電話號碼正確無誤。",
     "Welcome": "歡迎",
     "Vouchers available": "愛心券餘額",
-    "Total Vouchers Received": "愛心券餘額",
+    "Total Vouchers Received": "收到的優惠券總數",
     "Use voucher": "使用愛心券",
     "Transaction History": "過往交易記錄",
     "Receive vouchers": "接受愛心券",
