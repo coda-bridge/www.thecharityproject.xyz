@@ -31,6 +31,7 @@ class ChangeLanguage extends HTMLElement {
             if(that.language === "en") {
                 ball.style.removeProperty('right');
                 ball.style.left = "0.3rem";
+                document.documentElement.lang = "zh-HK"
                 setSessionStorage("codaLanguage","hk");
                 en.style.visibility = "hidden";
                 hk.style.visibility = "visible";
@@ -38,6 +39,7 @@ class ChangeLanguage extends HTMLElement {
             } else {
                 ball.style.removeProperty('left');
                 ball.style.right = "0.3rem";
+                document.documentElement.lang = "en"
                 setSessionStorage("codaLanguage","en");
                 en.style.visibility = "visible";
                 hk.style.visibility = "hidden";

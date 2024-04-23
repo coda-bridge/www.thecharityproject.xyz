@@ -12,8 +12,10 @@ class Trans extends HTMLElement {
         function checkText() {
             const language = window.sessionStorage.getItem("codaLanguage");
             if (language !== "en") {
+                document.documentElement.lang = "zh-HK"
                 that.shadowRoot.innerHTML = transData[text] || text;
             } else {
+                document.documentElement.lang = "en"
                 that.shadowRoot.innerHTML = text;
             }
         }
