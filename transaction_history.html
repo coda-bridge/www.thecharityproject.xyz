@@ -48,10 +48,10 @@
             }
         }
 
-        if (localStorage.getItem("IsLogin") !== "true") {
+        if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         } else {
-            role = localStorage.getItem("codaRole") || 0
+            role = sessionStorage.getItem("codaRole") || 0
             role = parseInt(role)
             queryAllData()
         }

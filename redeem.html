@@ -10,7 +10,7 @@
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
+        if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
     </script>
@@ -116,7 +116,7 @@
             refreshIcon.style.display = "none";
             if (response.status === 200) {
                 total -= thisAmount;
-                localStorage.setItem('balance', total)
+                sessionStorage.setItem('balance', total)
                 setInput()
                 successIcon.style.display = "block";
                 resultText.innerHTML = `<div><trans-component text="Your redeem is successful!"></trans-component></div><br/><div><trans-component text="Next, you can"></trans-component></div>`;

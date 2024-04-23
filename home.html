@@ -11,7 +11,7 @@
     <script  type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
+        if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
     </script>
@@ -25,9 +25,10 @@
 </div>
 <div style="display: none" id="body">
     <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
-        <a style="position: absolute;top: 2rem;right: 2.5rem;" onclick="signOut()">
+        <a style="position: absolute;top: 1rem;right: 2rem;" onclick="signOut()">
             <img src="media/Signout.svg">
         </a>
+        <div style="position:absolute;top: 3.5rem;right: 0;"><change-language-component></change-language-component></div>
         <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
             <img width="96" src="media/coda-logo.png">
             <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
@@ -107,15 +108,15 @@
     const socialKitchenButton = document.getElementById("social-kitchen-button");
 
     const signOut = () => {
-        localStorage.removeItem("IsLogin");
-        localStorage.removeItem('balance')
-        localStorage.removeItem('codaRole')
-        localStorage.removeItem('codaName')
+        sessionStorage.removeItem("IsLogin");
+        sessionStorage.removeItem('balance')
+        sessionStorage.removeItem('codaRole')
+        sessionStorage.removeItem('codaName')
         location.replace("index.html")
     }
-    const oldBalance = localStorage.getItem('balance')
-    const oldRole = localStorage.getItem('codaRole')
-    const oldName = localStorage.getItem('codaName')
+    const oldBalance = sessionStorage.getItem('balance')
+    const oldRole = sessionStorage.getItem('codaRole')
+    const oldName = sessionStorage.getItem('codaName')
     if(oldBalance && oldRole && oldName){
         loadingPlace.style.display = "none";
         bodyPlace.style.display = "block";
@@ -158,8 +159,8 @@
             let userName = ""
             document.getElementById("price").innerText = data['balance'] || "0";
             const role = data['role'].toString()
-            localStorage.setItem("balance", data['balance'] || "0")
-            localStorage.setItem("codaRole", role)
+            sessionStorage.setItem("balance", data['balance'] || "0")
+            sessionStorage.setItem("codaRole", role)
             switch (role) {
                 case "0":
                     balancePlace.style.display = "block";
@@ -183,7 +184,7 @@
                 default:
                     console.log("error access——", role)
             }
-            localStorage.setItem("codaName", userName)
+            sessionStorage.setItem("codaName", userName)
             document.getElementById("user_name").innerText = userName
         } catch (e) {
             console.error('Error:', e);

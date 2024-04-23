@@ -135,7 +135,7 @@ const transData = {
 };
 
 function t(text) {
-    const language = localStorage.getItem("codaLanguage");
+    const language = sessionStorage.getItem("codaLanguage");
     if (language !== "en") {
         return transData[text] || text;
     } else {

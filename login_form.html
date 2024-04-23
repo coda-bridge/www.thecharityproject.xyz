@@ -185,7 +185,7 @@
         }).then(function (data) {
             if (data['status']) {
                 window.location.replace("home.html");
-                localStorage.setItem("IsLogin", "true");
+                sessionStorage.setItem("IsLogin", "true");
             } else {
                 em.innerText = t(data['message']);
                 em.style.display = "block";

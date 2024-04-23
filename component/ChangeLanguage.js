@@ -1,7 +1,7 @@
 class ChangeLanguage extends HTMLElement {
     constructor() {
         super();
-        this.language = window.localStorage.getItem("codaLanguage");
+        this.language = window.sessionStorage.getItem("codaLanguage");
         this.attachShadow({mode: 'open'});
     }
 
@@ -19,8 +19,8 @@ class ChangeLanguage extends HTMLElement {
         const clBody = this.shadowRoot.getElementById("body");
         const ball = this.shadowRoot.getElementById("ball");
 
-        function setLocalStorage (key,value) {
-            localStorage.setItem(key,value);
+        function setSessionStorage (key,value) {
+            sessionStorage.setItem(key,value);
             const setLanguage = new Event("setLanguage");
             setLanguage.setValue = {key,value};
             window.dispatchEvent(setLanguage);
@@ -29,12 +29,12 @@ class ChangeLanguage extends HTMLElement {
             if(that.language === "en") {
                 ball.style.removeProperty('right');
                 ball.style.left = "0.3rem";
-                setLocalStorage("codaLanguage","hk");
+                setSessionStorage("codaLanguage","hk");
                 that.language = "hk";
             } else {
                 ball.style.removeProperty('left');
                 ball.style.right = "0.3rem";
-                setLocalStorage("codaLanguage","en");
+                setSessionStorage("codaLanguage","en");
                 that.language = "en";
             }
         }

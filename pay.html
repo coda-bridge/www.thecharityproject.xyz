@@ -13,7 +13,7 @@
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (localStorage.getItem("IsLogin") !== "true") {
+        if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
     </script>
@@ -384,7 +384,7 @@
         }).then(function (data) {
             if (data['status']) {
                 totalBalance = Math.round(totalBalance - parseFloat(amount))
-                localStorage.setItem('balance',totalBalance)
+                sessionStorage.setItem('balance',totalBalance)
                 balanceValue.innerText = totalBalance
                 successIcon.style.display = "block";
                 let formatted = new Date().toLocaleDateString('en-US', {

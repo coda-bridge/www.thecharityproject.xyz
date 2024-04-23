@@ -270,7 +270,7 @@
                 loginRolling.style.display = "none";
                 if (data['status']) {
                     window.location.replace("home.html");
-                    localStorage.setItem("IsLogin", "true");
+                    sessionStorage.setItem("IsLogin", "true");
                 } else {
                     em.type = "status";
                     em.name = data['message'];

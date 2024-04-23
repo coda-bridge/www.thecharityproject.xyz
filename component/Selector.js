@@ -69,7 +69,7 @@ class Selector extends HTMLElement {
 
 
         function transText(e) {
-            const language = e ? e.setValue.value : localStorage.getItem("codaLanguage")
+            const language = e ? e.setValue.value : sessionStorage.getItem("codaLanguage")
             selectOptionList.querySelectorAll("div").forEach(item => {
                 if (that.type === "time") {
                     if (item.id === roleInput.value) {
