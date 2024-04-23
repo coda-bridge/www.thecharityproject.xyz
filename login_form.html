@@ -31,7 +31,7 @@
     <account-component></account-component>
 </div>
 <div style="display: flex;margin-top: 2rem;">
-    <input id="code"
+    <input autocomplete="one-time-code" inputmode="numeric" id="code"
            style="min-width: 0;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;"/>
     <button disabled
             style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
@@ -45,10 +45,12 @@
 </div>
 <div id="getCodeNote" style="display: none;margin-top: 1rem;font-size: 0.8rem;line-height: 1rem;">
     <div>
-        <trans-component text="We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code."></trans-component>
+        <trans-component
+                text="We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code."></trans-component>
     </div>
     <div style="margin-top: 0.5rem;">
-        <trans-component text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
+        <trans-component
+                text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
     </div>
 </div>
 <div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
@@ -238,6 +240,29 @@
             em.style.display = "block";
             buttonText.innerText = t("Resend");
             openGetCode();
+        });
+    }
+
+    if ('OTPCredential' in window) {
+        window.addEventListener('DOMContentLoaded', e => {
+            const input = document.querySelector('input[autocomplete="one-time-code"]');
+            if (!input) return;
+            const ac = new AbortController();
+            const form = input.closest('form');
+            if (form) {
+                form.addEventListener('submit', e => {
+                    ac.abort();
+                });
+            }
+            navigator.credentials.get({
+                otp: {transport: ['sms']},
+                signal: ac.signal
+            }).then(otp => {
+                input.value = otp.code;
+                if (form) form.submit();
+            }).catch(err => {
+                console.log(err);
+            });
         });
     }
 </script>

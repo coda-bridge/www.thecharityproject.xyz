@@ -40,7 +40,7 @@
 </div>
 
 <div style="display: flex;margin-top: 2rem;">
-    <input id="code"
+    <input inputmode="numeric" autocomplete="one-time-code" id="code"
            style="min-width: 0;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;"/>
     <button disabled
             style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
@@ -352,6 +352,29 @@
             em.innerText = t("Sorry, there is a problem with your registration.(error type:") + " " + error + ")"
             em.style.display = "block";
             openGetCode();
+        });
+    }
+
+    if ('OTPCredential' in window) {
+        window.addEventListener('DOMContentLoaded', e => {
+            const input = document.querySelector('input[autocomplete="one-time-code"]');
+            if (!input) return;
+            const ac = new AbortController();
+            const form = input.closest('form');
+            if (form) {
+                form.addEventListener('submit', e => {
+                    ac.abort();
+                });
+            }
+            navigator.credentials.get({
+                otp: {transport: ['sms']},
+                signal: ac.signal
+            }).then(otp => {
+                input.value = otp.code;
+                if (form) form.submit();
+            }).catch(err => {
+                console.log(err);
+            });
         });
     }
 </script>
