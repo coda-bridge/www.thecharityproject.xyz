@@ -220,7 +220,7 @@
             return b.timestamp - a.timestamp;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img = role === 0 ? "https://www.thecharityproject.xyz/media/kitchen-logo.png" : "";
+            comp.img = role === 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "";
             comp.role = role;
             comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "RMHC" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
             comp.price = item.amount;
