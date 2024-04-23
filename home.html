@@ -129,7 +129,7 @@
                 socialKitchenButton.style.display = "none";
                 break;
             case "1":
-                vouchersText.innerText = "Total Vouchers Received"
+                vouchersText.innerHTML = `<trans-component text="Total Vouchers Received"></trans-component>`
                 balancePlace.style.display = "block";
                 clientButton.style.display = "none";
                 socialKitchenButton.style.display = "flex";
@@ -169,7 +169,7 @@
                     userName = data['firstname'];
                     break;
                 case "1":
-                    vouchersText.innerText = "Total Vouchers Received"
+                    vouchersText.innerHTML = `<trans-component text="Total Vouchers Received"></trans-component>`
                     balancePlace.style.display = "block";
                     clientButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";

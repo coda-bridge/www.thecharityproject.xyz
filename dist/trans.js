@@ -30,6 +30,7 @@ const transData = {
     "Before you create an account, please make sure your phone number is correct.": "在您建立帳戶之前，請確保您的電話號碼正確無誤。",
     "Welcome": "歡迎",
     "Vouchers available": "愛心券餘額",
+    "Total Vouchers Received": "愛心券餘額",
     "Use voucher": "使用愛心券",
     "Transaction History": "過往交易記錄",
     "Receive vouchers": "接受愛心券",
@@ -49,6 +50,9 @@ const transData = {
     "Click Confirm button to confirm the payment.": "點擊確認按鈕確認付款。",
     "Your transaction is in process.": "您的交易正在進行中。",
     "Please do not leave this page.": "請勿離開此頁面。",
+    "Your redeem is in process.": "您的兌換正在進行中。",
+    "Your redeem is successful!": "您的兌換成功！",
+    "Next, you can": "接下來，您可以",
     "Voucher amount:": "愛心券金額：",
     "Next": "下一頁",
     "From:": "從：",
@@ -131,7 +135,7 @@ const transData = {
     "Failed to send login link! Please try again later.": "發送登錄鏈接失敗！請稍後再試。",
     "The phone number is not activated. Please sign up first.": "電話號碼未激活。請先註冊。",
     "We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code.": "我們已向您的電話號碼發出驗證碼。請檢查您的訊息收件箱並輸入6位數驗證碼。",
-    "Didn't receive the code? You can request to resend it after one minute.": "是否還沒有收到驗證碼？您可以在一分鐘後請求重新發送。",
+    "Didn't receive the code? You can request to resend it after one minute.": "是否還沒有收到驗證碼？您可以在一分鐘後請求重新發送。"
 };
 
 function t(text) {
