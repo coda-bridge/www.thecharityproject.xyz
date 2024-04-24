@@ -219,7 +219,7 @@
                 const serverTime = new Date(item.timestamp);
                 const offset = new Date().getTimezoneOffset();
                 item.timestamp = serverTime.getTime() - offset * 60 * 1000;
-                item.name = item.user_name.slice(4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone.slice(-4) + ")"
+                item.name = item.user_name.slice(0,4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone.slice(-4) + ")"
                 delete item.user_name
                 if (item.user_phone) {
                     delete item.user_phone;
