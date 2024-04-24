@@ -85,7 +85,7 @@
         <!--        </div>-->
     </div>
     <div id="manually" style="display: none;">
-        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;">Outlet:</div>
+        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;"><trans-component text="Outlet:"></trans-component></div>
         <div id="kitchen" style="margin-top: 1.5rem;">
 
         </div>
@@ -407,7 +407,7 @@
             } else {
                 errorIcon.style.display = "block";
                 if (data['message']) {
-                    payText.innerText = data['message'];
+                    payText.innerText = t(data['message']);
                 }
                 payAgainButton.style.display = "block";
             }
@@ -416,7 +416,7 @@
             refreshIcon.style.display = "none";
             errorIcon.style.display = "block";
             refreshIcon.style.display = "none";
-            payText.innerText = "Your transaction failed!(network error)"
+            payText.innerText = t("Your transaction failed!(network error)")
             payAgainButton.style.display = "block";
         });
     }
@@ -490,7 +490,7 @@
 
     const addAmountInput = (byQR) => {
         let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="box-sizing: border-box;font-size: 1rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
+                   style="box-sizing: border-box;font-size: 2rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
         if (byQR) {
             input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
         }
@@ -517,7 +517,7 @@
     }
 
     const setQRData = (QRData, firstTime) => {
-        manuallyText.innerText = "Outlet:"
+        manuallyText.innerHTML = '<trans-component text="Outlet:"></trans-component>'
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
@@ -547,7 +547,7 @@
         home.style.display = "none";
         pay.style.display = "block";
         errorIcon.style.display = "block";
-        payText.innerText = "The QR code is wrong. Please try another one!";
+        payText.innerText = t("The QR code is wrong. Please try another one!");
         payAgainButton.style.display = "block";
     }
 
