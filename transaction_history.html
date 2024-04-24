@@ -222,7 +222,7 @@
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "";
             comp.role = role;
-            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "RMHC" : item.merchant_name || (item.user_name + " (" + item.user_phone + ")");
+            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "RMHC" : item.merchant_name || (item.user_name.slice(4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (item.amount < 0) {
                 expense += Math.abs(item.amount);
