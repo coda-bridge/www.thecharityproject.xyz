@@ -86,7 +86,7 @@
     </div>
     <div id="manually" style="display: none;">
         <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;"><trans-component text="Outlet:"></trans-component></div>
-        <div id="kitchen" style="margin-top: 1.5rem;">
+        <div id="kitchen" style="margin-top: 1.5rem;font-size: 1.2rem;">
 
         </div>
         <div id="amount" style="margin-top: 0.6rem;">
@@ -490,7 +490,7 @@
 
     const addAmountInput = (byQR) => {
         let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="box-sizing: border-box;font-size: 2rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
+                   style="box-sizing: border-box;font-size: 1.4rem;margin-top: 0.5rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
         if (byQR) {
             input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
         }
