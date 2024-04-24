@@ -77,9 +77,9 @@
 </div>
 <div style="padding: 1.2rem;">
     <div id="title" style="display: flex;justify-content: space-between;align-items: center;">
-        <div id="income" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        <div id="income" style="display: flex;flex-wrap: wrap;align-items: center;justify-content: end;">
         </div>
-        <div id="expense" style="display: flex;flex-wrap: wrap;justify-content: end;">
+        <div id="expense" style="display: flex;flex-wrap: wrap;align-items: center;justify-content: end;">
         </div>
     </div>
     <div style="height: 1px;background-color: #ADA9A9;margin: 0.7rem 0"></div>
@@ -233,7 +233,11 @@
             historyPlace.appendChild(comp);
         });
         incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100 || 0;
+        incomeValue.style.fontSize = "1.1rem";
+        incomeValue.style.fontWeight = "600";
         expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100 || 0;
+        expenseValue.style.fontSize = "1.1rem";
+        expenseValue.style.fontWeight = "600";
     }
 
     timeSelector.defaultValue = formatDate()

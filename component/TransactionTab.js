@@ -23,7 +23,7 @@ class TransactionTab extends HTMLElement {
                     <div>${this.name}</div>
                 </div>
                 <div style="text-align: center">
-                    <div style="color: var(--base-green);font-weight: 700;">${this.price < 0 ? "-" : "+"}$${Math.abs(this.price)}</div>
+                    <div style="color: var(--base-green);font-size: 1.2rem;font-weight: 700;">${this.price < 0 ? "-" : "+"}$${Math.abs(this.price)}</div>
                     <div style="font-size: 0.7rem">${formatDate(this.time)}</div>
                 </div>
             </div>
