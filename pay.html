@@ -295,7 +295,7 @@
     const goConfirm = () => {
         code = "";
         NextRolling.style.display = "block";
-        if (parseFloat(amount) > 50) {
+        if (parseFloat(amount) > 300) {
             fetch('https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/create_payment_pin', {
                 method: 'POST',
                 credentials: "include",
@@ -366,7 +366,7 @@
         goHistoryButton.style.display = "none";
         backHomeButton.style.display = "none";
         const payData = {"to_address": ethAddress, "amount": amount}
-        if (parseFloat(amount) > 50 && code) {
+        if (parseFloat(amount) > 300 && code) {
             payData["pin"] = code
         } else {
             payData["pin"] = "0000"
