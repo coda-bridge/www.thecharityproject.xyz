@@ -105,7 +105,7 @@
         backHomeButton.style.display = "none";
         resultText.innerHTML = `<div><trans-component text="Your redeem is in process."></trans-component></div><br/><div><trans-component text="Please do not leave this page."></trans-component></div>`
         const thisAmount = parseFloat(amountInput.value)
-        fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/merchant_redeem", {
+        fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/merchant_redeem", {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -185,7 +185,7 @@
         })
     }
 
-    fetch("https://flows.thecharityproject.XYZ/webhook/mGf4HLHKeePxFzDHk7D1/profile", {
+    fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile", {
         method: 'GET',
         credentials: "include",
         headers: {
