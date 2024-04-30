@@ -13,9 +13,9 @@
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (sessionStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
@@ -464,19 +464,23 @@
     }
 
     const addKitchenSelector = () => {
-        kitchenSelector.list = [{
-            name: "Dignity Kitchen",
-            value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-        }]
-        kitchenSelector.changeCallBack = (value) => {
-            if (value && value.name && value.value) {
-                kitchenName = value.name
-                ethAddress = value.value
-            }
-        }
-        kitchenPlace.innerHTML = ""
-        kitchenPlace.style.marginTop = "1.5rem";
-        kitchenPlace.appendChild(kitchenSelector)
+        ethAddress = "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+        kitchenName = "Dignity Kitchen"
+        kitchenPlace.style.marginTop = "0";
+        kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">Dignity Kitchen</div>`
+        // kitchenSelector.list = [{
+        //     name: "Dignity Kitchen",
+        //     value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+        // }]
+        // kitchenSelector.changeCallBack = (value) => {
+        //     if (value && value.name && value.value) {
+        //         kitchenName = value.name
+        //         ethAddress = value.value
+        //     }
+        // }
+        // kitchenPlace.innerHTML = ""
+        // kitchenPlace.style.marginTop = "1.5rem";
+        // kitchenPlace.appendChild(kitchenSelector)
     }
 
     const addAmountInput = (byQR) => {
