@@ -107,6 +107,25 @@
     const unmuteIcon = document.getElementById("unmute-icon");
     let isMute = true
 
+    function loadVoices(){
+        if (voices.length === 0){
+            window.setTimeout(function() {
+                voices = window.speechSynthesis.getVoices();
+                voices.sort(function(voice1, voice2){
+                    return voice1.name.localeCompare(voice2.name);
+                });
+            }, 100);
+        }
+    }
+
+    let voices = [];
+    window.addEventListener("load", function(){
+        loadVoices(speechSynthesis);
+        speechSynthesis.addEventListener("voiceschanged", function(){
+            loadVoices(speechSynthesis);
+        });
+    });
+
     const setUnMute = () => {
         moneyAudio.play();
         moneyAudio.src = "media/money.mp3"
@@ -240,8 +259,8 @@
                     newItems.forEach((item) => {
                         let amount = item.split("_")[2]
                         amount = Math.round(parseFloat(amount) * 100) / 100;
-                        const utterance = new SpeechSynthesisUtterance(`You just received ${amount} dollar${amount > 0.5 ? "s" : ""}!`);
-                        utterance.lang = 'en-US';
+                        const utterance = new SpeechSynthesisUtterance(`你收到了${amount}蚊錢！`);
+                        utterance.lang = 'zh-HK';
                         speechSynthesis.speak(utterance);
                     })
                 }
