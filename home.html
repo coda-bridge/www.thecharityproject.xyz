@@ -11,9 +11,9 @@
     <script  type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
-        if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
-        }
+        // if (sessionStorage.getItem("IsLogin") !== "true") {
+        //     location.replace("index.html")
+        // }
     </script>
 </head>
 <body>
@@ -59,7 +59,7 @@
                class="clickButton">
                 <trans-component text="Receive vouchers"></trans-component>
             </a>
-            <a style="line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:black;width: 100%;border: 2px solid var(--base-green);font-size: 1.4rem;margin-top: 2.5rem;text-align: start"
+            <a style="cursor: not-allowed;line-height:2.1rem;border-radius:0.5rem;box-sizing:border-box;padding: 0.5rem 1rem;color:white;width: 100%;border: 2px solid #494e52;font-size: 1.4rem;margin-top: 2.5rem;text-align: start;background-color: #9B9C9C;"
                disabled>
                 <trans-component text="Settle vouchers"></trans-component>
             </a>
@@ -90,7 +90,7 @@
             </div>
             <collapse-component style="margin-top: 1.5rem;" name="Technical support">
                 <div>
-                    WhatsApp  <a href="tel:+85297272477">+852 97272477</a>
+                    WhatsApp  <a href="https://wa.me/85297272477">+852 97272477</a>
                 </div>
             </collapse-component>
         </div>
