@@ -117,7 +117,7 @@
     const form = document.getElementById('form');
 
     window.addEventListener('setLanguage', function (e) {
-        nameInputer.placeholder = t("Your name");
+        nameInputer.placeholder = t("Sick child's name");
         if (count > 0) {
             buttonText.innerText = count + " " + t("second" + (count > 1 ? "s" : ""))
         } else {
@@ -143,7 +143,7 @@
         buttonText.innerText = t(name);
     }
 
-    nameInputer.placeholder = t("Your name");
+    nameInputer.placeholder = t("Sick child's name");
 
     broadcastChannel.onmessage = function () {
         termsOfUseCheck.checked = true;
