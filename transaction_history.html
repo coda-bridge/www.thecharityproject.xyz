@@ -49,7 +49,7 @@
         }
 
         if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
+            // location.replace("index.html")
         } else {
             role = sessionStorage.getItem("codaRole") || 0
             role = parseInt(role)
@@ -136,7 +136,7 @@
                 }
                 return item;
             })
-            filterByMonth(timeSelector.value || formatDate())
+            filterByMonth(timeSelector.value || new Date())
         } else if (response.status === 401) {
             alert("Your login has expired. Please login again~");
             location.replace("index.html");
@@ -169,15 +169,6 @@
         }
     }
 
-    function formatDate(date) {
-        if (!date) {
-            date = new Date();
-        }
-        const month = date.toLocaleString('en', {month: 'short'});
-        const year = date.getFullYear();
-        return month + " " + year
-    }
-
     let current = new Date();
     let startMonth = 11;
     let currentMonth = current.getMonth() + 1;
@@ -191,9 +182,9 @@
                 if (year === currentYear && month > currentMonth) {
                     break;
                 }
-                let displayMonth = new Date(year, month - 1).toLocaleString('en-US', {month: 'short'});
-                let date = `${displayMonth} ${year}`;
-                newList.push(date)
+                let firstDayOfMonth = new Date(year, month - 1, 1);
+                let timestamp = firstDayOfMonth.getTime();
+                newList.push(timestamp)
             }
             startMonth = 1
         }
@@ -206,10 +197,7 @@
         expense = 0
         income = 0
         historyPlace.innerHTML = ""
-        const monthYear = typeof monthStr === "string" ? monthStr.split(' ') : monthStr.value.split(' ');
-        const month = monthYear[0];
-        const year = monthYear[1];
-        const date = new Date(`${month} 1, ${year}`);
+        const date = new Date(monthStr);
         const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
         const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
         transactionData.filter(item => {
@@ -240,7 +228,7 @@
         expenseValue.style.fontWeight = "600";
     }
 
-    timeSelector.defaultValue = formatDate()
+    timeSelector.defaultValue = new Date();
     timeSelector.type = "time"
     timeSelector.changeCallBack = filterByMonth
     const titlePart = document.getElementById("title")

@@ -61,11 +61,11 @@ class Selector extends HTMLElement {
         }));
 
         function transDate(dateText, locales) {
-            const month = new Date(dateText).toLocaleString(locales, {month: 'short'});
-            const year = new Date(dateText).getFullYear();
+            const fixData = parseInt(dateText) * Math.pow(10, 13 - dateText.toString().length)
+            const month = new Date(fixData).toLocaleString(locales, {month: 'short'});
+            const year = new Date(fixData).getFullYear();
             return month + " " + year;
         }
-
 
 
         function transText(e) {
@@ -105,6 +105,10 @@ class Selector extends HTMLElement {
                 }
                 selectOptionList.appendChild(valueItem)
                 if (this.defaultValue) {
+                    if (that.type === "time") {
+                        const language = sessionStorage.getItem("codaLanguage")
+                        this.defaultValue = transDate(new Date().getTime(), language === "en" ? "en-US" : "zh-HK");
+                    }
                     setValue(this.defaultValue)
                 }
             })
@@ -112,7 +116,7 @@ class Selector extends HTMLElement {
             syncWidth();
         }
 
-        window.addEventListener('setLanguage', (e)=>{
+        window.addEventListener('setLanguage', (e) => {
             transText(e)
         });
 
