@@ -137,8 +137,9 @@ const transData = {
     "Cannot create session for the user": "無法為用戶創建會話層",
     "Failed to send login link! Please try again later.": "發送登錄鏈接失敗！請稍後再試。",
     "The phone number is not activated. Please sign up first.": "電話號碼未激活。請先註冊。",
-    "We sent a verification code to your phone number. Please check out your Message App and enter the 6-digit code.": "我們已向您的電話號碼發出驗證碼。請檢查您的訊息收件箱並輸入6位數驗證碼。",
-    "Didn't receive the code? You can request to resend it after one minute.": "是否還沒有收到驗證碼？您可以在一分鐘後請求重新發送。"
+    "We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code.": "我們已將驗證碼發送至您的 WhatsApp。請檢查您的 WhatsApp 訊息並輸入六位數的驗證碼。",
+    "Didn't receive the code? You can request to resend it after one minute.": "是否還沒有收到驗證碼？您可以在一分鐘後請求重新發送。",
+    "You will receive the verification code on WhatsApp within 60 seconds.":"WhatsApp會在60秒內收到驗證碼"
 };
 
 function t(text) {
