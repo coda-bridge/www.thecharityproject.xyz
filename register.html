@@ -335,7 +335,6 @@
                 em.innerText = "";
                 em.style.display = "none";
                 countdown();
-                alert(t("You will receive the verification code on WhatsApp within 60 seconds."))
             } else {
                 em.type = "status";
                 em.name = data['message'];
@@ -354,6 +353,7 @@
             em.style.display = "block";
             openGetCode();
         });
+        alert(t("You will receive the verification code on WhatsApp within 60 seconds."));
     }
 
     if ('OTPCredential' in window) {
