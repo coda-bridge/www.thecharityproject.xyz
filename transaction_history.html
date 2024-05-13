@@ -49,7 +49,7 @@
         }
 
         if (sessionStorage.getItem("IsLogin") !== "true") {
-            // location.replace("index.html")
+            location.replace("index.html")
         } else {
             role = sessionStorage.getItem("codaRole") || 0
             role = parseInt(role)
