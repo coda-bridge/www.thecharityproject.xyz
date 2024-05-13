@@ -113,7 +113,7 @@ class Selector extends HTMLElement {
                 if (this.defaultValue) {
                     if (that.type === "time") {
                         const language = sessionStorage.getItem("codaLanguage")
-                        this.defaultValue = transDate(getFirstDayOfMonthTimestamp(), language === "en" ? "en-US" : "zh-HK");
+                        this.defaultValue = transDate(new Date(getFirstDayOfMonthTimestamp()), language === "en" ? "en-US" : "zh-HK");
                     }
                     setValue(this.defaultValue)
                 }
