@@ -204,6 +204,8 @@
         income = 0
         historyPlace.innerHTML = ""
         const date = new Date(parseInt(monthStr.value ? monthStr.value : monthStr));
+        console.log(monthStr.value ? monthStr.value : monthStr)
+        console.log(date)
         const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
         const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).getTime() - 1;
         transactionData.filter(item => {
