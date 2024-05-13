@@ -85,6 +85,12 @@ class Selector extends HTMLElement {
             })
         }
 
+        function getFirstDayOfMonthTimestamp() {
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+            return firstDay.setHours(0, 0, 0, 0);
+        }
+
         if (this.list) {
             this.list.forEach(value => {
                 const valueItem = document.createElement('div');
@@ -107,7 +113,7 @@ class Selector extends HTMLElement {
                 if (this.defaultValue) {
                     if (that.type === "time") {
                         const language = sessionStorage.getItem("codaLanguage")
-                        this.defaultValue = transDate(new Date().getTime(), language === "en" ? "en-US" : "zh-HK");
+                        this.defaultValue = transDate(getFirstDayOfMonthTimestamp(), language === "en" ? "en-US" : "zh-HK");
                     }
                     setValue(this.defaultValue)
                 }
