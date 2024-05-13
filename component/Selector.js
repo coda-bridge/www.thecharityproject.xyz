@@ -112,9 +112,9 @@ class Selector extends HTMLElement {
                 selectOptionList.appendChild(valueItem)
                 if (this.defaultValue) {
                     if (that.type === "time") {
+                        const nowTime = new Date(getFirstDayOfMonthTimestamp())
                         const language = sessionStorage.getItem("codaLanguage")
-                        console.log(new Date(getFirstDayOfMonthTimestamp()))
-                        this.defaultValue = transDate(getFirstDayOfMonthTimestamp(), language === "en" ? "en-US" : "zh-HK");
+                        this.defaultValue = {name: transDate(nowTime.getTime(), language === "en" ? "en-US" : "zh-HK"), value: nowTime};
                     }
                     setValue(this.defaultValue)
                 }
