@@ -13,7 +13,7 @@
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
+            // location.replace("index.html")
         }
     </script>
 </head>
@@ -215,7 +215,7 @@
         const amount = amountInput.value
         document.getElementById("result").innerHTML = ""
         if (amount && amount !== "0.00") {
-            document.getElementById("result").innerHTML = `<div style="font-size: 4rem;color: var(--base-green);font-weight: 700;text-align: center;">${amount}</div>`
+            document.getElementById("result").innerHTML = `<div style="font-size: 4rem;color: var(--base-green);font-weight: 700;text-align: center;">$${amount}</div>`
         }
         const codeWriter = new ZXing.BrowserQRCodeSvgWriter()
         codeWriter.writeToDom('#result', encodeURI(`https://www.thecharityproject.xyz/pay.html?name=${kitchenName}&ethAddress=${ethAddress}&amount=${amount}`), 300, 300);
