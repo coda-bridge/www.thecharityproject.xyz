@@ -53,7 +53,10 @@
         <div style="display: flex;align-items: center;margin-top: 0.9rem">
             <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
             <div style="display: inline;font-size: 0.8rem">
-                <trans-component text="If unsuccessful, you can use"></trans-component> <a class="clickText" id="go-manually" style="text-decoration: underline;"><trans-component text="non-camera mode"></trans-component></a>.
+                <trans-component text="If unsuccessful, you can use"></trans-component>
+                <a class="clickText" id="go-manually" style="text-decoration: underline;">
+                    <trans-component text="non-camera mode"></trans-component>
+                </a>.
             </div>
         </div>
         <!--        <div style="font-size: 0.9rem">-->
@@ -85,7 +88,9 @@
         <!--        </div>-->
     </div>
     <div id="manually" style="display: none;">
-        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;"><trans-component text="Outlet:"></trans-component></div>
+        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;">
+            <trans-component text="Outlet:"></trans-component>
+        </div>
         <div id="kitchen" style="margin-top: 1.5rem;font-size: 1.2rem;">
 
         </div>
@@ -93,7 +98,8 @@
 
         </div>
         <div style="line-height: 1.5rem;" id="balance">
-            <trans-component text="Your balance"></trans-component>: $
+            <trans-component text="Your balance"></trans-component>
+            : $
             <span id="balance-value">
                 <img style="width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
                      src="media/Rolling.svg"/>
@@ -152,7 +158,9 @@
             </a>
         </div>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
+    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">
+        <trans-component text="Powered by CODA Bridge"></trans-component>
+    </div>
 </div>
 <script>
     const codeReader = new ZXing.BrowserQRCodeReader();
@@ -384,7 +392,7 @@
         }).then(function (data) {
             if (data['status']) {
                 totalBalance = Math.round(totalBalance - parseFloat(amount))
-                sessionStorage.setItem('balance',totalBalance)
+                sessionStorage.setItem('balance', totalBalance)
                 balanceValue.innerText = totalBalance
                 successIcon.style.display = "block";
                 let formatted = new Date().toLocaleDateString('en-US', {
@@ -484,8 +492,11 @@
     }
 
     const addAmountInput = (byQR) => {
-        let input = `<input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="box-sizing: border-box;font-size: 1.4rem;margin-top: 0.5rem;line-height:1.5rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>`
+        let input = `<div style="position: relative;font-size: 1.4rem;display: flex;align-items: center;margin-top: 0.5rem;">
+<div style="position: absolute;left: 1rem;font-weight: 600;">$</div>
+<input name="amount" id="amount-input" type="text" inputmode="decimal"
+                   style="box-sizing: border-box;line-height:1.5rem;font-size: 1.4rem;width: 100%;padding: 0.8rem 1rem 0.8rem 2.3rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>
+</div>`
         if (byQR) {
             input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
         }
@@ -606,7 +617,7 @@
                 } else {
                     selectedIndex = 0
                 }
-                setTimeout(()=>setZoom(2),2000)
+                setTimeout(() => setZoom(2), 2000)
                 document.getElementById("video").addEventListener('loadedmetadata', () => {
                     videoPlace.style.display = "flex"
                     QRRolling.style.display = "none"
