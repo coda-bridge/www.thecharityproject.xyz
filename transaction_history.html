@@ -15,14 +15,30 @@
         let domReady = false
 
         async function queryAllData() {
-            const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+            // const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+            //     method: 'GET',
+            //     credentials: "include",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            // })
+            // const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            //         method: 'GET',
+            //         credentials: "include",
+            //         headers: {
+            //             "Content-Type": "application/json"
+            //         },
+            //     }
+            // )
+            // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
+            const fetchProfile = await fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
                 method: 'GET',
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
             })
-            const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
@@ -30,15 +46,17 @@
                     },
                 }
             )
-            const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
+            // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
             try {
-                profileData = await AllResponse[0].json();
+                // profileData = await AllResponse[0].json();
+                profileData = await fetchProfile.json();
             }catch (e) {
                 console.error('Error:', e)
                 location.replace("index.html")
             }
             if (domReady) {
-                processTransaction(AllResponse[1])
+                // processTransaction(AllResponse[1])
+                processTransaction(fetchTransactions)
                 processProfile(profileData)
             } else {
                 document.addEventListener('DOMContentLoaded', function () {
