@@ -40,7 +40,7 @@ const transData = {
     "Scan QR Code": "掃描QR碼",
     "If unsuccessful, you can use": "如失敗，請使用",
     "non-camera mode": "非拍照模式",
-    "Outlet:":"商店：",
+    "Outlet:": "商店：",
     "You are redeeming your voucher(s) at the following outlet and amount:": "您正在以下商店兌換您的愛心券，金額如下：",
     "Your balance": "您的餘額",
     "Your transaction failed!(network error)": "您的交易失敗！",
@@ -139,7 +139,8 @@ const transData = {
     "The phone number is not activated. Please sign up first.": "電話號碼未激活。請先註冊。",
     "We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code.": "我們已將驗證碼發送至您的 WhatsApp。請檢查您的 WhatsApp 訊息並輸入六位數的驗證碼。",
     "Didn't receive the code? You can request to resend it after one minute.": "是否還沒有收到驗證碼？您可以在一分鐘後請求重新發送。",
-    "You will receive the verification code on WhatsApp within 60 seconds.":"WhatsApp會在60秒內收到驗證碼"
+    "You will receive the verification code on WhatsApp within 60 seconds.": "WhatsApp會在60秒內收到驗證碼",
+    "Valid until: August 31, 2024": "有效期至2024年8月31日"
 };
 
 function t(text) {
