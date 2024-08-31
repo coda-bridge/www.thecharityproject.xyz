@@ -12,6 +12,9 @@
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
+        location.replace("index.html")
+    </script>
+    <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
             location.replace("index.html")
         }
