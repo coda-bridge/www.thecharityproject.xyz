@@ -44,7 +44,7 @@
             margin-right: 0.5rem;
         }
         input {
-            width: 100%;
+            flex:1;
             padding: 0.75rem 1rem;
             font-size: 1rem;
             border: 1px solid var(--base-green);
@@ -102,13 +102,13 @@
         <trans-component text="Register"></trans-component>
     </h3>
     <div id="errorMsg" style="display:none; text-align: center; color: red; margin-bottom: 1rem;"></div>
-    <div class="form-group">
+    <div style="display: flex;" class="form-group">
         <input id="name" type="text" placeholder="Enter your name">
     </div>
     <div class="form-group">
         <account-component></account-component>
     </div>
-    <div class="form-group" style="margin-top: 1.5rem;">
+    <div style="display: flex;" class="form-group" style="margin-top: 1.5rem;">
         <input id="code" type="text" placeholder="Enter 6-digit code">
     </div>
     <button id="getCode" disabled>
