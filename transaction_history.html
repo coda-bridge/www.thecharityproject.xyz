@@ -16,11 +16,13 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 400px;
             margin: 0 auto;
             padding: 2rem;
         }
+
         .back-button {
             display: flex;
             align-items: center;
@@ -30,20 +32,24 @@
             font-weight: 600;
             cursor: pointer;
         }
+
         .back-button img {
             margin-right: 0.5rem;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
+
         .header h1 {
             font-size: 1.5rem;
             font-weight: 700;
             color: #333;
         }
+
         .export-button {
             display: flex;
             align-items: center;
@@ -51,10 +57,12 @@
             color: var(--base-green);
             font-weight: 600;
         }
+
         .export-button img {
             margin-right: 0.5rem;
             width: 1.5rem;
         }
+
         .card {
             background-color: white;
             padding: 1.5rem;
@@ -62,36 +70,44 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
         }
+
         .card:hover {
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
+
         .transaction-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
+
         .transaction-item:last-child {
             margin-bottom: 0;
         }
+
         .transaction-item img {
             width: 2rem;
             height: 2rem;
             margin-right: 1rem;
         }
+
         .transaction-details {
             display: flex;
             align-items: center;
         }
+
         .transaction-details div {
             font-size: 1rem;
             color: #555;
         }
+
         .transaction-amount {
             font-size: 1.2rem;
             font-weight: 700;
             color: #333;
         }
+
         .footer {
             text-align: center;
             font-size: 0.8rem;
@@ -100,106 +116,85 @@
         }
     </style>
 </head>
-<body class="container">
-<change-language-component></change-language-component>
-<a class="back-button" href="home.html">
-    <img src="media/Back.svg" alt="Back" width="20">
-    <span>Back to Home</span>
-</a>
-<div class="header">
-    <h1>
-        <trans-component text="Transaction History"></trans-component>
-    </h1>
-    <div class="export-button" onclick="exportCsv()">
-        <img src="media/Export.svg" alt="Export">
-        <span><trans-component text="Export"></trans-component></span>
-    </div>
-</div>
-<div id="history-place">
-    <div style="display: flex; justify-content: center; margin-top: 2rem;">
-        <img width="100" src="media/loading.gif" alt="Loading">
-    </div>
-</div>
-<div class="footer">
-    <trans-component text="Powered by CODA Bridge"></trans-component>
-</div>
 <script>
-        let profileData
-        let role = 0
-        let domReady = false
+    let profileData
+    let role = 0
+    let domReady = false
 
-        async function queryAllData() {
-            // const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
-            //     method: 'GET',
-            //     credentials: "include",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            // })
-            // const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
-            //         method: 'GET',
-            //         credentials: "include",
-            //         headers: {
-            //             "Content-Type": "application/json"
-            //         },
-            //     }
-            // )
-            // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
-            const fetchProfile = await fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+    async function queryAllData() {
+        // const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+        //     method: 'GET',
+        //     credentials: "include",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        // })
+        // const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+        //         method: 'GET',
+        //         credentials: "include",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //     }
+        // )
+        // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
+        const fetchProfile = await fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                 method: 'GET',
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
-            })
-            const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
-                    method: 'GET',
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                }
-            )
-            // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
-            try {
-                // profileData = await AllResponse[0].json();
-                profileData = await fetchProfile.json();
-            }catch (e) {
-                console.error('Error:', e)
-                location.replace("index.html")
             }
-            if (domReady) {
-                // processTransaction(AllResponse[1])
-                processTransaction(fetchTransactions)
-                processProfile(profileData)
-            } else {
-                document.addEventListener('DOMContentLoaded', function () {
-                    processTransaction(AllResponse[1])
-                    processProfile(profileData)
-                })
-            }
-        }
-
-        if (sessionStorage.getItem("IsLogin") !== "true") {
+        )
+        // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
+        try {
+            // profileData = await AllResponse[0].json();
+            profileData = await fetchProfile.json();
+        } catch (e) {
+            console.error('Error:', e)
             location.replace("index.html")
-        } else {
-            role = sessionStorage.getItem("codaRole") || 0
-            role = parseInt(role)
-            queryAllData()
         }
+        if (domReady) {
+            // processTransaction(AllResponse[1])
+            processTransaction(fetchTransactions)
+            processProfile(profileData)
+        } else {
+            document.addEventListener('DOMContentLoaded', function () {
+                processTransaction(AllResponse[1])
+                processProfile(profileData)
+            })
+        }
+    }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            domReady = true;
-        })
-    </script>
-    <script type="module" src="component/Trans.js"></script>
-    <script type="text/javascript" src="dist/trans.js"></script>
-    <script type="module" src="component/ChangeLanguage.js"></script>
-    <link rel="icon" type="image/png" href="https://www.thecharityproject.xyz/media/coda-logo.png">
+    if (sessionStorage.getItem("IsLogin") !== "true") {
+        location.replace("index.html")
+    } else {
+        role = sessionStorage.getItem("codaRole") || 0
+        role = parseInt(role)
+        queryAllData()
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        domReady = true;
+    })
+</script>
+<script type="module" src="component/Trans.js"></script>
+<script type="text/javascript" src="dist/trans.js"></script>
+<script type="module" src="component/ChangeLanguage.js"></script>
+<link rel="icon" type="image/png" href="https://www.thecharityproject.xyz/media/coda-logo.png">
 </head>
 <body>
 <change-language-component></change-language-component>
-<a class="normalButton" style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;" href="home.html">
+<a class="normalButton"
+   style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
+   href="home.html">
     <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
 </a>
 <div style="text-align: center;">
@@ -308,9 +303,9 @@
     }
 
     let current = new Date();
-    let startMonth = 4;
+    let startMonth = 9;
     let currentMonth = current.getMonth() + 1;
-    let startYear = 2024;
+    let startYear = 2025;
     let currentYear = current.getFullYear();
 
     function updateTimerList() {
@@ -342,13 +337,13 @@
             const differentLength = 13 - item.timestamp.toString().length;
             const timestamp = item.timestamp * (10 ** differentLength);
             return timestamp >= firstDay && timestamp < lastDay;
-        }).sort(function(a, b) {
+        }).sort(function (a, b) {
             return b.timestamp - a.timestamp;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
             comp.img = role === 0 ? (item.amount >= 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "https://www.thecharityproject.xyz/media/Project-Dignity.png") : "";
             comp.role = role;
-            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "RMHC" : item.merchant_name || (item.user_name.slice(0,4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
+            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "CODA" : item.merchant_name || (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (item.amount < 0) {
                 expense += Math.abs(item.amount);
@@ -389,14 +384,14 @@
         const headers = Object.keys(data[0]);
         const arrayToCsv = (data) => [
             headers.join(','),
-            ...data.sort(function(a, b) {
+            ...data.sort(function (a, b) {
                 return b.timestamp - a.timestamp;
             }).map(row =>
                 headers.map(header => {
                         if (header === "timestamp") {
                             return formatTimestamp(row[header])
                         } else if (header === "user_name" && !row[header]) {
-                            return "RMHC"
+                            return "CODA"
                         } else {
                             return `"${row[header] || ''}"`
                         }
