@@ -23,11 +23,13 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 1rem;
         }
+
         .card {
             background-color: white;
             padding: 2rem;
@@ -35,9 +37,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
         }
+
         .card:hover {
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
+
         .back-button {
             display: flex;
             align-items: center;
@@ -47,21 +51,24 @@
             font-weight: 600;
             cursor: pointer;
         }
+
         .back-button img {
             margin-right: 0.5rem;
         }
+
         .qr-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 2rem;
         }
+
         .qr-section img {
-            margin-top: 2rem;
-            width: 120px;
-            height: 120px;
         }
+
         .clickButton {
+            display: flex;
+            justify-content: center;
             border-radius: 0.5rem;
             padding: 0.75rem 1.5rem;
             font-size: 1.2rem;
@@ -70,31 +77,37 @@
             text-align: center;
             transition: background-color 0.3s ease, color 0.3s ease;
             margin-top: 1.5rem;
-            width: 100%;
+            width: auto;
         }
+
         .clickButton:hover {
             background-color: var(--base-green);
             color: white;
         }
+
         .info-text {
             display: flex;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.9rem;
             color: #555;
         }
+
         .info-text img {
             margin-right: 0.5rem;
             width: 1rem;
         }
+
         .manual-section {
             margin-top: 2rem;
         }
+
         .manual-section div {
             font-size: 1rem;
             color: #555;
             margin-bottom: 1rem;
         }
+
         .manual-section input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -104,9 +117,11 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
+
         .manual-section input:focus {
             border-color: #333;
         }
+
         .footer {
             text-align: center;
             font-size: 0.8rem;
@@ -117,43 +132,110 @@
 </head>
 <body class="container">
 <change-language-component></change-language-component>
-<a class="back-button" href="home.html">
+<div id="camera"
+     style="z-index:50;position: fixed;top:0;left:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
+    <div id="video_close" onclick="closeCamera()"
+         style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
+        ×
+    </div>
+    <img onclick="nextCamera()"
+         src="./media/Change.svg"
+         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"/>
+    <video autoplay id="video"></video>
+</div>
+<a class="back-button" id="back-button" href="home.html">
     <img src="media/Back.svg" alt="Back" width="20">
     <span>Back to Home</span>
 </a>
 <div class="card">
-    <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
-        <trans-component text="Redeem Voucher"></trans-component>
+    <h1 id="title" style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
+        <trans-component text="Record Hours"></trans-component>
     </h1>
-    <div class="qr-section">
-        <img src="./media/Qrcode.svg" alt="QR Code">
-        <a class="clickButton" onclick="startStreamAndDecode()" style="background-color: var(--base-green); color: white;">
+    <div id="home" class="qr-section">
+        <img src="./media/Qrcode.svg" alt="QR Code" width="125">
+        <a class="clickButton" onclick="startStreamAndDecode()"
+           style="background-color: var(--base-green); color: white;">
+            <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>
             <trans-component text="Scan QR Code"></trans-component>
         </a>
         <div class="info-text">
             <img src="./media/Info.svg" alt="Info">
             <span>
                 <trans-component text="If unsuccessful, you can use"></trans-component>
-                <a href="#" style="text-decoration: underline; color: var(--base-green);">
+                <a id="go-manually" style="text-decoration: underline; color: var(--base-green);">
                     <trans-component text="non-camera mode"></trans-component>
                 </a>.
             </span>
         </div>
     </div>
-    <div class="manual-section" style="display: none;">
-        <div>
+    <div id="manually" style="display: none;">
+        <div id="manually-text" style="line-height: 1.5rem;margin-top: 2rem;">
             <trans-component text="Outlet:"></trans-component>
         </div>
-        <div id="kitchen" style="font-weight: 700; font-size: 1.2rem; color: #333;">
+        <div id="kitchen">
             <!-- Dynamic content -->
         </div>
-        <div style="margin-top: 1rem;">
-            <trans-component text="Voucher Amount:"></trans-component>
+        <div id="amount" style="margin-top: 1rem;">
+
         </div>
-        <input type="text" id="amount" placeholder="Enter amount">
+        <div style="line-height: 1.5rem;" id="balance">
+            <trans-component text="Your balance"></trans-component><span id="balance-value">
+                <img style="width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                     src="media/Rolling.svg"/>
+            </span>
+        </div>
         <a class="clickButton" style="background-color: var(--base-green); color: white; margin-top: 2rem;">
+            <img id="next-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>
             <trans-component text="Next"></trans-component>
         </a>
+        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
+             id="alert">
+            <trans-component text="Your balance is not enough."></trans-component>
+        </div>
+    </div>
+    <div id="confirm" style="display: none;margin-top: 2.5rem;">
+        <div style="border: 2px solid #49B05D;padding: 2rem;border-radius: 0.625rem">
+            <div id="confirm-text" style="text-align: center;box-sizing: border-box;">
+
+            </div>
+            <a class="clickButton"
+               id="confirm-button"
+               style="border-radius: 0.5rem;display: block;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
+                <trans-component text="Confirm"></trans-component>
+            </a>
+        </div>
+    </div>
+    <div id="pay" style="display: none;">
+        <div style="display: flex;justify-content: center;">
+            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg"
+                 style="margin-top: 6.5rem;display: none;"/>
+            <img id="success-icon" src="media/Success.svg"
+                 style="margin-top: 1.5rem;width: 3rem;height: 3rem;display: none;"/>
+            <img id="error-icon" src="media/Error.svg" style="margin-top: 6.5rem;display: none;"/>
+        </div>
+        <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
+        <div id="pay-Button">
+            <a class="clickButton"
+               href="transaction_history.html"
+               id="go-history-button"
+               style="color: black;padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
+                <trans-component text="Check out the transaction history"></trans-component>
+            </a>
+            <a class="clickButton"
+               id="pay-again-button"
+               onclick="backToScan()"
+               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+                <trans-component text="Initiate another transaction"></trans-component>
+            </a>
+            <a class="clickButton"
+               href="home.html"
+               id="back-home-button"
+               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+                <trans-component text="Back to homepage"></trans-component>
+            </a>
+        </div>
     </div>
 </div>
 <div class="footer">
@@ -260,6 +342,31 @@
         codeReader.reset()
     }
 
+    const decodeOnce = () => {
+        codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
+            closeCamera()
+            let url
+            let QRData
+            if (result) {
+                if (result.text) {
+                    url = result.text
+                } else {
+                    url = result
+                }
+                const urlList = url.split("?");
+                if (urlList[1]) {
+                    QRData = getURLParams(urlList[1])
+                    setQRData(QRData)
+                } else {
+                    bedQrCode()
+                }
+            }
+        }).catch((err) => {
+            console.error(err)
+        })
+    }
+
+
     function nextCamera() {
         codeReader.stopStreams()
         if (selectedIndex < deviceIdList.length - 1) {
@@ -280,14 +387,16 @@
         confirm.style.display = "none";
         pay.style.display = "none";
         backButton.removeAttribute("onclick");
+        backButton.getElementsByTagName("span")[0].innerText = "Back to Home";
         setTimeout(() => {
             backButton.href = "home.html";
         }, 100);
     }
 
     const goManually = () => {
-        manuallyText.innerHTML = `<trans-component text="You are redeeming your voucher(s) at the following outlet and amount:"></trans-component>`
+        manuallyText.innerHTML = `<trans-component text="You are recording at the following tutor and specified hours:"></trans-component>`
         backButton.removeAttribute("href");
+        backButton.getElementsByTagName("span")[0].innerText = "Back";
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
@@ -470,29 +579,32 @@
 
     const addKitchenSelector = () => {
         ethAddress = "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-        kitchenName = "Dignity Kitchen"
-        kitchenPlace.style.marginTop = "0";
-        kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">Dignity Kitchen</div>`
-        // kitchenSelector.list = [{
-        //     name: "Dignity Kitchen",
-        //     value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-        // }]
-        // kitchenSelector.changeCallBack = (value) => {
-        //     if (value && value.name && value.value) {
-        //         kitchenName = value.name
-        //         ethAddress = value.value
-        //     }
-        // }
-        // kitchenPlace.innerHTML = ""
-        // kitchenPlace.style.marginTop = "1.5rem";
-        // kitchenPlace.appendChild(kitchenSelector)
+        kitchenName = "Vendpr A Tutor 2 (3094)"
+        // kitchenPlace.style.marginTop = "0";
+        // kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">Dignity Kitchen</div>`
+        kitchenSelector.list = [{
+            name: "Vendpr A Tutor 2 (3094)",
+            value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+        }]
+        kitchenSelector.defaultValue = {
+            name: "Vendpr A Tutor 2 (3094)",
+            value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+        }
+        kitchenSelector.changeCallBack = (value) => {
+            if (value && value.name && value.value) {
+                kitchenName = value.name
+                ethAddress = value.value
+            }
+        }
+        kitchenPlace.innerHTML = ""
+        kitchenPlace.style.marginTop = "1.5rem";
+        kitchenPlace.appendChild(kitchenSelector)
     }
 
     const addAmountInput = (byQR) => {
         let input = `<div style="position: relative;font-size: 1.4rem;display: flex;align-items: center;margin-top: 0.5rem;">
-<div style="position: absolute;left: 1rem;font-weight: 600;">$</div>
 <input name="amount" id="amount-input" type="text" inputmode="decimal"
-                   style="box-sizing: border-box;line-height:1.5rem;font-size: 1.4rem;width: 100%;padding: 0.8rem 1rem 0.8rem 2.3rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>
+                   style="box-sizing: border-box;line-height:1.5rem;font-size: 1.4rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>
 </div>`
         if (byQR) {
             input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
@@ -522,6 +634,7 @@
     const setQRData = (QRData, firstTime) => {
         manuallyText.innerHTML = '<trans-component text="Outlet:"></trans-component>'
         backButton.removeAttribute("href");
+        backButton.getElementsByTagName("span")[0].innerText = "Back";
         backButton.setAttribute('onclick', "backToScan()");
         home.style.display = "none";
         manually.style.display = "block";
@@ -552,30 +665,6 @@
         errorIcon.style.display = "block";
         payText.innerText = t("The QR code is wrong. Please try another one!");
         payAgainButton.style.display = "block";
-    }
-
-    const decodeOnce = () => {
-        codeReader.decodeFromInputVideoDevice(deviceIdList[selectedIndex].deviceId, 'video').then((result) => {
-            closeCamera()
-            let url
-            let QRData
-            if (result) {
-                if (result.text) {
-                    url = result.text
-                } else {
-                    url = result
-                }
-                const urlList = url.split("?");
-                if (urlList[1]) {
-                    QRData = getURLParams(urlList[1])
-                    setQRData(QRData)
-                } else {
-                    bedQrCode()
-                }
-            }
-        }).catch((err) => {
-            console.error(err)
-        })
     }
 
     // 变焦函数

@@ -14,23 +14,11 @@ class Trans extends HTMLElement {
             if (language !== "en") {
                 document.documentElement.lang = "zh-HK"
                 that.shadowRoot.innerHTML = `
-    <style>
-        :host {
-            font-size: 1rem;
-            color: #333;
-        }
-    </style>
     ${transData[text] || text}
 `;
             } else {
                 document.documentElement.lang = "en"
                 that.shadowRoot.innerHTML = `
-    <style>
-        :host {
-            font-size: 1rem;
-            color: #333;
-        }
-    </style>
     ${text}
 `;
             }

@@ -22,7 +22,7 @@ class Selector extends HTMLElement {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 0.5rem;
+            border-radius: 0.6rem;
             border: 1px solid var(--base-green);
             padding: 0.75rem 1rem;
             background-color: white;
@@ -51,7 +51,7 @@ class Selector extends HTMLElement {
             background-color: rgba(73, 176, 93, 0.1);
         }
     </style>
-    <div id="roleSelect">
+    <div style="border-radius: 0.6rem;" id="roleSelect">
         <div id="roleValue">${this.placeholder || ""}</div>
         <input style="display: none;" name="role" id="role">
         <img width="20" height="20" src="https://www.thecharityproject.xyz/media/Selector.svg"/>
@@ -64,7 +64,6 @@ class Selector extends HTMLElement {
         this.render()
 
         const that = this;
-
         const roleSelect = this.shadowRoot.querySelector("#roleSelect");
         const select = roleSelect.querySelector("#roleValue");
         const roleInput = roleSelect.querySelector("#role");
@@ -159,6 +158,7 @@ class Selector extends HTMLElement {
             roleSelect.style.borderRadius = "0.6rem 0.6rem 0 0"
             selectOptionList.style.display = "block"
             selectOptionList.addEventListener('mousedown', selectValue)
+            document.addEventListener('mousedown', handleOutsideClick);
         }
 
         function close() {
@@ -174,6 +174,13 @@ class Selector extends HTMLElement {
             } else {
                 roleSelect.style.borderColor = "red"
             }
+            document.removeEventListener('mousedown', handleOutsideClick);
+        }
+
+        function handleOutsideClick(event) {
+            if (!that.contains(event.target)) {
+                close();
+            }
         }
 
         roleSelect.addEventListener('click', e => {
@@ -184,10 +191,6 @@ class Selector extends HTMLElement {
                 close()
             }
         });
-        roleSelect.addEventListener('blur', e => {
-            const currentDiv = e.currentTarget;
-            close(currentDiv)
-        })
 
         function setValue(value) {
             let thisCheckValue
@@ -225,16 +228,21 @@ class Selector extends HTMLElement {
                 if (that.changeCallBack) {
                     that.changeCallBack(finalData)
                 }
+                close()
             }
         }
 
-        //下拉选框宽度矫正
+        //���拉选框宽度矫正
         function syncWidth() {
             selectOptionList.style.width = roleSelect.clientWidth + "px"
         }
 
         syncWidth();
         window.addEventListener('resize', syncWidth);
+    }
+
+    disconnectedCallback() {
+        document.removeEventListener('mousedown', this.handleOutsideClick);
     }
 }
 
