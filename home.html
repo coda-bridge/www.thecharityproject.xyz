@@ -135,7 +135,7 @@
             <div id="vouchers-text">
                 <trans-component text="Balance"></trans-component>
             </div>
-            <h2>$<span id="price">0</span></h2>
+            <h2><span id="price">0</span></h2>
 <!--            <div>-->
 <!--                <trans-component text="Valid until: August 31, 2024"></trans-component>-->
 <!--            </div>-->
@@ -149,11 +149,11 @@
             </a>
         </div>
         <div id="social-kitchen-button" class="button-group" style="display: none;">
-            <a href="receive.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
-                <trans-component text="Receive vouchers"></trans-component>
+            <a href="redeem.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
+                <trans-component text="Convert to Fiat"></trans-component>
             </a>
-            <a class="clickButton" style="background-color: #9B9C9C; color: white; cursor: not-allowed;" disabled>
-                <trans-component text="Settle vouchers"></trans-component>
+            <a href="receive.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
+                <trans-component text="Show QR Code"></trans-component>
             </a>
             <a href="transaction_history.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Transaction History"></trans-component>
@@ -217,7 +217,6 @@
                 socialKitchenButton.style.display = "none";
                 break;
             case "1":
-                vouchersText.innerHTML = `<trans-component text="Total Vouchers Received"></trans-component>`
                 balancePlace.style.display = "block";
                 clientButton.style.display = "none";
                 socialKitchenButton.style.display = "flex";
@@ -251,14 +250,12 @@
             sessionStorage.setItem("codaRole", role)
             switch (role) {
                 case "0":
-                    vouchersText.innerHTML = `<trans-component text="Balance"></trans-component>`
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
                     socialKitchenButton.style.display = "none";
                     userName = data['firstname'];
                     break;
                 case "1":
-                    vouchersText.innerHTML = `<trans-component text="Total Vouchers Received"></trans-component>`
                     balancePlace.style.display = "block";
                     clientButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";

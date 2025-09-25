@@ -49,7 +49,7 @@
             margin-right: 0.5rem;
         }
         input {
-            width: 100%;
+            flex: 1;
             padding: 0.75rem 1rem;
             font-size: 1rem;
             border: 1px solid var(--base-green);
@@ -61,6 +61,7 @@
             border-color: #333;
         }
         .clickButton {
+            display: block;
             border-radius: 0.5rem;
             padding: 0.75rem 1.5rem;
             font-size: 1.2rem;
@@ -69,7 +70,7 @@
             text-align: center;
             transition: background-color 0.3s ease, color 0.3s ease;
             margin-top: 1.5rem;
-            width: 100%;
+            flex: 1;
         }
         .clickButton:hover {
             background-color: var(--base-green);
@@ -85,19 +86,19 @@
 </head>
 <body class="container">
 <change-language-component></change-language-component>
-<a class="back-button" href="home.html">
+<a id="back-button" class="back-button" href="home.html">
     <img src="media/Back.svg" alt="Back" width="20">
     <span>Back to Home</span>
 </a>
 <div class="card">
     <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
-        <trans-component text="Settle Vouchers"></trans-component>
+        <trans-component text="Convert to Fiat"></trans-component>
     </h1>
-    <div style="margin-top: 2rem;">
+    <div style="margin-top: 2rem;display: flex; flex-direction: column;" id="redeem">
         <div style="margin-bottom: 1rem;">
             <trans-component text="To:"></trans-component>
         </div>
-        <input value="RMHC" disabled style="background-color: #e1e1e1; color: black;">
+        <input value="CODA" disabled style="background-color: #e1e1e1; color: black;">
         <div style="margin-top: 1.5rem; margin-bottom: 1rem;">
             <trans-component text="Amount"></trans-component>
         </div>
@@ -108,11 +109,35 @@
                 <img style="width: 1rem; height: 1rem; margin-right: 0.5rem" src="media/Rolling.svg" alt="Loading">
             </span>
         </div>
+        <a id="next-button" class="clickButton" style="background-color: #9B9C9C; color: white; cursor: not-allowed;" disabled>
+            <trans-component text="Next"></trans-component>
+        </a>
     </div>
-    <a id="next-button" class="clickButton" style="background-color: #9B9C9C; color: white; cursor: not-allowed;" disabled>
-        <trans-component text="Next"></trans-component>
-    </a>
+    <div id="result" style="padding: 0 1.5rem 2rem;display: none;">
+        <div style="display: flex;justify-content: center;margin-top: 6.5rem;">
+            <img id="refresh-icon" class="loading-icon" src="https://www.thecharityproject.xyz/media/Refresh.svg"
+                 style="display: none;"/>
+            <img id="success-icon" src="https://www.thecharityproject.xyz/media/Success.svg" style="display: none;"/>
+            <img id="error-icon" src="https://www.thecharityproject.xyz/media/Error.svg" style="display: none;"/>
+        </div>
+        <div id="result-text" style="text-align: center;margin: 2rem 0;"></div>
+        <div id="redeem-Button">
+            <a class="clickButton"
+               id="go-redeem-button"
+               onclick="backToRedeem()"
+               style="border-radius: 0.5rem;padding: 0.5rem 0;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;padding: 0.5rem 0;text-align: center;display: none;">
+                <trans-component text="Initiate another redeem"></trans-component>
+            </a>
+            <a class="clickButton"
+               href="home.html"
+               id="back-home-button"
+               style="border-radius: 0.5rem;padding: 0.5rem 0;line-height: 1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
+                <trans-component text="Back to homepage"></trans-component>
+            </a>
+        </div>
+    </div>
 </div>
+
 <div class="footer">
     <trans-component text="Powered by CODA Bridge"></trans-component>
 </div>
@@ -136,6 +161,7 @@
         redeemPlace.style.display = "flex";
         resultPlace.style.display = "none";
         backButton.removeAttribute("onclick");
+        backButton.getElementsByTagName("span")[0].innerText = "Back to Home";
         setTimeout(() => {
             backButton.href = "home.html";
         }, 100);
@@ -183,6 +209,7 @@
     function showFalse() {
         backButton.removeAttribute("href");
         backButton.setAttribute('onclick', "backToRedeem()");
+        backButton.getElementsByTagName("span")[0].innerText = "Back";
         errorIcon.style.display = "block";
         resultText.innerText = "Your redeem is failed!";
         goRedeemButton.style.display = "block";
@@ -230,6 +257,10 @@
             checkInput()
         })
     }
+
+    // local debug
+    // total = 200;
+    // setInput()
 
     fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile", {
         method: 'GET',
