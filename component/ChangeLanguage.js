@@ -6,11 +6,44 @@ class ChangeLanguage extends HTMLElement {
     }
 
     render () {
-        this.shadowRoot.innerHTML = `<div id="body" style="z-index: 50;background-color: white;display: flex;align-items: center;position: absolute;right: 1rem;top:1rem;border-radius: 1.05rem;border: 1px solid black;padding:0.3rem;line-height: 1.5rem;height: 1.5rem;">
-            <div id="ball" style="position: absolute;background-color: white;${this.language === "en"? 'right:0.3rem' : ''};border: 1px solid black;height: 1.5rem;width: 1.5rem;border-radius: 0.75rem;"></div>
-            <div id="en" style="white-space: nowrap;user-select: none;width: 1.7rem;text-align: center;">en</div>
-            <div id="hk" style="white-space: nowrap;user-select: none;width: 1.7rem;text-align: center;">hk</div>
-        </div>`
+        this.shadowRoot.innerHTML = `
+    <style>
+        #body {
+            z-index: 50;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right: 2rem;
+            top: 3rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--base-green);
+            padding: 0.4rem 0.1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #ball {
+            position: absolute;
+            background-color: var(--base-green);
+            border: 1px solid white;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        #en, #hk {
+            white-space: nowrap;
+            user-select: none;
+            width: 1.7rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+    <div id="body">
+        <div id="ball" style="${this.language === "en" ? 'right:0.3rem' : 'left: 0.3rem;'};"></div>
+        <div id="en">en</div>
+        <div id="hk">hk</div>
+    </div>`
     }
 
     connectedCallback() {

@@ -2,95 +2,143 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>donor dashboard</title>
+    <title>Donor Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./dist/css/index.css" rel="stylesheet">
-    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
-    <script type="module" src="component/CollapseLabel.js"></script>
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <script type="module" src="component/CollapseLabel.js"></script>
     <script type="module" src="component/Trans.js"></script>
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
     <style>
-        .rotated-img {
-            transform: rotate(90deg);
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .stat-card {
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card.green {
+            background-color: var(--base-green);
+            color: white;
+        }
+        .stat-card.white {
+            border: 1px solid var(--base-green);
+            color: var(--base-green);
+        }
+        .stat-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        .help-center {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--base-green);
+            border-radius: 0.5rem;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .help-center h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            margin: 2rem 0;
+            color: #777;
         }
     </style>
 </head>
-<body>
+<body class="container">
 <change-language-component></change-language-component>
-<div style="margin-top: 10rem;height: 100%;text-align: center;display: none;" id="loading">
-    <trans-component text="Getting data"></trans-component>
-    ...
+<div id="loading" style="text-align: center; margin-top: 6rem;">
+    <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg" alt="Loading" width="50">
+    <p style="margin-top: 1rem;">Loading...</p>
 </div>
-<div style="display: none;" id="body">
-    <div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;">
-        <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
-            <img width="96" src="media/coda-logo.png">
-            <h1 id="title" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin: 1.5rem 0 2rem"
-                class="display-4">
-                <trans-component text="Welcome"></trans-component>
-                !
+<div id="body" style="display: none;">
+    <div class="card">
+        <div style="text-align: center;">
+            <img width="96" src="media/coda-logo.png" alt="CODA Logo">
+            <h1 id="title" style="font-size: 1.5rem; font-weight: 700; margin: 1.5rem 0;">
+                <trans-component text="Welcome"></trans-component>!
             </h1>
             <div>
                 <trans-component text="Last updated"></trans-component>
-                <span id="now"></span></div>
-            <div style="width: 100%;">
-                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">
-                        <trans-component text="Redeemed / Donated"></trans-component>
-                    </div>
-                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem">$<span
-                            id="redeemed-donated">0</span> / $210k
-                    </div>
-                </div>
-                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);margin-bottom: 2.5rem;border:1px solid var(--base-green);color:var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">
-                        <trans-component text="Families Helped"></trans-component>
-                    </div>
-                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="families-helped">0</span>
-                    </div>
-                </div>
-                <div style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);color: white;border:1px solid var(--base-green);background-color: var(--base-green);padding: 1rem 2rem;border-radius: 0.4rem;width: 100%">
-                    <div style="font-size: 1.3rem">
-                        <trans-component text="Meal served"></trans-component>
-                    </div>
-                    <div style="font-size: 2.1rem;font-weight: 600;margin-top: 2rem"><span id="meal-served">0</span>
-                    </div>
-                </div>
+                <span id="now"></span>
             </div>
         </div>
+        <div class="stat-card green">
+            <div>
+                <trans-component text="Redeemed / Donated"></trans-component>
+            </div>
+            <h2>$<span id="redeemed-donated">0</span> / $210k</h2>
+        </div>
+        <div class="stat-card white">
+            <div>
+                <trans-component text="Families Helped"></trans-component>
+            </div>
+            <h2><span id="families-helped">0</span></h2>
+        </div>
+        <div class="stat-card green">
+            <div>
+                <trans-component text="Meal served"></trans-component>
+            </div>
+            <h2><span id="meal-served">0</span></h2>
+        </div>
     </div>
-
-    <div style="border: 1px solid var(--base-green);padding: 1.8rem 1.5rem;margin: 1.75rem 1.5rem 0;border-radius: 0.4rem">
-        <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;">
+    <div class="help-center">
+        <h1>
             <trans-component text="Help Center"></trans-component>
         </h1>
-        <div style="margin-top: 3rem;">
-            <collapse-component style="margin-top: 1.5rem;" name="Restaurant Information">
-                <div>Dignity Kitchen HK</div>
-                <br/>
-                <trans-component text="Address: 2/F, 618 Shanghai Street, Mongkok, Kowloon, HK."></trans-component>
-                <br/>
-                <trans-component
-                        text="Opening Hours: Monday - Saturday, Public Holidays & Public Holiday Eve: 11:00am - 8:00pm (Last order: 7:30pm)"></trans-component>
-                <br/>
-                <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
-            </collapse-component>
-            <div onclick="window.open('how_to_use.html')" style="display: flex;align-items: center;margin-top:1.5rem;">
-                <trans-component text="How it works"></trans-component>
-                <img style="margin-left:0.2rem;width: 1.2rem;" src="media/link.svg">
-            </div>
-            <collapse-component style="margin-top: 1.5rem;" name="Technical support">
-                <div>
-                    WhatsApp  <a href="https://wa.me/85297272477">+852 97272477</a>
-                </div>
-            </collapse-component>
+        <collapse-component name="Restaurant Information">
+            <div>Dignity Kitchen HK</div>
+            <br/>
+            <trans-component text="Address: 2/F, 618 Shanghai Street, Mongkok, Kowloon, HK."></trans-component>
+            <br/>
+            <trans-component text="Opening Hours: Monday - Saturday, Public Holidays & Public Holiday Eve: 11:00am - 8:00pm (Last order: 7:30pm)"></trans-component>
+            <br/>
+            <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
+        </collapse-component>
+        <div onclick="window.open('how_to_use.html','_self')" style="display: flex; align-items: center; margin-top: 1.5rem; cursor: pointer; color: var(--base-green);">
+            <trans-component text="How it works"></trans-component>
+            <img style="margin-left: 0.2rem; width: 1.2rem;" src="media/link.svg" alt="Link Icon">
         </div>
+        <collapse-component name="Technical support">
+            <div>
+                WhatsApp <a href="https://wa.me/85297272477" style="color: var(--base-green);">+852 97272477</a>
+            </div>
+        </collapse-component>
     </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 2rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
+    <div class="footer">
+        <trans-component text="Powered by CODA Bridge"></trans-component>
+    </div>
 </div>
-</body>
 <script>
     const loadingPlace = document.getElementById("loading");
     const bodyPlace = document.getElementById("body");
@@ -160,4 +208,5 @@
     }
     getDonorData(false)
 </script>
+</body>
 </html>

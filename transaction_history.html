@@ -2,14 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>transaction history</title>
+    <title>Transaction History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/index.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <script type="module" src="component/Trans.js"></script>
+    <script type="text/javascript" src="dist/trans.js"></script>
+    <script type="module" src="component/ChangeLanguage.js"></script>
     <style>
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            text-decoration: none;
+            color: var(--base-green);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-button img {
+            margin-right: 0.5rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .export-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--base-green);
+            font-weight: 600;
+        }
+        .export-button img {
+            margin-right: 0.5rem;
+            width: 1.5rem;
+        }
+        .card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .transaction-item:last-child {
+            margin-bottom: 0;
+        }
+        .transaction-item img {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 1rem;
+        }
+        .transaction-details {
+            display: flex;
+            align-items: center;
+        }
+        .transaction-details div {
+            font-size: 1rem;
+            color: #555;
+        }
+        .transaction-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            margin: 2rem 0;
+            color: #777;
         }
     </style>
-    <script async>
+</head>
+<body class="container">
+<change-language-component></change-language-component>
+<a class="back-button" href="home.html">
+    <img src="media/Back.svg" alt="Back" width="20">
+    <span>Back to Home</span>
+</a>
+<div class="header">
+    <h1>
+        <trans-component text="Transaction History"></trans-component>
+    </h1>
+    <div class="export-button" onclick="exportCsv()">
+        <img src="media/Export.svg" alt="Export">
+        <span><trans-component text="Export"></trans-component></span>
+    </div>
+</div>
+<div id="history-place">
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <img width="100" src="media/loading.gif" alt="Loading">
+    </div>
+</div>
+<div class="footer">
+    <trans-component text="Powered by CODA Bridge"></trans-component>
+</div>
+<script>
         let profileData
         let role = 0
         let domReady = false

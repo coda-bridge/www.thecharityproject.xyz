@@ -3,7 +3,6 @@
 <head>
     <title>Pay</title>
     <meta charset="UTF-8">
-    <link href="./dist/css/index.css" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
@@ -14,153 +13,151 @@
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
+            location.replace("index.html");
         }
     </script>
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            text-decoration: none;
+            color: var(--base-green);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-button img {
+            margin-right: 0.5rem;
+        }
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .qr-section img {
+            margin-top: 2rem;
+            width: 120px;
+            height: 120px;
+        }
+        .clickButton {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+        .clickButton:hover {
+            background-color: var(--base-green);
+            color: white;
+        }
+        .info-text {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .info-text img {
+            margin-right: 0.5rem;
+            width: 1rem;
+        }
+        .manual-section {
+            margin-top: 2rem;
+        }
+        .manual-section div {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        .manual-section input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--base-green);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .manual-section input:focus {
+            border-color: #333;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            margin: 2rem 0;
+            color: #777;
+        }
+    </style>
 </head>
-<body>
+<body class="container">
 <change-language-component></change-language-component>
-<div id="camera"
-     style="z-index:50;position: fixed;top:0;left:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
-    <div id="video_close" onclick="closeCamera()"
-         style="background-color: white;width:1.5rem;line-height: 1.5rem;text-align: center;border-radius: 0.75rem;position: absolute;top: 2rem;left: 2rem">
-        ×
-    </div>
-    <img onclick="nextCamera()"
-         src="./media/Change.svg"
-         style="color: white;position: absolute;top: 2rem;right: 2rem;width: 1.5rem;height: 1.5rem"/>
-    <video autoplay id="video"></video>
-</div>
-<a class="normalButton" id="back-button"
-   style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
-   href="home.html">
-    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
+<a class="back-button" href="home.html">
+    <img src="media/Back.svg" alt="Back" width="20">
+    <span>Back to Home</span>
 </a>
-
-<div style="background-color: white;padding: 0 1.5rem 2rem;">
-    <h1 class="display-4" style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
-        <trans-component text="Redeem voucher"></trans-component>
+<div class="card">
+    <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
+        <trans-component text="Redeem Voucher"></trans-component>
     </h1>
-    <div id="home" style="display: flex;flex-direction: column;align-items: center;">
-        <img width="117" height="117" src="./media/Qrcode.svg" style="margin-top: 4rem;"/>
-        <a class="clickButton"
-           onclick="startStreamAndDecode()"
-           style="display: flex;border-radius: 0.5rem;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: var(--base-green);color: white;font-size: 1.6rem;line-height:2.4rem;padding: 0.5rem 0;text-align: center;">
-            <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                 src="media/Rolling.svg"/>
+    <div class="qr-section">
+        <img src="./media/Qrcode.svg" alt="QR Code">
+        <a class="clickButton" onclick="startStreamAndDecode()" style="background-color: var(--base-green); color: white;">
             <trans-component text="Scan QR Code"></trans-component>
         </a>
-        <div style="display: flex;align-items: center;margin-top: 0.9rem">
-            <img src="./media/Info.svg" style="display: inline;width: 1.1rem;">
-            <div style="display: inline;font-size: 0.8rem">
+        <div class="info-text">
+            <img src="./media/Info.svg" alt="Info">
+            <span>
                 <trans-component text="If unsuccessful, you can use"></trans-component>
-                <a class="clickText" id="go-manually" style="text-decoration: underline;">
+                <a href="#" style="text-decoration: underline; color: var(--base-green);">
                     <trans-component text="non-camera mode"></trans-component>
                 </a>.
-            </div>
-        </div>
-        <!--        <div style="font-size: 0.9rem">-->
-        <!--            <div style="font-size: 1rem;margin: 4rem 0 1rem">Notes:</div>-->
-        <!--            <div style="display: flex;">-->
-        <!--                <div style="margin-right: 0.25rem">1.</div>-->
-        <!--                <div>-->
-        <!--                    Under $10? No verification needed!-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div style="display: flex;">-->
-        <!--                <div style="margin-right: 0.25rem">2.</div>-->
-        <!--                <div>-->
-        <!--                    Above $10? Enter your verification code sent via SMS.-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div style="display: flex;">-->
-        <!--                <div style="margin-right: 0.25rem">3.</div>-->
-        <!--                <div>-->
-        <!--                    Redeem vouchers exclusively at Social Kitchen Branches.-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div style="display: flex;">-->
-        <!--                <div style="margin-right: 0.25rem">4.</div>-->
-        <!--                <div>-->
-        <!--                    Stay on this page until you receive a clear transaction result.-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
-    </div>
-    <div id="manually" style="display: none;">
-        <div id="manually-text" style="line-height: 1.5rem;margin-top: 3rem;">
-            <trans-component text="Outlet:"></trans-component>
-        </div>
-        <div id="kitchen" style="margin-top: 1.5rem;font-size: 1.2rem;">
-
-        </div>
-        <div id="amount" style="margin-top: 0.6rem;">
-
-        </div>
-        <div style="line-height: 1.5rem;" id="balance">
-            <trans-component text="Your balance"></trans-component>
-            : $
-            <span id="balance-value">
-                <img style="width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                     src="media/Rolling.svg"/>
             </span>
         </div>
-        <a id="next-button"
-           style="border-radius: 0.5rem;display: flex;align-items:center;justify-content: center;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
-            <img id="next-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-                 src="media/Rolling.svg"/>
+    </div>
+    <div class="manual-section" style="display: none;">
+        <div>
+            <trans-component text="Outlet:"></trans-component>
+        </div>
+        <div id="kitchen" style="font-weight: 700; font-size: 1.2rem; color: #333;">
+            <!-- Dynamic content -->
+        </div>
+        <div style="margin-top: 1rem;">
+            <trans-component text="Voucher Amount:"></trans-component>
+        </div>
+        <input type="text" id="amount" placeholder="Enter amount">
+        <a class="clickButton" style="background-color: var(--base-green); color: white; margin-top: 2rem;">
             <trans-component text="Next"></trans-component>
         </a>
-        <div style="display: none;color: red;width: 100%;text-align: center;margin-top: 0.5rem;font-size: 0.8rem;"
-             id="alert">
-            <trans-component text="Your balance is not enough."></trans-component>
-        </div>
     </div>
-    <div id="confirm" style="display: none;margin-top: 2.5rem;">
-        <div style="border: 2px solid #49B05D;padding: 2rem;border-radius: 0.625rem">
-            <div id="confirm-text" style="text-align: center;box-sizing: border-box;">
-
-            </div>
-            <a class="clickButton"
-               id="confirm-button"
-               style="border-radius: 0.5rem;display: block;margin-top: 3rem;width: 100%;background-color: #ADA9A9;color: white;font-size: 1.6rem;line-height: 2.4rem;padding: 0.5rem 0;text-align: center;">
-                <trans-component text="Confirm"></trans-component>
-            </a>
-        </div>
-    </div>
-    <div id="pay" style="display: none;">
-        <div style="display: flex;justify-content: center;">
-            <img id="refresh-icon" class="loading-icon" src="media/Refresh.svg"
-                 style="margin-top: 6.5rem;display: none;"/>
-            <img id="success-icon" src="media/Success.svg"
-                 style="margin-top: 1.5rem;width: 3rem;height: 3rem;display: none;"/>
-            <img id="error-icon" src="media/Error.svg" style="margin-top: 6.5rem;display: none;"/>
-        </div>
-        <div id="pay-text" style="text-align: center;margin: 2rem 0;"></div>
-        <div id="pay-Button">
-            <a class="clickButton"
-               href="transaction_history.html"
-               id="go-history-button"
-               style="color: black;padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);border: 2px solid var(--base-green);font-size: 1rem;text-align: center;display: none;">
-                <trans-component text="Check out the transaction history"></trans-component>
-            </a>
-            <a class="clickButton"
-               id="pay-again-button"
-               onclick="backToScan()"
-               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
-                <trans-component text="Initiate another transaction"></trans-component>
-            </a>
-            <a class="clickButton"
-               href="home.html"
-               id="back-home-button"
-               style="padding: 0.5rem 0;border-radius: 0.5rem;line-height:1.5rem;margin-top: 2rem;width: 100%;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);background-color: var(--base-green);border: 2px solid var(--base-green);color: white;font-size: 1rem;text-align: center;display: none;">
-                <trans-component text="Back to homepage"></trans-component>
-            </a>
-        </div>
-    </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0">
-        <trans-component text="Powered by CODA Bridge"></trans-component>
-    </div>
+</div>
+<div class="footer">
+    <trans-component text="Powered by CODA Bridge"></trans-component>
 </div>
 <script>
     const codeReader = new ZXing.BrowserQRCodeReader();

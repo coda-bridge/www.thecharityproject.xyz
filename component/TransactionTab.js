@@ -18,13 +18,49 @@ class TransactionTab extends HTMLElement {
         }
 
         this.shadowRoot.innerHTML = `
-            <div style="display:flex;align-items: center;justify-content: space-between;margin-bottom: 1.1rem">
-                <div id="left-part" style="display: flex;align-items: center;">
+            <style>
+                .transaction-card {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    background-color: white;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    margin-bottom: 1rem;
+                    transition: box-shadow 0.3s ease;
+                }
+                .transaction-card:hover {
+                    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+                }
+                .transaction-details {
+                    display: flex;
+                    align-items: center;
+                }
+                .transaction-details img {
+                    width: 3rem;
+                    height: 3rem;
+                    border-radius: 50%;
+                    margin-right: 1rem;
+                }
+                .transaction-amount {
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    color: var(--base-green);
+                }
+                .transaction-time {
+                    font-size: 0.9rem;
+                    color: #555;
+                }
+            </style>
+            <div class="transaction-card">
+                <div class="transaction-details">
+                    ${this.img ? `<img src="${this.img}" alt="Transaction Image">` : ""}
                     <div>${this.name}</div>
                 </div>
-                <div style="text-align: center">
-                    <div style="color: var(--base-green);font-size: 1.2rem;font-weight: 700;">${this.price < 0 ? "-" : "+"}$${Math.abs(this.price)}</div>
-                    <div style="font-size: 0.7rem">${formatDate(this.time)}</div>
+                <div>
+                    <div class="transaction-amount">${this.price < 0 ? "-" : "+"}$${Math.abs(this.price)}</div>
+                    <div class="transaction-time">${formatDate(this.time)}</div>
                 </div>
             </div>
         `
@@ -32,15 +68,6 @@ class TransactionTab extends HTMLElement {
 
     connectedCallback() {
         this.render()
-        if (this.img) {
-            const imgDom = document.createElement("img");
-            imgDom.src = this.img;
-            imgDom.style.width = "3rem"
-            imgDom.style.paddingRight = "1rem"
-            imgDom.style.borderRadius = "100%"
-            const leftPartDOM = this.shadowRoot.getElementById("left-part")
-            leftPartDOM.insertBefore(imgDom, leftPartDOM.firstChild)
-        }
     }
 }
 

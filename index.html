@@ -10,53 +10,135 @@
     <script type="module" src="component/Trans.js"></script>
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .card {
+            background-color: white;
+            margin-top: 1rem;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .jumbotron {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .jumbotron img {
+            border-radius: 50%;
+        }
+        .jumbotron h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 1rem;
+            color: #333;
+        }
+        .jumbotron p {
+            font-size: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: #555;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .clickButton {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .clickButton:hover {
+            background-color: var(--base-green);
+            color: white;
+        }
+        .help-center h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .help-center div {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            margin: 2rem 0;
+            color: #777;
+        }
+        #to-how-to-use {
+            border-radius: 0.5rem;
+            border: 1px solid var(--base-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
+    </style>
 </head>
-<body style="background-color: #F9F8F8;" class="container">
+<body class="container">
 <change-language-component></change-language-component>
-<div style="background-color: white;margin-top: 0.75rem;padding: 2rem 1.5rem;border-radius: 0.4rem">
-    <div style="display: flex;flex-direction: column;align-items: center" class="jumbotron">
-        <img width="96" src="media/coda-logo.png">
-        <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem">
-            <trans-component text="Welcome to"></trans-component>
-            <br>
-            <trans-component text="The Charity Project"></trans-component>
-            <br>
-            <trans-component text="powered by CODA Bridge"></trans-component>
-        </h1>
-        <p style="font-size: 1rem;text-align: center;margin-top: 1.2rem;margin-bottom: 1.2rem;">
-            <trans-component
-                    text="We are here to help our charitable partners to provide support for people in need."></trans-component>
-        </p>
-        <div style="display: flex;justify-content: center;">
-            <img height="100" src="media/Project-Dignity.png">
-            <div style="width: 2.75rem"></div>
-            <img height="100" src="media/RMHC.png">
-        </div>
+<div class="card jumbotron">
+    <img width="96" src="media/coda-logo.png" alt="CODA Logo">
+    <h1>
+        <trans-component style="font-size: 1.3rem;" text="Welcome to"></trans-component>
+        <br>
+        <trans-component style="font-size: 1.3rem;" text="The Charity Project"></trans-component>
+        <br>
+        <trans-component text="powered by CODA Bridge"></trans-component>
+    </h1>
+    <p>
+        <trans-component
+                text="We are here to help our charitable partners to provide support for people in need."></trans-component>
+    </p>
+    <div style="display: flex; justify-content: center; gap: 2rem;">
+        <img height="100" src="media/Project-Dignity.png" alt="Project Dignity">
+        <img height="100" src="media/RMHC.png" alt="RMHC">
     </div>
-
-    <div style="margin-top: 2.5rem;display: flex;justify-content: space-around">
-        <a href="login_form.html"
-           class="clickButton"
-           style="color: black;border-radius:0.5rem;padding:0.5rem 1rem;border: 1px solid var(--base-green);font-size: 1.2rem;">
+    <div class="button-group">
+        <a href="login_form.html" class="clickButton" style="border: 1px solid var(--base-green); color: black;">
             <trans-component text="Log in"></trans-component>
         </a>
-        <a href="register.html"
-           class="clickButton"
-           style="color:white;border-radius:0.5rem;padding:0.5rem 1rem;border: 1px solid var(--base-green);background-color: var(--base-green);font-size: 1.2rem;">
+        <a href="register.html" class="clickButton" style="background-color: var(--base-green); color: white;">
             <trans-component text="Register"></trans-component>
         </a>
     </div>
-    <div style="margin-top: 1.5rem;font-size: 1rem;text-align: center">
+    <div style="margin-top: 1rem; text-align: center; color: #555;">
         <trans-component text="Log-in or register to claim fund(s) you are eligible for."></trans-component>
     </div>
 </div>
 
-<div style="background-color: white;margin-top: 1.75rem;padding: 1.8rem 1.5rem;border-radius: 0.4rem">
-    <h1 style="font-size: 1.3rem;font-weight: 700;text-align: center;margin-top: 0;">
+<div class="card help-center">
+    <h1>
         <trans-component text="Help Center"></trans-component>
     </h1>
-    <div style="margin-top: 3rem;">
-        <collapse-component style="margin-top: 1.5rem;" name="Restaurant Information">
+    <div>
+        <collapse-component name="Restaurant Information">
             <div>Dignity Kitchen HK</div>
             <br/>
             <trans-component text="Address: 2/F, 618 Shanghai Street, Mongkok, Kowloon, HK."></trans-component>
@@ -66,20 +148,19 @@
             <br/>
             <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
         </collapse-component>
-        <div onclick="window.open('how_to_use.html','_self')"
-             style="display: flex;align-items: center;margin-top:1.5rem;">
+        <div id="to-how-to-use" style="padding: 0.5rem 1rem;" onclick="window.open('how_to_use.html','_self')">
             <trans-component text="How it works"></trans-component>
-            <img style="margin-left:0.2rem;width: 1.2rem;" src="media/link.svg">
+            <img style="margin-left: 0.2rem; width: 1.1rem;" src="media/link.svg" alt="Link Icon">
         </div>
-        <collapse-component style="margin-top: 1.5rem;" name="Technical support">
+        <collapse-component name="Technical support">
             <div>
-                WhatsApp <a href="https://wa.me/85297272477">+852 97272477</a>
+                WhatsApp <a href="https://wa.me/85297272477" style="color: var(--base-green);">+852 97272477</a>
             </div>
         </collapse-component>
     </div>
 </div>
 
-<div style="text-align: center;font-size: 0.6rem;margin: 2rem 0">
+<div class="footer">
     <trans-component text="Powered by CODA Bridge"></trans-component>
 </div>
 </body>

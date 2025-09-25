@@ -3,40 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>terms of use</title>
-    <script type="module" src="component/Trans.js"></script>
-    <script type="text/javascript" src="dist/trans.js"></script>
-    <script type="module" src="component/ChangeLanguage.js"></script>
+    <title>Terms of Use</title>
     <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            text-decoration: none;
+            color: var(--base-green);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-button img {
+            margin-right: 0.5rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        h3 {
+            text-align: center;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-top: 1.5rem;
+        }
+        div {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        button {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-radius: 0.5rem;
+            background-color: var(--base-green);
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.6rem 2rem;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2a7f4e;
+        }
+    </style>
 </head>
-<body>
+<body class="container">
 <change-language-component></change-language-component>
-<div style="margin-top: 3rem;padding: 0 1rem;">
-    <h3 style="text-align: center;"><trans-component text="Ronald McDonald's House Voucher Terms of Use"></trans-component></h3>
-    <h4><trans-component text="terms of use:"></trans-component></h4>
-    <div><trans-component text="This coupon can only be used in Hong Kong. All coupons are expressed in Hong Kong dollars and must be registered in our system before they can be used at designated locations of Dignity Kitchen HK by scanning the dedicated QR code."></trans-component></div>
-    <div style="margin-top: 0.3rem;"><trans-component text="If the balance of the love coupon is insufficient to cover the consumption amount, the remaining balance of the love coupon will be invalid."></trans-component></div>
-    <h4><trans-component text="Consumption coupon validity period and management:"></trans-component></h4>
-    <div><trans-component text="This consumption coupon is valid until August 31st, 2024. Voucher holders should properly keep their consumption vouchers and their passwords. If any improper use is discovered, Ronald McDonald House reserves the right to adjust the balance of the coupon or take other management measures."></trans-component></div>
-    <div style="margin-top: 0.3rem;"><trans-component text="Ronald McDonald House reserves the right to modify these Terms of Use at any time."></trans-component></div>
+<a class="back-button" onclick="window.history.back()">
+    <img src="media/Back.svg" alt="Back" width="20">
+    <span>Back</span>
+</a>
+<div class="card">
+    <h3>
+        <trans-component text="Ronald McDonald's House Voucher Terms of Use"></trans-component>
+    </h3>
+    <h4><trans-component text="Terms of Use:"></trans-component></h4>
+    <div>
+        <trans-component text="This coupon can only be used in Hong Kong. All coupons are expressed in Hong Kong dollars and must be registered in our system before they can be used at designated locations of Dignity Kitchen HK by scanning the dedicated QR code."></trans-component>
+    </div>
+    <div>
+        <trans-component text="If the balance of the love coupon is insufficient to cover the consumption amount, the remaining balance of the love coupon will be invalid."></trans-component>
+    </div>
+    <h4><trans-component text="Consumption Coupon Validity Period and Management:"></trans-component></h4>
+    <div>
+        <trans-component text="This consumption coupon is valid until August 31st, 2024. Voucher holders should properly keep their consumption vouchers and their passwords. If any improper use is discovered, Ronald McDonald House reserves the right to adjust the balance of the coupon or take other management measures."></trans-component>
+    </div>
+    <div>
+        <trans-component text="Ronald McDonald House reserves the right to modify these Terms of Use at any time."></trans-component>
+    </div>
     <h4><trans-component text="Privacy Policy:"></trans-component></h4>
-    <div><trans-component text="Voucher holders agree that their personal data will be used for the legal purposes of Ronald McDonald House, Coda Bridge Limited and related systems, and that these data will be destroyed within three months after the completion of the project."></trans-component></div>
-    <div style="margin-top: 0.3rem;"><trans-component text="Please read the above terms carefully and using the coupon indicates that you have accepted these terms."></trans-component></div>
+    <div>
+        <trans-component text="Voucher holders agree that their personal data will be used for the legal purposes of Ronald McDonald House, Coda Bridge Limited and related systems, and that these data will be destroyed within three months after the completion of the project."></trans-component>
+    </div>
+    <div>
+        <trans-component text="Please read the above terms carefully and using the coupon indicates that you have accepted these terms."></trans-component>
+    </div>
 </div>
-<div style="display: flex;justify-content: center;margin-top: 2rem;margin-bottom: 1rem;">
-    <button style="cursor: pointer;display: flex;align-items: center;border-radius:0.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
-            class="clickButton" id="submitBtn">
+<div class="button-container">
+    <button id="submitBtn">
         <trans-component text="I understand"></trans-component>
     </button>
 </div>
 <script>
     const broadcastChannel = new BroadcastChannel('understand_channel');
     const understandButton = document.getElementById('submitBtn');
-    understandButton.addEventListener("click",()=>{
+    understandButton.addEventListener("click", () => {
         broadcastChannel.postMessage('clicked I understand');
         window.close();
-    })
+    });
 </script>
 </body>
 </html>

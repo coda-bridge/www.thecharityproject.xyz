@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>receive</title>
+    <title>Receive</title>
     <meta charset="UTF-8">
-    <link href="./dist/css/index.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./dist/css/index.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="media/coda-logo.png">
     <script type="text/javascript" src="dist/zxing.min.js"></script>
     <script type="module" src="component/TransactionTab.js"></script>
@@ -13,85 +13,139 @@
     <script type="module" src="component/ChangeLanguage.js"></script>
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
-            location.replace("index.html")
+            location.replace("index.html");
         }
     </script>
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            text-decoration: none;
+            color: var(--base-green);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-button img {
+            margin-right: 0.5rem;
+        }
+        .mute-button {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            cursor: pointer;
+        }
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .qr-section img {
+            margin-top: 2rem;
+            width: 120px;
+            height: 120px;
+        }
+        .clickButton {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+        .clickButton:hover {
+            background-color: var(--base-green);
+            color: white;
+        }
+        .manual-section {
+            margin-top: 2rem;
+        }
+        .manual-section div {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        .manual-section input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--base-green);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .manual-section input:focus {
+            border-color: #333;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            margin: 2rem 0;
+            color: #777;
+        }
+    </style>
 </head>
-<body>
+<body class="container">
 <change-language-component></change-language-component>
-<img onclick="setUnMute()" id="mute-icon" style="position: absolute;cursor: pointer;top:1.35rem;right: 6rem;" width="22" height="22"
-     src="media/Mute.svg">
-<img onclick="setMute()" id="unmute-icon" style="position: absolute;cursor: pointer;top:1.35rem;right: 6rem;display: none;" width="22"
-     height="22" src="media/Unmute.svg">
-<div style="display: flex;justify-content: space-between;align-items: center;">
-    <a id="back-button" class="normalButton"
-       style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
-       href="home.html">
-        <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
-    </a>
-</div>
-<div id="edit-amount"
-     style="background-color: white;padding: 0 1.5rem 2rem;display: none;flex-direction: column;align-items: center;">
-    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        <trans-component text="Edit the amount"></trans-component>
+<a class="back-button" href="home.html">
+    <img src="media/Back.svg" alt="Back" width="20">
+    <span>Back to Home</span>
+</a>
+<img id="mute-icon" class="mute-button" onclick="setUnMute()" src="media/Mute.svg" alt="Mute" width="22">
+<img id="unmute-icon" class="mute-button" onclick="setMute()" src="media/Unmute.svg" alt="Unmute" width="22" style="display: none;">
+<div class="card">
+    <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
+        <trans-component text="Receive Vouchers"></trans-component>
     </h1>
-    <div style="margin: 2.9rem 0 2.5rem;text-align: center;">
-        <trans-component text="Input the amount you want to receive"></trans-component>
+    <div id="receive" class="qr-section">
+        <div id="result" style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 300px; min-height: 300px;">
+            <img src="media/loading.gif" alt="Loading">
+        </div>
+        <a class="clickButton" id="open-edit" style="background-color: var(--base-green); color: white;">
+            <trans-component text="Edit the Amount"></trans-component>
+        </a>
+        <a class="clickButton" onclick="downloadQRCode()" style="border: 1px solid var(--base-green); color: black;">
+            <trans-component text="Download QR Code"></trans-component>
+        </a>
     </div>
-    <div style="position: relative;font-size: 2.5rem;display: flex;align-items: center;margin-top: 0.5rem;">
-        <div style="position: absolute;left: 1rem;font-weight: 600;">$</div>
-        <input name="amount" id="amount-input" type="text" inputmode="decimal"
-               style="width: 75vw;padding: 0.8rem 1rem 0.8rem 3rem;border: 1px solid var(--base-green);font-size: 2.5rem;line-height: 3.75rem;"/>
-    </div>
-    <div id="confirm-button"
-         style="border-radius: 0.5rem;line-height:2.25rem;margin-top: 5rem;padding: 0.7rem 3.5rem;background-color: var(--base-green);color: white;font-size: 1.5rem;cursor: pointer;"
-         class="clickButton">
-        <trans-component text="Confirm"></trans-component>
+    <div class="manual-section" id="edit-amount" style="display: none;">
+        <div>
+            <trans-component text="Input the amount you want to receive"></trans-component>
+        </div>
+        <input type="text" id="amount-input" placeholder="Enter amount">
+        <a class="clickButton" id="confirm-button" style="background-color: var(--base-green); color: white; margin-top: 2rem;">
+            <trans-component text="Confirm"></trans-component>
+        </a>
     </div>
 </div>
-<div id="receive"
-     style="background-color: white;padding: 0 1.5rem 2rem;display: flex;flex-direction: column;align-items: center;">
-    <h1 style="font-size: 1.3rem;font-weight: 600;text-align: center;margin-top: 1.5rem" class="display-4">
-        <trans-component text="Receive vouchers"></trans-component>
-    </h1>
-    <div id="result"
-         style="display: flex;justify-content:center;align-items: center;flex-direction: column;width:300px;min-height: 300px">
-        <img src="media/loading.gif">
-    </div>
-    <div style="display: flex;justify-content: space-around;width: 100%;margin-bottom: 3rem">
-        <div style="cursor: pointer;" class="clickText" id="open-edit">
-            <trans-component text="Edit the amount"></trans-component>
-        </div>
-        <div style="cursor: pointer;" class="clickText" onclick="downloadQRCode()" id="download">
-            <trans-component text="Download the QR code"></trans-component>
-        </div>
-    </div>
-    <div style="display: flex;justify-content: space-between;width: 100%;padding: 1rem 0">
-        <div>
-            <trans-component text="Voucher(s) received today"></trans-component>
-        </div>
-        <a class="clickText" href="transaction_history.html" style="margin-right: 1rem;text-decoration-line:none;">
-            <trans-component text="More"></trans-component>
-            ></a>
-    </div>
-    <div style="background-color: black;height: 1px;width: 100%"></div>
-    <div style="width: 100%;margin-top: 0.5rem" id="history-place">
-        <div style="display: flex;justify-content: center;margin-top: 2rem;">
-            <img width="100" src="media/loading.gif"/>
-        </div>
-    </div>
-    <div style="font-size: 0.9rem">
-        <div style="font-size: 1rem;margin: 4rem 0 1rem">
-            <trans-component text="Notes:"></trans-component>
-        </div>
-        <div>
-            <trans-component
-                    text="To be used only for vouchers for The Dignity Kitchen at its designated outlets only."></trans-component>
-        </div>
-    </div>
-    <div style="text-align: center;font-size: 0.6rem;margin: 4rem 0"><trans-component text="Powered by CODA Bridge"></trans-component></div>
+<div class="footer">
+    <trans-component text="Powered by CODA Bridge"></trans-component>
 </div>
-<audio id="money-audio"></audio>
 <script>
     let kitchenName
     let ethAddress

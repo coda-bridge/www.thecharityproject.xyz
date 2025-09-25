@@ -35,14 +35,29 @@ class Account extends HTMLElement {
         this.phoneReg = {1: /^\d{10}$/, 65: /^([8|9])\d{7}$/, 852: /^\d{8}$/, 86: /^1\d{10}$/}
         this.emailReg = /^[a-zA-Z\d_.-]+@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d]{2,6}$/
         this.shadowRoot.innerHTML = `
-        <div id="phone" style="margin-top: 2rem" class="form-group">
-            <div style="display:flex;align-items: center;">
-                <input style="display: none;" name="phone_country" id="phone_country">
-                <input style="min-width: 0;margin-left: 1rem;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;" type="tel"
-                       class="form-control"
-                       name="phone_number" id="phone_number">
-            </div>
+    <style>
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--base-green);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-color: #333;
+        }
+        select-component {
+            margin-right: 1rem;
+        }
+    </style>
+    <div id="phone" style="margin-top: 2rem" class="form-group">
+        <div style="display:flex;align-items: center;">
+            <input style="display: none;" name="phone_country" id="phone_country">
+            <input type="tel" id="phone_number" class="form-control">
         </div>
+    </div>
     `
     }
 

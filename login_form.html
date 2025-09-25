@@ -10,55 +10,124 @@
     <script type="module" src="component/Trans.js"></script>
     <script type="text/javascript" src="dist/trans.js"></script>
     <script type="module" src="component/ChangeLanguage.js"></script>
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        h3 {
+            text-align: center;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--base-green);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-color: #333;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background-color: var(--base-green);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:disabled {
+            background-color: #9B9C9C;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background-color: #2a7f4e;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+            color: var(--base-green);
+            font-weight: 600;
+        }
+        .back-button img {
+            margin-right: 0.5rem;
+        }
+        #errorMsg {
+            display: none;
+            text-align: center;
+            color: red;
+            margin-bottom: 1rem;
+        }
+        #getCodeNote {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body class="container">
 <change-language-component></change-language-component>
-<a class="normalButton"
-   style="display: flex;align-items:center;margin-top: 1.2rem;margin-left: 0.5rem;border: 1px solid var(--base-green);border-radius: 50%;width: min-content;"
-   href="index.html">
-    <img style="padding: 0.8rem;" width="22" height="22" src="media/Back.svg" alt="back">
+<a class="back-button" href="index.html">
+    <img src="media/Back.svg" alt="Back" width="20">
+    <trans-component text="Back to Home"></trans-component>
 </a>
-<h3 style="text-align: center;font-weight: 600;margin-bottom: 2rem;">
-    <trans-component text="Welcome back!"></trans-component>
-</h3>
-<div id="errorMsg" style="display:none;text-align: center;color: red">
-    <trans-component text="Sorry, there is a problem with your login attempt."></trans-component>
-</div>
-
-<div id="select" style="margin-top: 2rem;" class="form-group">
-</div>
-<div class="form-group">
-    <account-component></account-component>
-</div>
-<div style="display: flex;margin-top: 2rem;">
-    <input autocomplete="one-time-code" inputmode="numeric" id="code"
-           style="min-width: 0;font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.8rem 1rem;"/>
-    <button disabled
-            style="white-space:nowrap;margin-left: 1rem;display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.2rem;padding: 0.6rem 1rem;border: 0;"
-            id="getCode">
-        <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-             src="media/Rolling.svg"/>
+<div class="card">
+    <h3>
+        <trans-component text="Welcome back!"></trans-component>
+    </h3>
+    <div id="errorMsg">
+        <trans-component text="Sorry, there is a problem with your login attempt."></trans-component>
+    </div>
+    <div id="select" class="form-group"></div>
+    <div class="form-group">
+        <account-component></account-component>
+    </div>
+    <div style="display: flex;" class="form-group">
+        <input autocomplete="one-time-code" inputmode="numeric" id="code" placeholder="Enter 6-digit code">
+    </div>
+    <button id="getCode" disabled>
+        <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>
         <span id="buttonText">
             <trans-component text="Get the code"></trans-component>
         </span>
     </button>
-</div>
-<div id="getCodeNote" style="display: none;margin-top: 1rem;font-size: 0.8rem;line-height: 1rem;">
-    <div>
+    <div id="getCodeNote">
         <trans-component
                 text="We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code."></trans-component>
     </div>
-    <div style="margin-top: 0.5rem;">
-        <trans-component
-                text="Didn't receive the code? You can request to resend it after one minute."></trans-component>
-    </div>
-</div>
-<div style="width: 100%;display: flex;justify-content: center;margin-top: 4rem">
-    <button disabled
-            style="display: flex;align-items: center;border-radius:0.5rem;background-color: #9B9C9C;color: white;font-size: 1.5rem;padding: 0.6rem 3.5rem;border: 0;"
-            id="submitBtn">
-        <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
-             src="media/Rolling.svg"/>
+    <button id="submitBtn" style="margin-top: 2rem;" disabled>
+        <img id="login-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>
         <trans-component text="Log in"></trans-component>
     </button>
 </div>

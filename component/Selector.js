@@ -16,33 +16,47 @@ class Selector extends HTMLElement {
 
     render() {
         this.shadowRoot.innerHTML = `
-        <style>
-            #selectOptionList div:hover {
-                background-color: #ccc;
-            }
-            
-            .normal-body {
-                border:1px solid var(--base-green);
-                padding: 0.8rem 1rem;
-            }
-            
-            .normal-list {
-                border:1px solid var(--base-green);
-                border-top: 0;
-                padding: 0.2rem 0;
-            }
-        </style>
-        <div id="roleSelect" tabIndex="-1"
-             style="cursor: pointer;display: flex;justify-content: space-between;align-items: center;border-radius: 0.6rem;">
-            <div id="roleValue" style="user-select: none;line-height:1.5rem;width: 100%;color: rgb(89,92,95);padding-right: 0.1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                ${this.placeholder || ""}
-            </div>
-            <input style="display: none;line-height:1.5rem;" name="role" id="role">
-            <img width="20" height="20" src="https://www.thecharityproject.xyz/media/Selector.svg"/>
-        </div>
-        <div id="selectOptionList"
-             style="z-index: 50;position:absolute;display: none;background-color: white;border-radius:0 0 0.6rem 0.6rem;">
-        </div>
+    <style>
+        #roleSelect {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0.5rem;
+            border: 1px solid var(--base-green);
+            padding: 0.75rem 1rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        #roleSelect:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+        #selectOptionList {
+            z-index: 50;
+            position: absolute;
+            display: none;
+            background-color: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--base-green);
+            border-top: none;
+        }
+        #selectOptionList div {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #selectOptionList div:hover {
+            background-color: rgba(73, 176, 93, 0.1);
+        }
+    </style>
+    <div id="roleSelect">
+        <div id="roleValue">${this.placeholder || ""}</div>
+        <input style="display: none;" name="role" id="role">
+        <img width="20" height="20" src="https://www.thecharityproject.xyz/media/Selector.svg"/>
+    </div>
+    <div id="selectOptionList"></div>
     `
     }
 
@@ -92,9 +106,10 @@ class Selector extends HTMLElement {
         }
 
         if (this.list) {
-            this.list.forEach(value => {
+            this.list.forEach((value, index) => {
                 const valueItem = document.createElement('div');
                 valueItem.style.cursor = "pointer";
+                if (index === this.list.length - 1) valueItem.style.borderRadius = "0 0 0.5rem 0.5rem";
                 if (!this.type || this.type === "normal") {
                     valueItem.style.padding = "0.7rem 1rem";
                 } else {
