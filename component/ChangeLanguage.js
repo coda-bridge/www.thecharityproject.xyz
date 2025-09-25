@@ -14,8 +14,8 @@ class ChangeLanguage extends HTMLElement {
             display: flex;
             align-items: center;
             position: absolute;
-            right: 2rem;
-            top: 3rem;
+            right: 1.5rem;
+            top: 1.5rem;
             border-radius: 1.5rem;
             border: 1px solid var(--base-green);
             padding: 0.4rem 0.1rem;

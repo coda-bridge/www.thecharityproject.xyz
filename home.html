@@ -18,11 +18,12 @@
             padding: 0;
         }
         .container {
-            max-width: 800px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem;
         }
         .card {
+            position: relative;
             background-color: white;
             padding: 2rem;
             border-radius: 0.5rem;
@@ -96,6 +97,16 @@
             margin: 2rem 0;
             color: #777;
         }
+        #to-how-to-use {
+            border-radius: 0.5rem;
+            border: 1px solid var(--base-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
     </style>
     <script>
         if (sessionStorage.getItem("IsLogin") !== "true") {
@@ -110,25 +121,28 @@
 </div>
 <div id="body" style="display: none;">
     <div class="card jumbotron">
-        <a style="position: absolute; top: 1rem; right: 1rem;" onclick="signOut()">
+        <change-language-component></change-language-component>
+        <a style="position: absolute; top: 1.3rem; left: 1.3rem;" onclick="signOut()">
             <img src="media/Signout.svg" alt="Sign Out">
         </a>
-        <img width="96" src="media/coda-logo.png" alt="CODA Logo">
+        <div style="display: flex; justify-content: center;">
+            <img width="96" src="media/coda-logo.png" alt="CODA Logo">
+        </div>
         <h1>
             <trans-component text="Welcome"></trans-component> <span id="user_name"></span>!
         </h1>
         <div id="balance" class="balance-card">
             <div id="vouchers-text">
-                <trans-component text="Vouchers available"></trans-component>
+                <trans-component text="Balance"></trans-component>
             </div>
             <h2>$<span id="price">0</span></h2>
-            <div>
-                <trans-component text="Valid until: August 31, 2024"></trans-component>
-            </div>
+<!--            <div>-->
+<!--                <trans-component text="Valid until: August 31, 2024"></trans-component>-->
+<!--            </div>-->
         </div>
         <div id="client-button" class="button-group" style="display: none;">
             <a href="pay.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
-                <trans-component text="Use voucher"></trans-component>
+                <trans-component text="Scan QR Code"></trans-component>
             </a>
             <a href="transaction_history.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Transaction History"></trans-component>
@@ -159,9 +173,9 @@
             <br/>
             <trans-component text="Sunday: 11:00 am - 5:00pm (Last order: 4:30pm)"></trans-component>
         </collapse-component>
-        <div onclick="window.open('how_to_use.html','_self')" style="display: flex; align-items: center; margin-top: 1.5rem; cursor: pointer; color: var(--base-green);">
+        <div id="to-how-to-use" style="padding: 0.5rem 1rem;" onclick="window.open('how_to_use.html','_self')">
             <trans-component text="How it works"></trans-component>
-            <img style="margin-left: 0.2rem; width: 1.2rem;" src="media/link.svg" alt="Link Icon">
+            <img style="margin-left: 0.2rem; width: 1.1rem;" src="media/link.svg" alt="Link Icon">
         </div>
         <collapse-component name="Technical support">
             <div>
@@ -237,7 +251,7 @@
             sessionStorage.setItem("codaRole", role)
             switch (role) {
                 case "0":
-                    vouchersText.innerHTML = `<trans-component text="Vouchers available"></trans-component>`
+                    vouchersText.innerHTML = `<trans-component text="Balance"></trans-component>`
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
                     socialKitchenButton.style.display = "none";

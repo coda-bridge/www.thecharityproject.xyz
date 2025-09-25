@@ -25,9 +25,9 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem;
         }
 
         .card {
@@ -45,7 +45,7 @@
         .back-button {
             display: flex;
             align-items: center;
-            margin: 1.5rem 0;
+            margin-bottom: 1.5rem;
             text-decoration: none;
             color: var(--base-green);
             font-weight: 600;
@@ -57,9 +57,6 @@
         }
 
         .qr-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             margin-top: 2rem;
         }
 
@@ -89,13 +86,13 @@
             display: flex;
             align-items: center;
             margin-top: 1.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #555;
         }
 
         .info-text img {
             margin-right: 0.5rem;
-            width: 1rem;
+            width: 0.9rem;
         }
 
         .manual-section {
@@ -152,7 +149,9 @@
         <trans-component text="Record Hours"></trans-component>
     </h1>
     <div id="home" class="qr-section">
-        <img src="./media/Qrcode.svg" alt="QR Code" width="125">
+        <div style="display: flex;justify-content: center;align-items: center;">
+            <img src="./media/Qrcode.svg" alt="QR Code" width="125">
+        </div>
         <a class="clickButton" onclick="startStreamAndDecode()"
            style="background-color: var(--base-green); color: white;">
             <img id="QR-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem"
@@ -382,7 +381,7 @@
         ethAddress = "";
         amount = "";
         code = "";
-        home.style.display = "flex";
+        home.style.display = "block";
         manually.style.display = "none";
         confirm.style.display = "none";
         pay.style.display = "none";

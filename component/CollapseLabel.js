@@ -32,7 +32,7 @@ class CollapseLabel extends HTMLElement {
                 #restaurant-info-text {
                     font-size: 0.9rem;
                     color: #555;
-                    margin: 0.7rem;
+                    margin: 0.7rem 1rem;
                     display: none;
                 }
             </style>

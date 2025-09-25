@@ -124,7 +124,7 @@
     <div id="getCodeNote" class="note" style="display: none;">
         <trans-component text="We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code."></trans-component>
     </div>
-    <button id="submitBtn" style="margin-top: 2rem;" disabled>
+    <button id="submitBtn" style="margin-top: 1.2rem;" disabled>
         <img id="login-rolling" style="display:none; width: 1.5rem; height: 1.5rem; margin-right: 0.5rem" src="media/Rolling.svg"/>
         <trans-component text="Register"></trans-component>
     </button>
@@ -161,7 +161,7 @@
     const form = document.getElementById('form');
 
     window.addEventListener('setLanguage', function (e) {
-        nameInputer.placeholder = t("Sick child's name");
+        nameInputer.placeholder = t("Your name");
         if (count > 0) {
             buttonText.innerText = count + " " + t("second" + (count > 1 ? "s" : ""))
         } else {
@@ -187,7 +187,7 @@
         buttonText.innerText = t(name);
     }
 
-    nameInputer.placeholder = t("Sick child's name");
+    nameInputer.placeholder = t("Your name");
 
     broadcastChannel.onmessage = function () {
         termsOfUseCheck.checked = true;

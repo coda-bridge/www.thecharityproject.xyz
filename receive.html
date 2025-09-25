@@ -24,9 +24,9 @@
             padding: 0;
         }
         .container {
-            max-width: 800px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem;
         }
         .card {
             background-color: white;
@@ -41,7 +41,7 @@
         .back-button {
             display: flex;
             align-items: center;
-            margin: 1.5rem 0;
+            margin-bottom: 1.5rem;
             text-decoration: none;
             color: var(--base-green);
             font-weight: 600;
@@ -120,18 +120,18 @@
 <img id="unmute-icon" class="mute-button" onclick="setMute()" src="media/Unmute.svg" alt="Unmute" width="22" style="display: none;">
 <div class="card">
     <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
-        <trans-component text="Receive Vouchers"></trans-component>
+        <div id="user-name"></div>
     </h1>
     <div id="receive" class="qr-section">
         <div id="result" style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 300px; min-height: 300px;">
             <img src="media/loading.gif" alt="Loading">
         </div>
-        <a class="clickButton" id="open-edit" style="background-color: var(--base-green); color: white;">
-            <trans-component text="Edit the Amount"></trans-component>
-        </a>
-        <a class="clickButton" onclick="downloadQRCode()" style="border: 1px solid var(--base-green); color: black;">
-            <trans-component text="Download QR Code"></trans-component>
-        </a>
+<!--        <a class="clickButton" id="open-edit" style="background-color: var(&#45;&#45;base-green); color: white;">-->
+<!--            <trans-component text="Edit the Amount"></trans-component>-->
+<!--        </a>-->
+<!--        <a class="clickButton" onclick="downloadQRCode()" style="border: 1px solid var(&#45;&#45;base-green); color: black;">-->
+<!--            <trans-component text="Download QR Code"></trans-component>-->
+<!--        </a>-->
     </div>
     <div class="manual-section" id="edit-amount" style="display: none;">
         <div>
@@ -159,6 +159,7 @@
     const editPlace = document.getElementById("edit-amount");
     const backButton = document.getElementById("back-button");
     const moneyAudio = document.getElementById("money-audio");
+    const userName = document.getElementById("user-name");
 
     const muteIcon = document.getElementById("mute-icon");
     const unmuteIcon = document.getElementById("unmute-icon");
@@ -263,7 +264,7 @@
         e.preventDefault()
     }
 
-    document.getElementById("open-edit").addEventListener("click", openEdit)
+    // document.getElementById("open-edit").addEventListener("click", openEdit)
 
     function generateQRCode() {
         const amount = amountInput.value
@@ -341,6 +342,14 @@
         }, 3000)
     }
 
+    // local debug
+    // kitchenName = "Vendor A Tutor 2(3094)"
+    // console.log(userName)
+    // userName.innerText = kitchenName;
+    // ethAddress = "123123123123123123123123123123123"
+    // generateQRCode()
+    // getTransaction()
+
     fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile", {
         method: 'GET',
         credentials: "include",
@@ -353,6 +362,7 @@
             if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
                 kitchenName = data["merchant_name"]
                 ethAddress = data["eth_address"]
+                userName.innerText = kitchenName;
                 generateQRCode()
                 getTransaction()
             } else {
