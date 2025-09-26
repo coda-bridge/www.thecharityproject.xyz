@@ -42,7 +42,7 @@
             margin-bottom: 1.5rem;
         }
         input {
-            flex: 1;
+            /*flex: 1;*/
             padding: 0.75rem 1rem;
             font-size: 1rem;
             border: 1px solid var(--base-green);
@@ -116,14 +116,14 @@
         <account-component></account-component>
     </div>
     <div style="display: flex;" class="form-group">
-        <input autocomplete="one-time-code" inputmode="numeric" id="code" placeholder="Enter 6-digit code">
-    </div>
-    <button id="getCode" disabled>
-        <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>
-        <span id="buttonText">
+        <input style="min-width: 0;" autocomplete="one-time-code" inputmode="numeric" id="code" placeholder="Enter 6-digit code">
+        <button style="flex: 1;margin-left: 1rem;" id="getCode" disabled>
+            <img id="code-rolling" style="display:none;width: 1.5rem;height: 1.5rem;margin-right: 0.5rem" src="media/Rolling.svg"/>
+            <span style="width: max-content;" id="buttonText">
             <trans-component text="Get the code"></trans-component>
         </span>
-    </button>
+        </button>
+    </div>
     <div style="display: none;" id="getCodeNote">
         <trans-component
                 text="We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code."></trans-component>

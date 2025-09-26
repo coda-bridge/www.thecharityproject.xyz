@@ -17,11 +17,13 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 400px;
             margin: 0 auto;
             padding: 2rem;
         }
+
         .card {
             background-color: white;
             padding: 2rem;
@@ -29,9 +31,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
         }
+
         .card:hover {
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
+
         .back-button {
             display: flex;
             align-items: center;
@@ -40,11 +44,13 @@
             color: var(--base-green);
             font-weight: 600;
         }
+
         .back-button img {
             margin-right: 0.5rem;
         }
+
         input {
-            flex:1;
+            flex: 1;
             padding: 0.75rem 1rem;
             font-size: 1rem;
             border: 1px solid var(--base-green);
@@ -52,9 +58,11 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
+
         input:focus {
             border-color: #333;
         }
+
         button {
             display: flex;
             justify-content: center;
@@ -69,18 +77,22 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         button:disabled {
             background-color: #9B9C9C;
             cursor: not-allowed;
         }
+
         button:hover:not(:disabled) {
             background-color: #2a7f4e;
         }
+
         .note {
             font-size: 0.9rem;
             color: #555;
             margin-top: 1rem;
         }
+
         .terms {
             display: flex;
             justify-content: center;
@@ -89,6 +101,7 @@
             font-size: 0.9rem;
             color: #555;
         }
+
         .terms input {
             margin-right: 0.5rem;
             flex: 0;
@@ -113,19 +126,23 @@
         <account-component></account-component>
     </div>
     <div style="display: flex;margin-top: 2rem;" class="form-group" style="margin-top: 1.5rem;">
-        <input id="code" type="text" placeholder="Enter 6-digit code">
-    </div>
-    <button id="getCode" style="margin-top: 2rem;" disabled>
-        <img id="code-rolling" style="display:none; width: 1.5rem; height: 1.5rem; margin-right: 0.5rem" src="media/Rolling.svg"/>
-        <span id="buttonText">
+        <input style="min-width: 0;flex: auto;" id="code" type="text" placeholder="Enter 6-digit code">
+        <button id="getCode" style="flex: 1;margin-left: 1rem;" disabled>
+            <img id="code-rolling" style="display:none; width: 1.5rem; height: 1.5rem; margin-right: 0.5rem"
+                 src="media/Rolling.svg"/>
+            <span style="width: max-content;" id="buttonText">
             <trans-component text="Get the code"></trans-component>
         </span>
-    </button>
+        </button>
+    </div>
+
     <div id="getCodeNote" class="note" style="display: none;">
-        <trans-component text="We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code."></trans-component>
+        <trans-component
+                text="We sent a verification code to your WhatsApp. Please check your WhatsApp messages and enter the 6-digit code."></trans-component>
     </div>
     <button id="submitBtn" style="margin-top: 1.2rem;" disabled>
-        <img id="login-rolling" style="display:none; width: 1.5rem; height: 1.5rem; margin-right: 0.5rem" src="media/Rolling.svg"/>
+        <img id="login-rolling" style="display:none; width: 1.5rem; height: 1.5rem; margin-right: 0.5rem"
+             src="media/Rolling.svg"/>
         <trans-component text="Register"></trans-component>
     </button>
     <div class="terms">
@@ -333,7 +350,7 @@
             });
         } else {
             alart.style.display = "block";
-            alart.addEventListener("click", ()=>{
+            alart.addEventListener("click", () => {
                 alart.style.display = "none";
             })
             understandBtn.addEventListener("click", () => {
