@@ -341,7 +341,7 @@
             return b.timestamp - a.timestamp;
         }).forEach(item => {
             const comp = document.createElement('transaction-component');
-            comp.img =  : "";
+            comp.img = "";
             // comp.img = role === 0 ? (item.amount >= 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "https://www.thecharityproject.xyz/media/Project-Dignity.png") : "";
             comp.role = role;
             comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "CODA" : "Vendor A Tutor 2(3094)" || (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
