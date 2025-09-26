@@ -149,7 +149,7 @@
             </a>
         </div>
         <div id="social-kitchen-button" class="button-group" style="display: none;">
-            <a href="redeem.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
+            <a id="redeem" href="redeem.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Convert to Fiat"></trans-component>
             </a>
             <a href="receive.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
@@ -193,6 +193,7 @@
     const balancePlace = document.getElementById("balance");
     const vouchersText = document.getElementById("vouchers-text");
     const clientButton = document.getElementById("client-button");
+    const redeemButton = document.getElementById("redeem");
     const socialKitchenButton = document.getElementById("social-kitchen-button");
 
     const signOut = () => {
@@ -218,8 +219,25 @@
                 break;
             case "1":
                 balancePlace.style.display = "block";
+                clientButton.style.display = "flex";
+                socialKitchenButton.style.display = "none";
+                break;
+            case "2":
+                balancePlace.style.display = "block";
                 clientButton.style.display = "none";
+                redeemButton.style.display = "block";
                 socialKitchenButton.style.display = "flex";
+                break;
+            case "3":
+                balancePlace.style.display = "block";
+                clientButton.style.display = "none";
+                redeemButton.style.display = "none";
+                socialKitchenButton.style.display = "flex";
+                break;
+            case "4":
+                balancePlace.style.display = "none";
+                clientButton.style.display = "none";
+                socialKitchenButton.style.display = "none";
                 break;
             default:
                 console.log("error access——", role)
@@ -230,7 +248,7 @@
     // loadingPlace.style.display = "none";
     // bodyPlace.style.display = "block"
     // clientButton.style.display = "flex";
-    // socialKitchenButton.style.display = "flex";
+    // socialKitchenButton.style.display = "none";
 
     fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile", {
         method: 'GET',
@@ -257,11 +275,25 @@
                     break;
                 case "1":
                     balancePlace.style.display = "block";
-                    clientButton.style.display = "none";
-                    socialKitchenButton.style.display = "flex";
+                    clientButton.style.display = "flex";
+                    socialKitchenButton.style.display = "none";
                     userName = data["merchant_name"]
                     break;
                 case "2":
+                    balancePlace.style.display = "block";
+                    clientButton.style.display = "none";
+                    redeemButton.style.display = "block";
+                    socialKitchenButton.style.display = "flex";
+                    userName = data["merchant_name"]
+                    break;
+                case "3":
+                    balancePlace.style.display = "block";
+                    clientButton.style.display = "none";
+                    redeemButton.style.display = "none";
+                    socialKitchenButton.style.display = "flex";
+                    userName = data["merchant_name"]
+                    break;
+                case "4":
                     balancePlace.style.display = "none";
                     clientButton.style.display = "none";
                     socialKitchenButton.style.display = "none";

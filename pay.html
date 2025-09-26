@@ -276,6 +276,7 @@
 
     let userName = 0
     let totalBalance = 0
+    let role = 0
 
     // 获取URL参数
     const getURLParams = (urlParams) => {
@@ -308,7 +309,8 @@
     }).then(async function (response) {
         try {
             const data = await response.json();
-            if (data["role"] === 0) {
+            role = data['role']
+            if (data["role"] === 0 || data["role"] === 1) {
                 userName = data["firstname"] + data["lastname"]
                 totalBalance = data["balance"]
                 balanceValue.innerText = totalBalance
@@ -606,7 +608,7 @@
                    style="box-sizing: border-box;line-height:1.5rem;font-size: 1.4rem;width: 100%;padding: 0.8rem 1rem;border: 1px solid var(--base-green);border-radius: 0.4rem;"/>
 </div>`
         if (byQR) {
-            input = `<div><trans-component text="Voucher amount:"></trans-component></div>` + input
+            input = (role ? `<div><trans-component text="Amount:"></trans-component></div>` : `<div><trans-component text="Hour:"></trans-component></div>`) + input
         }
         amountPlace.innerHTML = input
         const amountInput = document.getElementById("amount-input")
@@ -631,7 +633,7 @@
     }
 
     const setQRData = (QRData, firstTime) => {
-        manuallyText.innerHTML = '<trans-component text="Outlet:"></trans-component>'
+        manuallyText.innerHTML = role ? '<trans-component text="Vendor:"></trans-component>' : '<trans-component text="Tutor:"></trans-component>'
         backButton.removeAttribute("href");
         backButton.getElementsByTagName("span")[0].innerText = "Back";
         backButton.setAttribute('onclick', "backToScan()");
