@@ -122,14 +122,14 @@
     let domReady = false
 
     async function queryAllData() {
-        // const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+        // const fetchProfile = fetch("https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/profile_simple", {
         //     method: 'GET',
         //     credentials: "include",
         //     headers: {
         //         "Content-Type": "application/json"
         //     },
         // })
-        // const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+        // const fetchTransactions = fetch(`https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
         //         method: 'GET',
         //         credentials: "include",
         //         headers: {
@@ -138,14 +138,14 @@
         //     }
         // )
         // const AllResponse = await Promise.all([fetchProfile, fetchTransactions]);
-        const fetchProfile = await fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile_simple", {
+        const fetchProfile = await fetch("https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/profile_simple", {
             method: 'GET',
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
         })
-        const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+        const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                 method: 'GET',
                 credentials: "include",
                 headers: {
@@ -278,7 +278,7 @@
 
     const getTransaction = async (reQuery) => {
         try {
-            const response = await fetch(`https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const response = await fetch(`https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {

@@ -246,7 +246,7 @@
     function login() {
         loginRolling.style.display = "block";
         closeLogin();
-        fetch('https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/login/' + code, {
+        fetch('https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/login/' + code, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -283,7 +283,7 @@
     function sendQuery() {
         getCodeNote.style.display = "block";
         buttonText.innerText = t("Sending");
-        fetch('https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/login_phone', {
+        fetch('https://flows.thecharityproject.XYZ/webhook/SLFDLigNPMYAJPWQnF2i/login_phone', {
             method: 'POST',
             credentials: "include",
             headers: {
