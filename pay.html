@@ -538,14 +538,14 @@
         if ((kitchenName || kitchenSelector.value) && amount && parseFloat(amount) <= parseFloat(totalBalance)) {
             alertPlace.style.display = "none";
             nextButton.style.backgroundColor = "var(--base-green)"
-            nextButton.className = "clickButton"
+            // nextButton.className = "clickButton"
             nextButton.style.cursor = "pointer"
             nextButton.setAttribute('onclick', "goConfirm()");
         } else {
             if (amount && totalBalance && parseFloat(amount) > parseFloat(totalBalance)) {
                 alertPlace.style.display = "block";
             }
-            nextButton.className = ""
+            // nextButton.className = ""
             nextButton.style.backgroundColor = "#ADA9A9"
             nextButton.style.cursor = "not-allowed"
             nextButton.removeAttribute("onclick");
