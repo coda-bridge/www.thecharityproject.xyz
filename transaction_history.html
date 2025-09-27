@@ -145,7 +145,7 @@
                 "Content-Type": "application/json"
             },
         })
-        const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+        const fetchTransactions = await fetch(`https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/${(role === 0 || role === 1) ? "user_transactions" : "merchant_transactions"}`, {
                 method: 'GET',
                 credentials: "include",
                 headers: {
@@ -235,15 +235,15 @@
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
         incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerHTML = role === 0 ? `<trans-component text="Distributed:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
+        incomeTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Distributed:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
         incomePlace.appendChild(incomeTitle)
         incomePlace.appendChild(incomeValue)
         let expenseTitle = document.createElement("div")
         expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerHTML = role === 0 ? `<trans-component text="Redeemed:"></trans-component>` : `<trans-component text="Settled:"></trans-component>`
+        expenseTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Redeemed:"></trans-component>` : `<trans-component text="Settled:"></trans-component>`
         expensePlace.appendChild(expenseTitle)
         expensePlace.appendChild(expenseValue)
-        if (role === 1) {
+        if (role === 2 || role === 3) {
             getTransaction(true)
             document.getElementById("export-icon").style.display = "inline-block";
         }
@@ -278,7 +278,7 @@
 
     const getTransaction = async (reQuery) => {
         try {
-            const response = await fetch(`https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/${role === 0 ? "user_transactions" : "merchant_transactions"}`, {
+            const response = await fetch(`https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/${(role === 0 || role === 1) ? "user_transactions" : "merchant_transactions"}`, {
                     method: 'GET',
                     credentials: "include",
                     headers: {
@@ -344,7 +344,7 @@
             comp.img = "";
             // comp.img = role === 0 ? (item.amount >= 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "https://www.thecharityproject.xyz/media/Project-Dignity.png") : "";
             comp.role = role;
-            comp.name = (role === 0 && item.amount >= 0 || role === 1 && item.amount <= 0) ? "CODA" : "Vendor A Tutor 2(3094)" || (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
+            comp.name = ((role === 0 || role === 1) && item.amount >= 0 || role === 1 && item.amount <= 0) ? "CODA" : "Vendor A Tutor 2(3094)" || (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")");
             comp.price = item.amount;
             if (item.amount < 0) {
                 expense += Math.abs(item.amount);

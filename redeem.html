@@ -271,7 +271,7 @@
     }).then(async function (response) {
         try {
             const data = await response.json();
-            if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && data["role"] === 1) {
+            if (data["merchant_name"] && data['balance'] !== undefined && data["eth_address"] && (data["role"] === 2 || data["role"] === 3)) {
                 total = Math.round(parseFloat(data["balance"]) * 100) / 100;
                 setInput()
             } else {
