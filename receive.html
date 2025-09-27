@@ -359,7 +359,7 @@
     }).then(async function (response) {
         try {
             const data = await response.json();
-            if (data["merchant_name"] && data["eth_address"] && data["role"] === 1) {
+            if (data["merchant_name"] && data["eth_address"] && (data["role"] === 2 || data["role"] === 3)) {
                 kitchenName = data["merchant_name"]
                 ethAddress = data["eth_address"]
                 userName.innerText = kitchenName;
