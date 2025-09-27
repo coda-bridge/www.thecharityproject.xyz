@@ -300,7 +300,7 @@
         }
     });
 
-    fetch("https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/profile", {
+    fetch("https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/profile", {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -411,7 +411,7 @@
         code = "";
         NextRolling.style.display = "block";
         if (parseFloat(amount) > 300) {
-            fetch('https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/create_payment_pin', {
+            fetch('https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/create_payment_pin', {
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -486,7 +486,7 @@
         } else {
             payData["pin"] = "0000"
         }
-        fetch('https://flows.thecharityproject.XYZ/webhook/5iZ8kUoaizoRwkJKdV9p/pay', {
+        fetch('https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/pay', {
             method: 'POST',
             credentials: "include",
             headers: {
