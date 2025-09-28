@@ -513,7 +513,7 @@
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;"><trans-component text="You"></trans-component> (${userName})</div>
             <div style="margin-top: 1.5rem"><trans-component text="To:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${kitchenName}</div>
-            <div style="margin-top: 1.5rem"><trans-component text="Amount:"></trans-component></div>
+            <div style="margin-top: 1.5rem"><trans-component text="${role === 0 ? 'Hour' :'Amount'}:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 3.5rem;">$${amount}</div>
             <div style="margin-top: 1.5rem"><trans-component text="When:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${formatted}</div></div>`
