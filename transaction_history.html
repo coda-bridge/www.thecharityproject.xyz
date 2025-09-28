@@ -354,10 +354,10 @@
             comp.time = item.timestamp;
             historyPlace.appendChild(comp);
         });
-        incomeValue.innerText = "+$" + Math.round(parseFloat(income) * 100) / 100 || 0;
+        incomeValue.innerText = "+" + Math.round(parseFloat(income) * 100) / 100 || 0;
         incomeValue.style.fontSize = "1.1rem";
         incomeValue.style.fontWeight = "600";
-        expenseValue.innerText = "-$" + Math.round(parseFloat(expense) * 100) / 100 || 0;
+        expenseValue.innerText = "-" + Math.round(parseFloat(expense) * 100) / 100 || 0;
         expenseValue.style.fontSize = "1.1rem";
         expenseValue.style.fontWeight = "600";
     }
