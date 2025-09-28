@@ -141,6 +141,9 @@
 <!--            </div>-->
         </div>
         <div id="client-button" class="button-group" style="display: none;">
+            <a id="sign-in" href="sign_in.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
+                <trans-component text="Sign In"></trans-component>
+            </a>
             <a href="pay.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Scan QR Code"></trans-component>
             </a>
@@ -194,6 +197,7 @@
     const vouchersText = document.getElementById("vouchers-text");
     const clientButton = document.getElementById("client-button");
     const redeemButton = document.getElementById("redeem");
+    const signInButton = document.getElementById("sign-in");
     const socialKitchenButton = document.getElementById("social-kitchen-button");
 
     const signOut = () => {
@@ -237,6 +241,7 @@
             case "4":
                 balancePlace.style.display = "none";
                 clientButton.style.display = "none";
+                redeemButton.style.display = "none";
                 socialKitchenButton.style.display = "none";
                 break;
             default:
@@ -283,6 +288,7 @@
                     balancePlace.style.display = "block";
                     clientButton.style.display = "none";
                     redeemButton.style.display = "block";
+                    signInButton.style.display = "flex";
                     socialKitchenButton.style.display = "flex";
                     userName = data["merchant_name"]
                     break;
