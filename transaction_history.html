@@ -238,11 +238,13 @@
         incomeTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Distributed:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
         incomePlace.appendChild(incomeTitle)
         incomePlace.appendChild(incomeValue)
-        let expenseTitle = document.createElement("div")
-        expenseTitle.style.marginRight = "0.25rem"
-        expenseTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Redeemed:"></trans-component>` : `<trans-component text="Settled:"></trans-component>`
-        expensePlace.appendChild(expenseTitle)
-        expensePlace.appendChild(expenseValue)
+        if (role !== 3) {
+            let expenseTitle = document.createElement("div")
+            expenseTitle.style.marginRight = "0.25rem"
+            expenseTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Redeemed:"></trans-component>` : `<trans-component text="Settled:"></trans-component>`
+            expensePlace.appendChild(expenseTitle)
+            expensePlace.appendChild(expenseValue)
+        }
         if (role === 2 || role === 3) {
             getTransaction(true)
             document.getElementById("export-icon").style.display = "inline-block";
