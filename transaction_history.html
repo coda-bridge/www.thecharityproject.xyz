@@ -235,7 +235,7 @@
         expense = profileData['balance']
         let incomeTitle = document.createElement("div")
         incomeTitle.style.marginRight = "0.25rem"
-        incomeTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Distributed:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
+        incomeTitle.innerHTML = (role === 0 || role === 1) ? `<trans-component text="Distributed:"></trans-component>` : role === 3 ? `<trans-component text="Hour:"></trans-component>` : `<trans-component text="Income:"></trans-component>`
         incomePlace.appendChild(incomeTitle)
         incomePlace.appendChild(incomeValue)
         if (role !== 3) {
