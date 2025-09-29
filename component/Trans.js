@@ -11,17 +11,17 @@ class Trans extends HTMLElement {
 
         function checkText() {
             const language = window.sessionStorage.getItem("codaLanguage");
-            if (language !== "en") {
-                document.documentElement.lang = "zh-HK"
-                that.shadowRoot.innerHTML = `
-    ${transData[text] || text}
-`;
-            } else {
+            // if (language !== "en") {
                 document.documentElement.lang = "en"
                 that.shadowRoot.innerHTML = `
     ${text}
 `;
-            }
+//             } else {
+//                 document.documentElement.lang = "zh-HK"
+//                 that.shadowRoot.innerHTML = `
+//     ${transData[text] || text}
+// `;
+//             }
         }
 
         window.addEventListener('setLanguage', function (e) {

@@ -128,7 +128,7 @@
     </style>
 </head>
 <body class="container">
-<change-language-component></change-language-component>
+<!--<change-language-component></change-language-component>-->
 <div id="camera"
      style="z-index:50;position: fixed;top:0;left:0;background-color: black;width: 100vw;height: 100vh;display: none;justify-content: center;align-items: center;overflow: hidden;">
     <div id="video_close" onclick="closeCamera()"
@@ -514,7 +514,7 @@
             <div style="margin-top: 1.5rem"><trans-component text="To:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${kitchenName}</div>
             <div style="margin-top: 1.5rem"><trans-component text="${role === 0 ? 'Hour' :'Amount'}:"></trans-component></div>
-            <div style="color: var(--base-green);font-weight: bold;font-size: 3.5rem;">$${amount}</div>
+            <div style="color: var(--base-green);font-weight: bold;font-size: 3.5rem;">${role === 0 ? '' :'$'}${amount}</div>
             <div style="margin-top: 1.5rem"><trans-component text="When:"></trans-component></div>
             <div style="color: var(--base-green);font-weight: bold;font-size: 1.5rem;">${formatted}</div></div>`
                 goHistoryButton.style.display = "block";

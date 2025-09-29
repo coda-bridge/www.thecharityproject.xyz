@@ -121,7 +121,7 @@
 </div>
 <div id="body" style="display: none;">
     <div class="card jumbotron">
-        <change-language-component></change-language-component>
+        <!--<change-language-component></change-language-component>-->
         <a style="position: absolute; top: 1.3rem; left: 1.3rem;" onclick="signOut()">
             <img src="media/Signout.svg" alt="Sign Out">
         </a>
@@ -133,7 +133,7 @@
         </h1>
         <div id="balance" class="balance-card">
             <div id="vouchers-text">
-                <trans-component text="Balance"></trans-component>
+                <trans-component id="balance-text" text="Balance"></trans-component>
             </div>
             <h2><span id="price">0</span></h2>
 <!--            <div>-->
@@ -195,6 +195,7 @@
     const bodyPlace = document.getElementById("body");
     const balancePlace = document.getElementById("balance");
     const vouchersText = document.getElementById("vouchers-text");
+    const balanceText = document.getElementById("balance-text");
     const clientButton = document.getElementById("client-button");
     const redeemButton = document.getElementById("redeem");
     const signInButton = document.getElementById("sign-in");
@@ -297,6 +298,7 @@
                     clientButton.style.display = "none";
                     redeemButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";
+                    balanceText.setAttribute("text", "You have served Balance")
                     userName = data["merchant_name"]
                     break;
                 case "4":
