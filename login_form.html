@@ -283,7 +283,7 @@
     function sendQuery() {
         getCodeNote.style.display = "block";
         buttonText.innerText = t("Sending");
-        fetch('https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/login_phone', {
+        fetch(`https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/${accountInputer.type === "email" ? "login_email" : "login_phone"}`, {
             method: 'POST',
             credentials: "include",
             headers: {
