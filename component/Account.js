@@ -66,7 +66,7 @@ class Account extends HTMLElement {
             <div style="display: flex;">
                 <input style="font-size: 1rem;line-height: 1.5rem;flex: 1;border:1px solid var(--base-green);border-radius: 0.6rem;padding: 0.5rem 0.75rem" type="email"
                    class="form-control"
-                   name="email_address" id="email_address" placeholder="Enter your email address">
+                   name="email" id="email_address" placeholder="Enter your email address">
             </div>
             <div style="font-size: 0.7rem;margin-top: 1rem;">
             Email doesn't work? <span id="to_phone" style="cursor: pointer;text-decoration-line: underline;user-select: none;">Try phone number here</span>
