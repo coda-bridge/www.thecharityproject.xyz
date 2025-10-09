@@ -16,7 +16,7 @@ class Account extends HTMLElement {
             };
         } else {
             return {
-                email_address: this.shadowRoot.getElementById('email_address').value
+                email: this.shadowRoot.getElementById('email_address').value
             };
         }
     }
