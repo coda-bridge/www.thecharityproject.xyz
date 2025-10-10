@@ -168,13 +168,13 @@ class Account extends HTMLElement {
             phoneNumber.style.borderColor = "var(--base-green)";
         }
 
-        toPhone()
-
         function toEmail() {
             emailPlace.style.display = "block";
             phonePlace.style.display = "none";
             checkValidity()
         }
+
+        toEmail()
 
         toPhoneTab.addEventListener("click", toPhone)
         toEmailTab.addEventListener("click",toEmail)
