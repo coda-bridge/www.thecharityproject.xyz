@@ -267,12 +267,14 @@
                 case "0":
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
+                    signInButton.style.display = "none";
                     socialKitchenButton.style.display = "none";
                     userName = data['firstname'];
                     break;
                 case "1":
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
+                    signInButton.style.display = "none";
                     socialKitchenButton.style.display = "none";
                     userName = data["firstname"]
                     break;
@@ -288,6 +290,7 @@
                     balancePlace.style.display = "block";
                     clientButton.style.display = "none";
                     redeemButton.style.display = "none";
+                    signInButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";
                     vouchersText.innerText =  "You have served"
                     userName = data["merchant_name"]
