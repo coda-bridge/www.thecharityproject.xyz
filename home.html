@@ -211,23 +211,27 @@
             case "0":
                 balancePlace.style.display = "block";
                 clientButton.style.display = "flex";
+                signInButton.style.display = "flex";
                 socialKitchenButton.style.display = "none";
                 break;
             case "1":
                 balancePlace.style.display = "block";
                 clientButton.style.display = "flex";
+                signInButton.style.display = "none";
                 socialKitchenButton.style.display = "none";
                 break;
             case "2":
                 balancePlace.style.display = "block";
                 clientButton.style.display = "none";
                 redeemButton.style.display = "none";
+                signInButton.style.display = "none";
                 socialKitchenButton.style.display = "flex";
                 break;
             case "3":
                 balancePlace.style.display = "block";
                 clientButton.style.display = "none";
                 redeemButton.style.display = "none";
+                signInButton.style.display = "none";
                 socialKitchenButton.style.display = "flex";
                 break;
             case "4":
@@ -267,7 +271,7 @@
                 case "0":
                     balancePlace.style.display = "block";
                     clientButton.style.display = "flex";
-                    signInButton.style.display = "none";
+                    signInButton.style.display = "flex";
                     socialKitchenButton.style.display = "none";
                     userName = data['firstname'];
                     break;
@@ -282,7 +286,7 @@
                     balancePlace.style.display = "block";
                     clientButton.style.display = "none";
                     redeemButton.style.display = "block";
-                    signInButton.style.display = "flex";
+                    signInButton.style.display = "none";
                     socialKitchenButton.style.display = "flex";
                     userName = data["merchant_name"]
                     break;
