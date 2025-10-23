@@ -579,17 +579,20 @@
     }
 
     const addKitchenSelector = () => {
-        ethAddress = "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-        kitchenName = "Vendpr A Tutor 2 (3094)"
+        ethAddress = "0x46ace1f905ae4B299cB6327456340B70546584AA"
+        kitchenName = "Chris's Tutor"
         // kitchenPlace.style.marginTop = "0";
         // kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">Dignity Kitchen</div>`
         kitchenSelector.list = [{
-            name: "Vendpr A Tutor 2 (3094)",
+            name: "Chris's Tutor",
+            value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
+        }, {
+            name: "Vivian's Tutor",
             value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
         }]
         kitchenSelector.defaultValue = {
-            name: "Vendpr A Tutor 2 (3094)",
-            value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+            name: "Chris's Tutor",
+            value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
         }
         kitchenSelector.changeCallBack = (value) => {
             if (value && value.name && value.value) {
