@@ -580,22 +580,6 @@
 
     const addKitchenSelector = () => {
         if(role) {
-            ethAddress = "0x46ace1f905ae4B299cB6327456340B70546584AA"
-            kitchenName = "Chris's Tutor"
-            // kitchenPlace.style.marginTop = "0";
-            // kitchenPlace.innerHTML = `<div style="font-weight: 700; font-size: 1.2rem;line-height: 3rem;">Dignity Kitchen</div>`
-            kitchenSelector.list = [{
-                name: "Chris's Tutor",
-                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
-            }, {
-                name: "Vivian's Tutor",
-                value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-            }]
-            kitchenSelector.defaultValue = {
-                name: "Chris's Tutor",
-                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
-            }
-        }else {
             ethAddress = "0x535030406bf0dd5765f2e21ef8370fc8de827062"
             kitchenName = "Chris"
             kitchenSelector.list = [{
@@ -608,6 +592,20 @@
             kitchenSelector.defaultValue = {
                 name: "Chris",
                 value: "0x535030406bf0dd5765f2e21ef8370fc8de827062"
+            }
+        }else {
+            ethAddress = "0x46ace1f905ae4B299cB6327456340B70546584AA"
+            kitchenName = "Chris's Tutor"
+            kitchenSelector.list = [{
+                name: "Chris's Tutor",
+                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
+            }, {
+                name: "Vivian's Tutor",
+                value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+            }]
+            kitchenSelector.defaultValue = {
+                name: "Chris's Tutor",
+                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
             }
         }
 
