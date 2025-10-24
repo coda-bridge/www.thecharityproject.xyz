@@ -397,7 +397,7 @@
     }
 
     const goManually = () => {
-        manuallyText.innerHTML = `<trans-component text={role ? "You are recording a payment for the following vendor:":"You are recording at the following tutor and specified hours:"}></trans-component>`
+        manuallyText.innerHTML = `<trans-component text="${role ? 'You are recording a payment for the following vendor:':'You are recording at the following tutor and specified hours:'}"></trans-component>`
         backButton.removeAttribute("href");
         backButton.getElementsByTagName("span")[0].innerText = "Back";
         backButton.setAttribute('onclick', "backToScan()");
