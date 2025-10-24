@@ -276,6 +276,21 @@
     const QRRolling = document.getElementById("QR-rolling");
     const NextRolling = document.getElementById("next-rolling");
 
+    const VendorList = [{
+        name: "Chris",
+        value: "0x535030406bf0dd5765f2e21ef8370fc8de827062"
+    }, {
+        name: "Vivian",
+        value: "0x0a8634976e553d78d34961f421172304213bf553"
+    }]
+    const TutorList = [{
+        name: "Chris's Tutor",
+        value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
+    }, {
+        name: "Vivian's Tutor",
+        value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+    }]
+
     let userName = 0
     let totalBalance = 0
     let role = (() => {
@@ -587,13 +602,7 @@
         if (role) {
             ethAddress = "0x535030406bf0dd5765f2e21ef8370fc8de827062"
             kitchenName = "Chris"
-            kitchenSelector.list = [{
-                name: "Chris",
-                value: "0x535030406bf0dd5765f2e21ef8370fc8de827062"
-            }, {
-                name: "Vivian",
-                value: "0x0a8634976e553d78d34961f421172304213bf553"
-            }]
+            kitchenSelector.list = VendorList
             kitchenSelector.defaultValue = {
                 name: "Chris",
                 value: "0x535030406bf0dd5765f2e21ef8370fc8de827062"
@@ -601,13 +610,7 @@
         } else {
             ethAddress = "0x46ace1f905ae4B299cB6327456340B70546584AA"
             kitchenName = "Chris's Tutor"
-            kitchenSelector.list = [{
-                name: "Chris's Tutor",
-                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
-            }, {
-                name: "Vivian's Tutor",
-                value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-            }]
+            kitchenSelector.list = TutorList
             kitchenSelector.defaultValue = {
                 name: "Chris's Tutor",
                 value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
@@ -656,6 +659,18 @@
     }
 
     const setQRData = (QRData, firstTime) => {
+            if (QRData && QRData.ethAddress) {
+                const addr = QRData.ethAddress.toLowerCase();
+                let allowed = false;
+                if (role === 0) {
+                    allowed = TutorList.some(item => item.value.toLowerCase() === addr);
+                } else if (role === 1) {
+                    allowed = VendorList.some(item => item.value.toLowerCase() === addr);
+                }
+                if (!allowed) {
+                    bedQrCode()
+                }
+            }
         manuallyText.innerHTML = role ? '<trans-component text="Vendor:"></trans-component>' : '<trans-component text="Tutor:"></trans-component>'
         backButton.removeAttribute("href");
         backButton.getElementsByTagName("span")[0].innerText = "Back";
