@@ -278,8 +278,10 @@
 
     let userName = 0
     let totalBalance = 0
-    let role = 0
-
+    let role = (() => {
+        const v = sessionStorage.getItem('codaRole');
+        return (v !== null && !Number.isNaN(Number(v))) ? Number(v) : 0;
+    })();
     // 获取URL参数
     const getURLParams = (urlParams) => {
         const paramsArray = decodeURI(urlParams).split('&');
