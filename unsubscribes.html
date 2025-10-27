@@ -112,7 +112,7 @@ document.getElementById('btn').addEventListener('click', async () => {
 
     try {
         const resp = await fetch('https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/unsubscribe', {
-            method: 'DELETE',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
         });
