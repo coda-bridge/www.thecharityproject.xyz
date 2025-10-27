@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restore SendGrid Subscription</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #F9F8F8;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            position: relative;
+            background-color: white;
+            margin-top: 1rem;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .jumbotron {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .jumbotron h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 1rem;
+            color: #333;
+        }
+        .jumbotron p {
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: #555;
+        }
+        .form-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        input[type="email"] {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #e3e3e3;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .clickButton {
+            border-radius: 0.5rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            background-color: #2c9a6f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .status {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #333;
+            min-height: 1.2em;
+            text-align: center;
+        }
+        .hint {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="container">
+    <div class="card jumbotron">
+        <img width="72" src="media/coda-logo.png" alt="CODA Logo">
+        <h1>Restore SendGrid Subscription</h1>
+        <p>Remove an email from SendGrid's suppression list so the user can receive emails again. Do not place API keys in frontend code — use a server-side proxy.</p>
+
+        <div class="form-row">
+            <input id="email" type="email" placeholder="user@example.com"/>
+            <button id="btn" class="clickButton">Restore</button>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+<script>
+document.getElementById('btn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const statusEl = document.getElementById('status');
+    statusEl.textContent = 'Processing...';
+
+    if (!email) {
+        statusEl.textContent = 'Please enter a valid email address.';
+        return;
+    }
+
+    try {
+        const resp = await fetch('https://flows.thecharityproject.XYZ/webhook/Y1h2YPsgdwsoxZsKYTDT/unsubscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok) {
+            statusEl.textContent = 'Successfully removed from suppression list: ' + email;
+        } else {
+            statusEl.textContent = 'Failed: ' + (data.error || JSON.stringify(data) || resp.statusText);
+        }
+    } catch (err) {
+        statusEl.textContent = 'Request error: ' + (err.message || err);
+    }
+});
+</script>
+
+</body>
+</html>
