@@ -263,6 +263,8 @@
                 item.amount = Math.round(parseFloat(item.amount) * 100) / 100;
                 item.timestamp = serverTime - offset * 60 * 1000;
                 if (item.user_phone) {
+                    // 保存完整电话以备 CODA 显示，同时保持原来的掩码字段
+                    item.user_phone_full = item.user_phone;
                     item.user_phone = item.user_phone.slice(-4);
                 }
                 return item;
@@ -347,8 +349,19 @@
             const comp = document.createElement('transaction-component');
             comp.img = "";
             // comp.img = role === 0 ? (item.amount >= 0 ? "https://www.thecharityproject.xyz/media/RMHC.png" : "https://www.thecharityproject.xyz/media/Project-Dignity.png") : "";
+            /* 替换 filterByMonth 中设置 comp.name 的那一行 */
             comp.role = role;
-            comp.name = (role === 2 && item.amount <= 0) ? "CODA" : item.user_name ? (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")") : item.merchant_name;
+            // 如果是 CODA 付款（role === 2 且金额 <= 0），显示完整姓名和完整电话（若有），否则使用原有掩码显示
+            if (role === 2 && item.amount <= 0) {
+                if (item.user_name) {
+                    const phoneToShow = item.user_phone_full || item.user_phone || '';
+                    comp.name = `${item.user_name}${phoneToShow ? ' (' + phoneToShow + ')' : ''}`;
+                } else {
+                    comp.name = "CODA";
+                }
+            } else {
+                comp.name = item.user_name ? (item.user_name.slice(0, 4) + (item.user_name.length > 4 ? "****" : "") + " (" + item.user_phone + ")") : item.merchant_name;
+            }
             comp.price = item.amount;
             if (item.amount < 0) {
                 expense += Math.abs(item.amount);
