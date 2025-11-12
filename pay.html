@@ -277,12 +277,18 @@
     const NextRolling = document.getElementById("next-rolling");
 
     const VendorList = [{
-        name: "Chris",
-        value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+        name: "Rebecca Chan",
+        value: "0xF2A816AFBAc50D677ef120Fd230159154704Eb17"
     }]
     const TutorList = [{
-        name: "Chris's Tutor",
-        value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
+        name: "Cheri Yuen Miu Ching",
+        value: "0xbA7F0071fde755e40F724fc37C1D7d16753382A2"
+    }, {
+        name: "Wendy Chan Wing Ting",
+        value: "0x4110e7003Fe10DDC1207457Ef8f3250BF941414b"
+    }, {
+        name: "Sam Yeung Ho",
+        value: "0xE67850e1BEA2FA4601f0B7Be666197CC00d98b47"
     }]
 
     let userName = 0
@@ -594,20 +600,20 @@
     const addKitchenSelector = () => {
         console.log(role)
         if (role) {
-            ethAddress = "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
-            kitchenName = "Chris"
+            ethAddress = "0xF2A816AFBAc50D677ef120Fd230159154704Eb17"
+            kitchenName = "Rebecca Chan"
             kitchenSelector.list = VendorList
             kitchenSelector.defaultValue = {
-                name: "Chris",
-                value: "0xa8dB709b2e138254b4A06d55d8f644EaC32FF788"
+                name: "Rebecca Chan",
+                value: "0xF2A816AFBAc50D677ef120Fd230159154704Eb17"
             }
         } else {
-            ethAddress = "0x46ace1f905ae4B299cB6327456340B70546584AA"
-            kitchenName = "Chris's Tutor"
+            ethAddress = "0xbA7F0071fde755e40F724fc37C1D7d16753382A2"
+            kitchenName = "Cheri Yuen Miu Ching"
             kitchenSelector.list = TutorList
             kitchenSelector.defaultValue = {
-                name: "Chris's Tutor",
-                value: "0x46ace1f905ae4B299cB6327456340B70546584AA"
+                name: "Cheri Yuen Miu Ching",
+                value: "0xbA7F0071fde755e40F724fc37C1D7d16753382A2"
             }
         }
 
