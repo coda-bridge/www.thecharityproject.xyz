@@ -290,8 +290,8 @@
     }
 
     function countdown() {
-        count = 60;
-        buttonText.innerText = "60 " + t("seconds");
+        count = 120;
+        buttonText.innerText = "120 " + t("seconds");
         submitBtn.style.backgroundColor = '#9B9C9C';
         submitBtn.className = '';
         submitBtn.style.cursor = 'not-allowed';
@@ -414,7 +414,7 @@
             em.style.display = "block";
             openGetCode();
         });
-        alert(t("You will receive the verification code on WhatsApp within 60 seconds."));
+        alert(t("You will receive the verification code on WhatsApp within 120 seconds."));
     }
 
     if ('OTPCredential' in window) {
