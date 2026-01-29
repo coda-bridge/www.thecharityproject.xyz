@@ -146,7 +146,7 @@
 </a>
 <div class="card">
     <h1 id="title" style="text-align: center; font-size: 1.5rem; font-weight: 700; color: #333;">
-        <trans-component text="Scan QR Code"></trans-component>
+        <trans-component id="title_trans" text="Scan QR Code"></trans-component>
     </h1>
     <div class="qr-section" id="home">
         <div style="display: flex;justify-content: center;align-items: center;">
@@ -297,6 +297,13 @@
         const v = sessionStorage.getItem('codaRole');
         return (v !== null && !Number.isNaN(Number(v))) ? Number(v) : 0;
     })();
+    // 如果 role === 0，则将页面顶部 h1 的 trans-component 文案改为 "Sign Out"
+    if (role === 0) {
+        const titleTrans = document.querySelector('#title_trans');
+        if (titleTrans) {
+            titleTrans.setAttribute('text', 'Sign Out');
+        }
+    }
     // 获取URL参数
     const getURLParams = (urlParams) => {
         const paramsArray = decodeURI(urlParams).split('&');
@@ -329,13 +336,6 @@
         try {
             const data = await response.json();
             role = data['role']
-            // 如果 role === 0，则将页面顶部 h1 的 trans-component 文案改为 "Sign Out"
-            if (data['role'] === 0) {
-                const titleTrans = document.querySelector('#title trans-component');
-                if (titleTrans) {
-                    titleTrans.setAttribute('text', 'Sign Out');
-                }
-            }
             if (data["role"] === 0 || data["role"] === 1) {
                 userName = data["firstname"] + data["lastname"]
                 totalBalance = data["balance"]
