@@ -144,7 +144,7 @@
             <a id="sign-in" href="sign_in.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Sign In"></trans-component>
             </a>
-            <a href="pay.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
+            <a id="scan-action" href="pay.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
                 <trans-component text="Scan QR Code"></trans-component>
             </a>
             <a href="transaction_history.html" class="clickButton" style="border: 2px solid var(--base-green); color: black;">
@@ -213,6 +213,14 @@
                 clientButton.style.display = "flex";
                 signInButton.style.display = "block";
                 socialKitchenButton.style.display = "none";
+                // 将 "Scan QR Code" 文案改为 "Sign Out"
+                (function(){
+                    const scanAnchor = document.getElementById("scan-action");
+                    if (scanAnchor) {
+                        const tc = scanAnchor.querySelector('trans-component');
+                        if (tc) tc.setAttribute('text', 'Sign Out');
+                    }
+                })();
                 break;
             case "1":
                 balancePlace.style.display = "block";
