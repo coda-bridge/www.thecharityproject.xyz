@@ -213,14 +213,11 @@
                 clientButton.style.display = "flex";
                 signInButton.style.display = "block";
                 socialKitchenButton.style.display = "none";
-                // 将 "Scan QR Code" 文案改为 "Sign Out"
-                (function(){
-                    const scanAnchor = document.getElementById("scan-action");
-                    if (scanAnchor) {
-                        const tc = scanAnchor.querySelector('trans-component');
-                        if (tc) tc.setAttribute('text', 'Sign Out');
-                    }
-                })();
+                const scanAnchor = document.getElementById("scan-action");
+                if (scanAnchor) {
+                    const tc = scanAnchor.querySelector('trans-component');
+                    if (tc) tc.setAttribute('text', 'Sign Out');
+                }
                 break;
             case "1":
                 balancePlace.style.display = "block";
@@ -282,13 +279,12 @@
                     signInButton.style.display = "block";
                     socialKitchenButton.style.display = "none";
                     userName = data['firstname'];
-                    (function(){
-                        const scanAnchor = document.getElementById("scan-action");
-                        if (scanAnchor) {
-                            const tc = scanAnchor.querySelector('trans-component');
-                            if (tc) tc.setAttribute('text', 'Sign Out');
-                        }
-                    })();
+                    const scanAnchor = document.getElementById("scan-action");
+                    console.log("scanAnchor",scanAnchor)
+                    if (scanAnchor) {
+                        const tc = scanAnchor.querySelector('trans-component');
+                        if (tc) tc.setAttribute('text', 'Sign Out');
+                    }
                     break;
                 case "1":
                     balancePlace.style.display = "block";
