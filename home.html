@@ -282,6 +282,13 @@
                     signInButton.style.display = "block";
                     socialKitchenButton.style.display = "none";
                     userName = data['firstname'];
+                    (function(){
+                        const scanAnchor = document.getElementById("scan-action");
+                        if (scanAnchor) {
+                            const tc = scanAnchor.querySelector('trans-component');
+                            if (tc) tc.setAttribute('text', 'Sign Out');
+                        }
+                    })();
                     break;
                 case "1":
                     balancePlace.style.display = "block";
