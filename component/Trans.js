@@ -4,31 +4,38 @@ class Trans extends HTMLElement {
         this.attachShadow({mode: 'open'});
     }
 
+    static get observedAttributes() {
+        return ['text'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'text' && oldValue !== newValue) {
+            this.checkText();
+        }
+    }
+
     connectedCallback() {
+        this.checkText();
+
+        window.addEventListener('setLanguage', (e) => {
+            this.checkText();
+        });
+    }
+
+    checkText() {
         const text = this.getAttribute('text');
-        const that = this;
-
-
-        function checkText() {
-            const language = window.sessionStorage.getItem("codaLanguage");
-            // if (language !== "en") {
-                document.documentElement.lang = "en"
-                that.shadowRoot.innerHTML = `
+        const language = window.sessionStorage.getItem("codaLanguage");
+        // if (language !== "en") {
+            document.documentElement.lang = "en"
+            this.shadowRoot.innerHTML = `
     ${text}
 `;
 //             } else {
 //                 document.documentElement.lang = "zh-HK"
-//                 that.shadowRoot.innerHTML = `
+//                 this.shadowRoot.innerHTML = `
 //     ${transData[text] || text}
 // `;
 //             }
-        }
-
-        window.addEventListener('setLanguage', function (e) {
-            checkText();
-        });
-
-        checkText();
     }
 }
 
